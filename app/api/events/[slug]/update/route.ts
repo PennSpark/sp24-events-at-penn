@@ -1,7 +1,7 @@
-import FirebaseApp from "../../../../lib/firebase";
+import {app} from "../../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 
-const db = getFirestore(FirebaseApp);
+const db = getFirestore(app);
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
