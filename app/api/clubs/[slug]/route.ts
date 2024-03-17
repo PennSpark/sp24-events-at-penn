@@ -1,10 +1,10 @@
-import {app} from "../../../lib/firebase";
+import FirebaseApp from "../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 
-const db = getFirestore(app);
+const db = getFirestore(FirebaseApp);
 
 export async function GET(request: Request, { params }: { params: { slug: string } }) {
-    const docRef = doc(db, "events", params.slug);
+    const docRef = doc(db, "clubs", params.slug);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {

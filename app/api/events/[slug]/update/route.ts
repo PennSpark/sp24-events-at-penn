@@ -2,7 +2,7 @@ import FirebaseApp from "../../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc, updateDoc, GeoPoint } from "firebase/firestore";
 import { NextRequest } from "next/server";
 
-const db = getFirestore(FirebaseApp);
+const db = getFirestore(app);
 
 export async function POST(request: NextRequest, { params }: { params: { slug: string } }) {
 
