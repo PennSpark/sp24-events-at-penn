@@ -1,8 +1,8 @@
-import FirebaseApp from "../../../../lib/firebase";
+import { app } from "../../../../lib/firebase";
 import { getFirestore, doc, deleteDoc } from "firebase/firestore";
 import { NextRequest } from "next/server";
 
-const db = getFirestore(FirebaseApp);
+const db = getFirestore(app);
 
 export async function DELETE(request: NextRequest, { params }: { params: { slug: string } }) {
 
