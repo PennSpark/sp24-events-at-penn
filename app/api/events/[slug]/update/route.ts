@@ -1,12 +1,17 @@
-import {app} from "../../../../lib/firebase";
+import {app, auth} from "../../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore(app);
 
 export async function GET(request: Request) {
+    if (!auth.currentUser) {
+        return Response.json({
+            status: 405,
+            body: "Permission denied."
+        })
+    }
     const { searchParams } = new URL(request.url);
     const slug = searchParams.get("slug");
-
     if(slug) {
         const docRef = doc(db, "events", slug);
         const docSnap = await getDoc(docRef);
