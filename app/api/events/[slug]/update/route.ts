@@ -1,4 +1,4 @@
-import FirebaseApp from "../../../../lib/firebase";
+import { app } from "../../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc, updateDoc, GeoPoint } from "firebase/firestore";
 import { NextRequest } from "next/server";
 
