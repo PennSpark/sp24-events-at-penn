@@ -8,7 +8,7 @@ export async function GET(request: Request) {
     const slug = searchParams.get("slug");
 
     if (slug) {
-        const docRef = doc(db, "clubs", slug);
+        const docRef = doc(db, "organizers", slug);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {

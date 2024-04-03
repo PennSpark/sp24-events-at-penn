@@ -1,4 +1,4 @@
-import { GeoPoint, Timestamp } from "firebase/firestore";
+import { DocumentReference, GeoPoint, Timestamp } from "firebase/firestore";
 
 export type Event = {
     slug: string;
@@ -7,8 +7,8 @@ export type Event = {
     description: string;
     url?: string;
     img: string;
-    tags: string[];
-    organization: string[];
+    tags: DocumentReference[];
+    organization: DocumentReference[];
     views: number;
     price: number;
     max_occupancy: number;
@@ -17,4 +17,15 @@ export type Event = {
     start_time: Timestamp;
     end_time: Timestamp;
     date_published: Timestamp;
+}
+
+export type Organizer = {
+    slug: string;
+    name: string;
+    channels: Record<string, string>;
+    desc: string;
+    email: string;
+    events: DocumentReference[];
+    img: string;
+    tags: DocumentReference[];
 }
