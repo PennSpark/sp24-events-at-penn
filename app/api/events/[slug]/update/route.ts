@@ -1,5 +1,5 @@
 import { app } from "../../../../lib/firebase";
-import { getFirestore, collection, doc, getDoc, updateDoc, GeoPoint } from "firebase/firestore";
+import { getFirestore, collection, doc, getDoc, updateDoc, GeoPoint, Timestamp } from "firebase/firestore";
 import { NextRequest } from "next/server";
 
 const db = getFirestore(app);
@@ -18,19 +18,19 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
                 Number(req.get("lat")), 
                 Number(req.get("lng")),
             ),
-            description: req.get("description"),
+            desc: req.get("desc"),
             url: req.get("url"),
             img: req.get("img"),
             // tags: req.get("tags")?.split(","), // make array
-            // organization: req.get("organization")?.split(","),
+            // organizers: req.get("organizers")?.split(","),
             views: Number(req.get("views")),
             price: Number(req.get("price")),
             max_occupancy: Number(req.get("max_occupancy")),
             is_active: Boolean(req.get("is_active")),
-            // signup_deadline: req.get("signup_deadline"),
-            // start_time: req.get("start_time"),
-            // end_time: req.get("end_time"),
-            // date_published: req.get("date_published"),
+            signup_deadline: new Timestamp(Number(req.get("signup_deadline")), 0),
+            start_time: new Timestamp(Number(req.get("start_time")), 0),
+            end_time: new Timestamp(Number(req.get("end_time")), 0),
+            date_published: new Timestamp(Number(req.get("date_published")), 0),
         }
 
         await updateDoc(docRef, docObj)
