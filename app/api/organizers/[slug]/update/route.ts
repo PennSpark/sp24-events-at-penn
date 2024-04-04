@@ -14,23 +14,12 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
         let docObj = {
             slug: req.get("slug"),
             name: req.get("name"),
-            location: new GeoPoint(
-                Number(req.get("lat")), 
-                Number(req.get("lng")),
-            ),
+            channels: JSON.parse(req.get("channels") || ""),
             desc: req.get("desc"),
-            url: req.get("url"),
+            email: req.get("email"),
+            // events: req.get("events")?.split(","),
             img: req.get("img"),
             // tags: req.get("tags")?.split(","), // make array
-            // organizers: req.get("organizers")?.split(","),
-            views: Number(req.get("views")),
-            price: Number(req.get("price")),
-            max_occupancy: Number(req.get("max_occupancy")),
-            is_active: Boolean(req.get("is_active")),
-            signup_deadline: new Timestamp(Number(req.get("signup_deadline")), 0),
-            start_time: new Timestamp(Number(req.get("start_time")), 0),
-            end_time: new Timestamp(Number(req.get("end_time")), 0),
-            date_published: new Timestamp(Number(req.get("date_published")), 0),
         }
 
         await updateDoc(docRef, docObj)
