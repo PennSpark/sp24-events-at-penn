@@ -2,24 +2,26 @@ import Image from "next/image";
 
 const images = Array(6).fill(0);
 
-export default function Event({ params }: { params: { slug: string } }) {
+export default function Event({ params }: { params: { event: string } }) {
     return (
         <>
-            <div className = "h-full">
+            <div className = "h-full mx-24">
 
             <div className = "grid grid-cols-2 gap-4 place-content-center h-48">
                 <div>
                     <p className = "text-3xl font-extrabold">
-                        Event Title
-                        {params.slug}
+                        {params.event}
                     </p>
 
-                    <p>Organizer</p>
-                    <p>Time</p>
-                    <p>Tag(s)</p>
-                    <p>Location</p>
-                    <p>Registration</p>
-                    <p>Description</p>
+                    <div className = "text-gray-400">
+                        <p>Organizer</p>
+                        <p>Time</p>
+                        <p>Tag(s)</p>
+                        <p>Location</p>
+                        <p>Registration</p>
+                        <p>Description</p>
+                    </div>
+                    
                 </div>
                 
                 <div>
