@@ -64,7 +64,8 @@ export default function Event({ params }: { params: { event: string } }) {
                             src = "https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Labrador_Retriever_portrait.jpg/1200px-Labrador_Retriever_portrait.jpg"
                             alt = "dog"
                             height = {400}
-                            width = {400}   
+                            width = {400} 
+                            style = {{objectFit: "contain"}}  
                         />
                     </>
                 ))}
