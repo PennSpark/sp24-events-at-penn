@@ -28,6 +28,7 @@ export default function Events({ params }: { params: { slug: string } }) {
                         alt = "dog"
                         height = {30}
                         width = {30}
+                        
                     />
                 </div>
             </div>
