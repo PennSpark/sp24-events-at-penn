@@ -1,0 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dr+Sugiyama&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;1,800&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Dr+Sugiyama&family=Montserrat:ital,wght@0,800;1,800&display=swap');
+
+
+
+.About{
+    text-align: center;
+    /* height: 100vh;
+    overflow: hidden; */
+    padding: 0px 30px 0px 30px;
+    min-height: 100vh;
+    background-image: url('/images/paper.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: fixed;
+    height: 100%;
+  }
+
+h1{
+    margin-bottom: 2rem; 
+    font-size: 40px;
+}
+
+h2{
+    margin-bottom: 2rem; 
+    font-size: 24px;
+}
+p{
+    line-height: 2;
+}
+
+.montserratStroke {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+
+}
+
+
+
+
+.container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    margin: 0 6rem;
+}
+
+.content {
+    max-width: 800px;
+}
+
+.what-is { 
+    
+    text-align: left;
+    padding-top: 5rem; 
+    padding-bottom: 5rem; 
+    padding-left: 20rem; 
+    padding-right: 20rem;
+}
+.who-are-we {
+    text-align: left;
+    padding-top: 5rem; 
+    padding-bottom: 5rem; 
+    padding-left: 20rem; 
+    padding-right: 25rem;
+}
+
+.for-whom  {
+    text-align: right;
+    padding-top: 5rem; 
+    padding-bottom: 2rem; 
+    padding-left: 35rem; 
+    padding-right: 20rem;
+}
