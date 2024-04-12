@@ -1,5 +1,5 @@
 import Image from "next/image";
-import './AboutPage.css'
+import './AboutPage.css';
 
 export default function About() {
     return (

@@ -26,12 +26,8 @@ export default function Home() {
   return (
  
     <>
-    <div className="Home" >
-   
-       
+        <div className="Home" >
             <div>
-  
-
                 {/* <NavBar/> */}
                 <div className = "center-container">
                     
@@ -53,13 +49,8 @@ export default function Home() {
                 <div className="explore-sitting-person"></div>
                 <div className="explore-exclamation"></div> */}
 
-
                 </div>
-      
             </div>
-           
-
-      
     </div>
     </>
 );
