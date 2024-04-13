@@ -1,0 +1,42 @@
+
+
+.backdrop {
+    background: url("../../public/images/paper_background.png");
+    font-family: "Montserrat", sans-serif;
+    font-weight: 700;
+    color: black;
+}
+
+
+
+.right-arrow {
+    width: 15%;
+}
+
+.circle-radio {
+    border: solid black;
+    border-radius: 50%;
+    width: 5vw;
+    height: 5vw;
+}
+
+.pair-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    margin: auto;
+    margin-top: 6vh; 
+}
+
+
+
+
+
+
