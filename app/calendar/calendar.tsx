@@ -1,19 +1,13 @@
-"use client";
-import Image from 'next/image'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { format, startOfWeek, addDays, startOfMonth, endOfMonth, endOfWeek, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
-import circleImage from '../images/circle.png';
 
 interface Event {
-    date: string; // Date of the event
-    title: string; // Title of the event
+    date: Date;
+    title: string;
+    color: string;
 }
 
-interface Styles {
-    [key: string]: React.CSSProperties;
-}
-
-const calendarStyles: Styles = {
+const calendarStyles = {
     calendar: {
         margin: '50px auto',
         padding: '0 20px',
@@ -73,12 +67,11 @@ const calendarStyles: Styles = {
         marginTop: '10px',
         textAlign: 'center',
         fontSize: '0.85em',
-        background: 'pink',
         color: 'black',
         borderRadius: '4px',
         padding: '2px 10px',
-        maxWidth: '100%',
-        margin: '10px auto',
+        width: '100%',
+        margin: '10px 0',
     },
     headerCell: {
         width: 'calc(100%/7)',
@@ -91,23 +84,30 @@ const calendarStyles: Styles = {
 };
 
 const Calendar: React.FC = () => {
-    const [currentMonth, setCurrentMonth] = useState<Date>(new Date());
-    const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-    const [events, setEvents] = useState<Event[]>([]);
+    const [currentMonth, setCurrentMonth] = useState(new Date());
+    const [selectedDate, setSelectedDate] = useState(new Date());
+    const [events, setEvents] = useState<Event[]>(generateEvents());
 
-    useEffect(() => {
-        // Fetch events from the backend
-        fetch('/api/events')
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 200) {
-                    setEvents(data.body);
-                } else {
-                    console.error(data.body);
-                }
-            })
-            .catch(error => console.error('Error fetching events:', error));
-    }, []);
+
+    function generateEvents(): Event[] {
+        const colorPalette = ['#bedbe3', '#a8bdc0', '#91a69f', '#778c85', '#6a7974','#c7dcd5','#c7dcd5',
+                                '#9faaa4','#8e9689','#808277','#707265','#5f6153',
+                                '#d2dfcd','#c1c3b5','#b1b3a5','#a29d8a','#928b78','#897c6c','#897c6c',
+                                '#daddc8','#d0cab2','#d0cab2','#b5a58c','#b5a58c','#9e836e','#9e836e',
+                                '#e4e1b8','#dccdac','#d3be9f','#cbac90','#c4a286','#bc9279','#bc9279',
+                                '#eae2b3','#eae2b3','#e5c39d','#e4ba92','#dbaf88','#d8a27e','#d19573',
+                                '#f4dfaa','#f6d8a2','#f8ce9c','#f8c495','#f7b988','#f9b083','#f9a87d'];
+
+        let generatedEvents: Event[] = [];
+        for (let i = 0; i < 10; i++) {
+            generatedEvents.push({
+                date: addDays(new Date(), i * 3),
+                title: `Event ${i + 1}`,
+                color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
+            });
+        }
+        return generatedEvents;
+    }
 
     const renderHeader = () => {
         const dateFormat = "MMMM yyyy";
@@ -130,7 +130,7 @@ const Calendar: React.FC = () => {
 
     const renderDays = () => {
         const dateFormat = "EEE";
-        const days: JSX.Element[] = [];
+        const days = [];
         let startDate = startOfWeek(currentMonth);
 
         for (let i = 0; i < 7; i++) {
@@ -151,88 +151,49 @@ const Calendar: React.FC = () => {
         const endDate = endOfWeek(monthEnd);
 
         const dateFormat = "d";
-        const rows: JSX.Element[] = [];
+        const rows = [];
 
-        let days: JSX.Element[] = [];
+        let days = [];
         let day = startDate;
         let formattedDate = "";
 
         while (day <= endDate) {
             for (let i = 0; i < 7; i++) {
                 formattedDate = format(day, dateFormat);
-                const cloneDay = new Date(day);
+                const cloneDay = day;
                 const isToday = isSameDay(day, new Date());
                 const isDisabled = !isSameMonth(day, monthStart);
 
-                const eventsForDay = events.filter(event => isSameDay(new Date(event.date), day));
+                const dayEvents = events.filter(e => isSameDay(e.date, day));
 
-                if (day.getDay() === 3 && isSameMonth(day, monthStart)) {
-                    days.push(
-                        <div
-                            style={{
-                                ...calendarStyles.cell,
-                                ...(isDisabled ? calendarStyles.disabled : {}),
-                                ...(isToday ? calendarStyles.today : {}),
-                                position: 'relative',
-                            }}
-                            key={day.toISOString()}
-                            onClick={() => onDateClick(cloneDay)}
-                        >
-                            {isToday && !isDisabled && (
-                                <Image
-                                    src={circleImage}
-                                    alt="Circle"
-                                    style={{
-                                        position: 'absolute',
-                                        top: '-2%',
-                                        left: '0%',
-                                        width: '25%',
-                                        height: '25%',
-                                    }}
-                                />
-                            )}
-                            <span style={{ ...calendarStyles.number, margin: '10px 0 0 10px' }}>{formattedDate}</span>
-                            {eventsForDay.map((event, index) => (
-                                <div key={index} style={calendarStyles.event}>{event.title}</div>
-                            ))}
-                        </div>
-                    );
-                } else {
-                    days.push(
-                        <div
-                            style={{
-                                ...calendarStyles.cell,
-                                ...(isDisabled ? calendarStyles.disabled : {}),
-                                ...(isToday ? calendarStyles.today : {}),
-                                position: 'relative',
-                            }}
-                            key={day.toISOString()}
-                            onClick={() => onDateClick(cloneDay)}
-                        >
-                            {isToday && !isDisabled && (
-                                <Image
-                                    src={circleImage}
-                                    alt="Circle"
-                                    style={{
-                                        position: 'absolute',
-                                        top: '-2%',
-                                        left: '0%',
-                                        width: '25%',
-                                        height: '25%',
-                                    }}
-                                />
-                            )}
-                            <span style={{ ...calendarStyles.number, margin: '10px 0 0 10px' }}>{formattedDate}</span>
-                            {eventsForDay.map((event, index) => (
-                                <div key={index} style={calendarStyles.event}>{event.title}</div>
-                            ))}
-                        </div>
-                    );
-                }
+                days.push(
+                    <div
+                        style={{
+                            ...calendarStyles.cell,
+                            ...(isDisabled ? calendarStyles.disabled : {}),
+                            ...(isToday ? calendarStyles.today : {}),
+                        }}
+                        key={day.toString()}
+                        onClick={() => onDateClick(cloneDay)}
+                    >
+                        <span style={calendarStyles.number}>{formattedDate}</span>
+                        {dayEvents.map((event, index) => (
+                            <div
+                                key={index}
+                                style={{
+                                    ...calendarStyles.event,
+                                    backgroundColor: event.color,
+                                }}
+                            >
+                                {event.title}
+                            </div>
+                        ))}
+                    </div>
+                );
                 day = addDays(day, 1);
             }
             rows.push(
-                <div style={calendarStyles.row} key={day.toISOString()}>{days}</div>
+                <div style={calendarStyles.row} key={day.toString()}>{days}</div>
             );
             days = [];
         }
