@@ -17,7 +17,7 @@ export default function Interest() {
       const savedTags = Cookies.get('selectedTags');
       if (savedTags) {
         setSelectedTags(JSON.parse(savedTags));
-        window.location.href = '/calendar';
+        window.location.href = '/explore';
       }
     }, []);
     
@@ -37,7 +37,7 @@ export default function Interest() {
       Cookies.set('selectedTags', tagsString, { expires: 7 }); // Expires in 7 days
       console.log('Selected tags saved:', selectedTags);
 
-      window.location.href = '/calendar'; 
+      window.location.href = '/explore'; 
     };
 
     
