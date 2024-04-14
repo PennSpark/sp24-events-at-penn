@@ -5,6 +5,7 @@ import sparkImage from '../images/spark.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
+import Head from "next/head";
 
 interface Styles {
     [key: string]: React.CSSProperties;
@@ -26,11 +27,13 @@ const styles: Styles = {
         position: 'relative',
     },
     logoContainer: {
+        fontFamily: "'Montserrat', sans-serif",
         display: 'flex',
         alignItems: 'center',
         position: 'relative',
     },
     logo: {
+        fontFamily: "'Montserrat', sans-serif",
         fontSize: '15px',
         fontWeight: 'bold',
         marginRight: '20px',
@@ -64,8 +67,15 @@ const styles: Styles = {
         position: 'relative',
         zIndex: 0,
     },
+    activeImage: {
+        position: 'absolute',
+        top: '50%',
+        right: '-3px',
+        transform: 'translateY(-30%)',
+    },
+
     navItemActive: {
-        backgroundImage: `url(${ovalImage})`,
+        backgroundImage: `url(${sparkImage})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
@@ -86,6 +96,7 @@ const styles: Styles = {
         cursor: 'pointer',
         fontFamily: "'Montserrat', sans-serif",
         fontWeight: 'bold',
+        fontSize: '15px',
         marginLeft: '22px',
         display: 'inline-block',
         minWidth: '100px',
@@ -114,6 +125,12 @@ const Navbar: React.FC<{ isAuthenticated: boolean, setIsAuthenticated: React.Dis
 
     return (
         <div className="App">
+            <Head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+            </Head>
+
             <nav style={styles.navBar}>
                 <div style={styles.logoContainer}>
                     <span style={styles.logo}>
@@ -126,9 +143,13 @@ const Navbar: React.FC<{ isAuthenticated: boolean, setIsAuthenticated: React.Dis
                 <div style={styles.navItems}>
                     <a href="/explore" style={{ ...styles.navItem, ...(isActive('/explore') ? styles.navItemActive : {}) }}>
                         Explore
+                        {isActive('/explore') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
+
                     </a>
                     <a href="/about" style={{ ...styles.navItem, ...(isActive('/about') ? styles.navItemActive : {}) }}>
                         About
+                        {isActive('/about') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
+
                     </a>
                     {isAuthenticated ? (
                         <a href="/profile" style={{ ...styles.navItem, ...(isActive('/profile') ? styles.navItemActive : {}) }}>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faTh, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     viewMode: string;
@@ -12,14 +13,26 @@ const SearchEvents: React.FC<Props> = ({ viewMode, setViewMode }) => {
     const [ordering, setOrdering] = useState('');
     const [time, setTime] = useState('');
     const [location, setLocation] = useState('');
+    const toggleButtonStyle: React.CSSProperties = {
+        border: 'none',
+        borderRadius: '20px',
+        display: 'flex',
+        alignItems: 'center',
+        padding: '6px 12px',
+        cursor: 'pointer',
+        transition: 'background-color 0.3s',
+        fontSize: '0.9em',
+        fontFamily: "'Montserrat', sans-serif",
+        fontWeight: 'bold',
+    };
 
     const containerStyle: React.CSSProperties = {
         display: 'flex',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        background: 'transparent',
-        padding: '10px',
+        padding: '0px 35px 20px 25px',
         borderRadius: '4px',
+        backgroundColor: 'transparent',
     };
 
     const leftGroupStyle: React.CSSProperties = {
@@ -50,6 +63,8 @@ const SearchEvents: React.FC<Props> = ({ viewMode, setViewMode }) => {
 
     const iconStyle: React.CSSProperties = {
         marginLeft: '-25px',
+        width:'20px',
+        height:'20px',
         cursor: 'pointer'
     };
 
@@ -65,27 +80,34 @@ const SearchEvents: React.FC<Props> = ({ viewMode, setViewMode }) => {
         cursor: 'pointer',
         marginLeft: '30px'
     };
+    const toggleActiveStyle: React.CSSProperties = {
+        ...toggleButtonStyle,
+        backgroundColor: 'white',
+        color: 'black',
+        justifyContent: 'flex-start',
+    };
+
+    const toggleInactiveStyle: React.CSSProperties = {
+        ...toggleButtonStyle,
+        backgroundColor: 'lightgray',
+        color: 'black',
+        justifyContent: 'flex-end',
+    };
+
 
     const toggleContainerStyle: React.CSSProperties = {
         display: 'flex',
-        background: '#555',
+        background: 'lightgray',
         borderRadius: '20px',
-        padding: '4px',
+        padding: '2px',
         height: '28px',
         fontFamily: "'Montserrat', sans-serif",
         fontWeight: 'bold',
+        cursor: 'pointer',
         color: '#fff',
-        cursor: 'pointer'
     };
 
-    const toggleStyle = (selected: boolean): React.CSSProperties => ({
-        padding: '5px 5px',
-        borderRadius: '20px',
-        background: selected ? '#fff' : 'transparent',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
-    });
+
 
     return (
         <div style={containerStyle}>
@@ -115,28 +137,23 @@ const SearchEvents: React.FC<Props> = ({ viewMode, setViewMode }) => {
                 </select>
                 <select style={dropdownStyle} value={location} onChange={e => setLocation(e.target.value)}>
                     <option value="">Location</option>
-                    <option value="Rodin">Rodin</option>
-                    <option value="Harnwell">Harnwell</option>
-                    <option value="Harrison">Harrison</option>
-                    <option value="NCHW">NCHW</option>
-                    <option value="Hill">Hill</option>
-                    <option value="Lauder">Lauder</option>
-                    <option value="KCECH">KCECH</option>
-                    <option value="Quad">Quad</option>
-                    <option value="Houston Hall">Houston Hall</option>
-                    <option value="Fisher Bennett">Fisher Bennett</option>
-                    <option value="Iron Gate Theatre">Iron Gate Theatre</option>
-                    <option value="Annenberg">Annenberg</option>
-                    <option value="High Rise Fields">High Rise Fields</option>
-                    <option value="Off-campus">Off-campus</option>
+                    <option value="university">University City</option>
+                    <option value="center">Center City</option>
+                    <option value="fishtown">Fishtown</option>
+                    <option value="oncampus">On-Campus</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
             <div style={toggleContainerStyle}>
-                <div style={toggleStyle(viewMode === 'grid')} onClick={() => setViewMode('grid')}>
-                    Grid
+                <div style={viewMode === 'grid' ? toggleActiveStyle : toggleInactiveStyle}
+                     onClick={() => setViewMode('grid')}>
+                    {viewMode === 'grid' && <FontAwesomeIcon icon={faTh} />}
+                    {viewMode !== 'grid' && <span>Grid</span>}
                 </div>
-                <div style={toggleStyle(viewMode === 'calendar')} onClick={() => setViewMode('calendar')}>
-                    Calendar
+                <div style={viewMode === 'calendar' ? toggleActiveStyle : toggleInactiveStyle}
+                     onClick={() => setViewMode('calendar')}>
+                    {viewMode !== 'calendar' && <span>Calendar</span>}
+                    {viewMode === 'calendar' && <FontAwesomeIcon icon={faCalendarAlt} />}
                 </div>
             </div>
         </div>

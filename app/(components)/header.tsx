@@ -4,6 +4,7 @@ import exclamationImage from '../images/exclamation.png';
 import Image from 'next/image';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Head from "next/head";
 
 
 interface HeaderStyles {
@@ -20,7 +21,7 @@ const headerStyles: HeaderStyles = {
     container: {
         fontFamily: "'Montserrat', sans-serif",
         color: '#000',
-        padding: '20px',
+        padding: '28px',
         textAlign: 'left',
     },
     button: {
@@ -46,13 +47,13 @@ const headerStyles: HeaderStyles = {
     },
     title: {
         fontSize: '36px',
-        fontWeight: 'bold',
+        fontWeight: '900',
         marginBottom: '0px',
     },
     subtitle: {
         fontSize: '18px',
         marginTop: '0px',
-        fontWeight: 'bold',
+        fontWeight: '700',
     },
     ben: {
         backgroundImage: `url(${benImage})`,
@@ -69,21 +70,31 @@ const headerStyles: HeaderStyles = {
 
 const Header: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => {
     return (
-        <div style={headerStyles.container}>
-            <div style={headerStyles.headerFlex}>
-                <div>
-                    <div style={headerStyles.headerFlex}>
-                        <h1 style={headerStyles.title}>Explore the Events@Penn</h1>
-                        <Image src={exclamationImage} alt="exclamation" style={headerStyles.exclamation} />
+        <div>
+
+            <Head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+                <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+            </Head>
+            <div style={headerStyles.container}>
+
+
+                <div style={headerStyles.headerFlex}>
+                    <div>
+                        <div style={headerStyles.headerFlex}>
+                            <h1 style={headerStyles.title}>Explore the Promos@Penn</h1>
+                            <Image src={exclamationImage} alt="exclamation" style={headerStyles.exclamation} />
+                        </div>
+                        <p style={headerStyles.subtitle}>Take a look at what’s going on today 👀</p>
                     </div>
-                    <p style={headerStyles.subtitle}>Take a look at what’s going on today 👀</p>
+                    <Image src={benImage} alt="ben" style={headerStyles.ben} />
+                    {isAuthenticated && (
+                        <button style={headerStyles.button}>
+                            <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} /> ADD EVENT
+                        </button>
+                    )}
                 </div>
-                <Image src={benImage} alt="ben" style={headerStyles.ben} />
-                {isAuthenticated && (
-                    <button style={headerStyles.button}>
-                        <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} /> ADD EVENT
-                    </button>
-                )}
             </div>
         </div>
     );

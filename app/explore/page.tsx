@@ -7,13 +7,14 @@ import CategoryFilter from "./../(components)/categoryfilter";
 import ImageGrid from "./../(components)/imagegrid";
 import Calendar from "./../calendar/calendar";
 import Navbar from "./../(components)/navbar";
-
 function App() {
     const [viewMode, setViewMode] = useState<'grid' | 'calendar'>('grid');
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
     return (
+
         <div className="App">
+
             <Router>
                 <div>
                     <Navbar isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />

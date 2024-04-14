@@ -9,11 +9,10 @@ const CategoryFilter: React.FC = () => {
     const [activeCategories, setActiveCategories] = useState<string[]>([]);
 
     const categories: Category[] = [
-        { name: 'Foodie', emoji: '🍔' },
-        { name: 'Sports', emoji: '🏀' },
-        { name: 'Cultural', emoji: '🌍' },
-        { name: 'Performing Arts', emoji: '🎭' },
-        { name: 'Fine Arts', emoji: '🎨' },
+        { name: 'Bakery', emoji: '🥐' },
+        { name: 'Coffee', emoji: '☕' },
+        { name: 'Boba', emoji: '☕' },
+        { name: 'Restaurant', emoji: '🍲' },
         { name: 'Party', emoji: '🎉' },
         { name: 'Promos', emoji: '🎟️' },
         { name: 'Miscellaneous', emoji: '🔮' },
@@ -23,7 +22,7 @@ const CategoryFilter: React.FC = () => {
         display: 'flex',
         flexWrap: 'wrap',
         gap: '10px',
-        padding: '10px',
+        padding: '25px',
     };
 
     const buttonStyle = (isActive: boolean): React.CSSProperties => ({
