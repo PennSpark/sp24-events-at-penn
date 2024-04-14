@@ -5,23 +5,62 @@
 @import url('https://fonts.googleapis.com/css2?family=Dr+Sugiyama&family=Montserrat:ital,wght@0,800;1,800&display=swap');
 
 
+
+
+
  .explore-exclamation{
 position: absolute;
-width: 213px;
-height: 42px;
+width: 28px;
+height: 65px;
 left: 66px;
-top: 91px;
+top: 50%;
+left: 50%;
+transform: translate(380%,340%);
 background: url('/images/explore_exclamation.png');
  }
+
+.explore-underline{
+  position: absolute;
+  width: 213px;
+  height: 42px;
+  left: 66px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%,670%);
+  background: url('/images/underline.png');
+}
+.explore-scribble{
+
+    position: absolute;
+    width: 53px;
+    height: 60px;
+    left: 66px;
+    top: 50%;
+    left: 50%;
+    transform: translate(220%,320%);
+    background: url('/images/explore_scribble.png');
+}
  .explore-person-with-hat{
 
 position: absolute;
-width: 1009px;
+width: 350px;
 height: 705px;
 left: 720.03px;
-top: 365px;
-transform: rotate(3.82deg); 
-background: url('/images/person_with_a_hat.png');
+top: 50%;
+left: 50%;
+transform: translate(90%,-7%);
+transition: transform 0.5s; 
+background: url('/images/person_with_hat.png');
+}
+
+@keyframes person-with-hat-wiggleAnimation {
+  0%, 100% { transform: translate(90%,-7%) rotate(-5deg); }
+  50% { transform: translate(90%,-7%) rotate(5deg); }
+}
+
+.explore-person-with-hat:hover {
+  animation: person-with-hat-wiggleAnimation 0.5s ease-in-out infinite;
+  
 }
 
 .explore-bulb{
@@ -29,7 +68,9 @@ position: absolute;
 width: 173.74px;
 height: 173.74px;
 left: 896px;
-top: 757.87px;
+top: 50%;
+left: 50%;
+transform: translate(90%, 130%);
 background: url('/images/bulb.png');
 
 
@@ -37,35 +78,67 @@ background: url('/images/bulb.png');
 
 .explore-confetti{
 position: absolute;
-width: 198px;
-height: 198px;
-left: 225.05px;
-top: 795.37px;
+width: 220px;
+height: 250px;
+top: 50%;
+left: 50%;
+transform: translate(-250%, 50%);
+transition: transform 0.5s; 
 background: url('/images/confetti.png');
+}
 
+@keyframes confetti-wiggle-Animation {
+  0%, 100% { transform: translate(-250%, 50%) rotate(-5deg); }
+  50% { transform: translate(-250%, 50%) rotate(5deg); }
+}
 
+.explore-confetti:hover {
+  animation: confetti-wiggle-Animation 0.5s ease-in-out infinite;
+  
 }
 
 .explore-sitting-person{
 position: absolute;
 width: 367px;
 height: 257px;
-left: 102px;
-top: 159px;
+top: 50%;
+left: 50%;
+transform: translate(-150%, -100%);
+transition: transform 0.5s; 
 background: url('/images/person2.png');
+}
 
+@keyframes sitting-person-wiggle-Animation {
+  0%, 100% { transform: translate(-150%, -100%) rotate(-5deg); }
+  50% { transform: translate(-150%, -100%) rotate(5deg); }
+}
+
+.explore-sitting-person:hover {
+  animation: sitting-person-wiggle-Animation 0.5s ease-in-out infinite;
+  
 }
 
 .explore-smile{
 position: absolute;
 width: 266.72px;
 height: 239.78px;
-left: 1081.03px;
-top: 213px;
-
+top: 50%;
+left: 50%;
+transform: translate(120%, -80%);
+transition: transform 0.5s; 
 background: url('/images/smile.png');
-transform: rotate(4.31deg);
 }
+
+@keyframes smile-wiggle-Animation {
+  0%, 100% { transform: translate(120%, -80%) rotate(-5deg); }
+  50% { transform: translate(120%, -80%) rotate(5deg); }
+}
+
+.explore-smile:hover {
+  animation: smile-wiggle-Animation 0.5s ease-in-out infinite;
+  
+}
+
 
 .explore-rocket{
 
@@ -73,11 +146,12 @@ transform: rotate(4.31deg);
 position: absolute;
 width: 130.61px;
 height: 130.61px;
-left: 1135.87px;
-top: 110px;
+top: 50%;
+left: 50%;
+transform: translate(300%, -250%);
 
 background: url('/images/rocket.png');
-transform: rotate(10.98deg);
+
 
 } 
     
@@ -85,11 +159,13 @@ transform: rotate(10.98deg);
 
 
 .title{
+  
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
   margin-bottom: 10px;
+  padding-top: 15rem; 
 }
 .text-style {
   font-size: 128px; 
@@ -100,7 +176,7 @@ transform: rotate(10.98deg);
     font-optical-sizing: auto;
     font-weight: 800;
     font-style: normal;
-    color: white;
+    color: #ededf1;
     text-shadow:
         -1px -1px 0 #000,  
          1px -1px 0 #000,
@@ -155,6 +231,7 @@ transform: rotate(10.98deg);
 }
 
 .center-container{
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -163,20 +240,19 @@ transform: rotate(10.98deg);
   flex-grow: 1; 
   justify-content: center;
   height : 100vh;
+  margin: 0 auto;
 }
 
 
-.Home{
-  text-align: center;
-  /* height: 100vh;
-  overflow: hidden; */
-  padding: 0px 30px 0px 30px;
+html,body{
+  max-width: 100%;
+  overflow-x: hidden;
   min-height: 100vh;
-  background-image: url('/images/paper_background.png');
+  background-image: url('/images/about_background.png');
   background-size: cover;
   background-position: center top;
-  background-attachment: fixed;
-  height: 100%;
+  background-attachment: scroll;
+  height: auto;
 }
 
 
