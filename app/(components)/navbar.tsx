@@ -116,9 +116,10 @@ const styles: Styles = {
     },
 };
 
-const Navbar: React.FC<{ isAuthenticated: boolean, setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>> }> = ({ isAuthenticated, setIsAuthenticated }) => {
+const Navbar: React.FC<{ isAuthenticated: boolean  }> = ({ isAuthenticated }) => {
     const handleLogin = () => {
-        setIsAuthenticated(true);
+        // setIsAuthenticated(true);
+        console.log("handle login");
     };
 
     const isActive = (path: string) => location.pathname === path;

@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./(components)/navbar";
+import { useState } from "react";
+import Header from "./(components)/header";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,14 +17,14 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-
+    const isAuthenticated = true; // TODO: 
+    
     return (
     <html lang="en">
-      
       <body className={inter.className}>
-      {/*<Navbar/>*/}
-      {children}
-        </body>
+        <Navbar isAuthenticated={isAuthenticated} />
+        {children}
+      </body>
     </html>
   );
 }

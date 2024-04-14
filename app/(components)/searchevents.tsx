@@ -5,7 +5,7 @@ import { faTh, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
     viewMode: string;
-    setViewMode: (mode: string) => void;
+    setViewMode: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const SearchEvents: React.FC<Props> = ({ viewMode, setViewMode }) => {

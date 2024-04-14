@@ -19,7 +19,7 @@ export default function Home() {
                 </div>
 
                 <div className="explore-link-container">
-                    <a href="/events" className="text-style montserratStroke explore-link">Explore</a>
+                    <a href="/explore" className="text-style montserratStroke explore-link">Explore</a>
                 </div>
                
                 <div className="explore-bulb"></div>
