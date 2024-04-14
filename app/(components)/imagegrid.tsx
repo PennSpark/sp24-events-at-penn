@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-
+//
 interface Image {
     src: string;
     alt: string;
