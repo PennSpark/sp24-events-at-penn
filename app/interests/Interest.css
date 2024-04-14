@@ -90,8 +90,8 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    padding-bottom: 2rem;
-    max-width: 500px;
+    padding-bottom: 3rem;
+    max-width: 800px;
 }
 
 
@@ -113,19 +113,6 @@
   font-weight: 700;
   font-style: normal;
   font-size: 15px;
-}
-
-.form-buttons button.back-button {
-  background: transparent;
-  color: #333;
-  margin-right: 250px;
-}
-
-
-.form-buttons button.back-button::before {
-  content: '<';
-  display: inline-block;
-  margin-right: 5px;
 }
 
 .form-buttons button.save-continue-button {
@@ -153,8 +140,12 @@
 
 .movedImage {
   position: absolute;
-  top:220px;
-  left: -140px; /* Move left by 20px. Adjust value as needed */
+  top: 110%; /* Adjust the position from the top to 50% */
+  right: 85%; /* Align to the right of the right panel */
+  transform: translateY(-50%); /*Shift the image up by half its height */
+  /* Set a specific size for the image, if required */
+  width: 177px;
+  height: 177px;
 }
 
 p {
@@ -163,7 +154,7 @@ p {
   font-size: 16px; /* Set the font size */
   letter-spacing: normal; /* Default spacing is equivalent to 0% */
   max-width: 500px;
-  padding-bottom: 2rem;
+  padding-bottom: 3rem;
   gap: 75px;
 }
 

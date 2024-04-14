@@ -1,36 +1,54 @@
 'use client'
 import Image from "next/image";
-import React from 'react';
+import React, {useEffect} from 'react';
 import './Interest.css';
+import Cookies from 'js-cookie';
+
 
 type Tag = string;
 type SelectedTags = Tag[];
-const TAGS: Tag[] = ["Bakery 🥐", "Promotion 💵", "Boba 🧋", "Coffee Shop ", "Restaurant"];
+const TAGS: Tag[] = ["Bakery 🥐", "Promotion 💵", "Boba 🧋", "Coffee Shop ☕️", "Restaurant 🥘", "Party 💃"];
 
 export default function Interest() {
     const [selectedTags, setSelectedTags] = React.useState<SelectedTags>([]);
 
-    const handleBack = () => {
-        console.log('Back button clicked');
+
+    useEffect(() => {
+      const savedTags = Cookies.get('selectedTags');
+      if (savedTags) {
+        setSelectedTags(JSON.parse(savedTags));
+        window.location.href = '/calendar';
       }
+    }, []);
     
-      const handleTagClick = (tag: Tag) => {
+    const handleTagClick = (tag: Tag) => {
         setSelectedTags(prevSelectedTags => {
           if (prevSelectedTags.includes(tag)) {
-            // If tag is already selected, remove it
             return prevSelectedTags.filter(t => t !== tag);
           } else {
-            // If not, add the tag if less than three are selected
-            return prevSelectedTags.length < 3 ? [...prevSelectedTags, tag] : prevSelectedTags;
+            return [...prevSelectedTags, tag];
           }
         });
-      };
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault();
+      const tagsString = JSON.stringify(selectedTags);
+      Cookies.set('selectedTags', tagsString, { expires: 7 }); // Expires in 7 days
+      console.log('Selected tags saved:', selectedTags);
+
+      window.location.href = '/calendar'; 
+    };
+
+    
+    
+
 
     return (
     <div className="container">
         <div className="leftPanel">
         <div className = "center-content">
-        <h1 className = 'montserratStroke' >Pick you tags!</h1>
+        <h1 className = 'montserratStroke' >Pick your tags!</h1>
         <p >Select the event types you are interested in to get more accurate recommendations of events!</p>
         <div className="tag-container">
             {TAGS.map((tag: Tag) => (
@@ -45,8 +63,17 @@ export default function Interest() {
           </div>
         </div>
           <div className="form-buttons">
-          <button type="submit" className="save-continue-button" form="myForm">Save</button>
+          <button type="submit" className="save-continue-button" form="myForm" onClick={handleSubmit}>Save</button>
         </div>
+        </div>
+        <div>
+        <Image
+          src="/images/Line4.png"
+          alt="sign1"
+          width={3}
+          height={10}
+          className="rotate180"
+        />
         </div>
         <div className="rightPanel">
         <div className="relativeContainer">
