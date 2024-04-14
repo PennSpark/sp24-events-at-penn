@@ -1,45 +1,46 @@
 import Image from "next/image";
+import Link from "next/link";
 
 const images = Array(6).fill(0);
 
 export default function Event({ params }: { params: { slug: string } }) {
     return (
-        <div className = "min-h-screen h-fit px-24 bg-paper-bg bg-no-repeat bg-center bg-cover">
+        <div className = "min-h-screen h-fit px-[5%] bg-paper-bg bg-no-repeat bg-center bg-cover">
             
             <p className = "text-5xl font-extrabold pt-20">
                 {params.slug}
             </p>
-            <div className = "grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-4 place-content-center gap-x-20">
+            <div className = "inline-block lg:flex justify-between gap-4 place-content-center gap-x-20">
             
-                <table className="table-auto text-lg mt-5">
+                <table className="table-auto text-lg mt-5 max-w-[650px]">
                     <tbody>
                         <tr>
                             <td className = "text-gray-700 pr-5 align-top">Organizer</td>
-                            <td>Organizer 1</td>
+                            <td className = "pb-2 text-[#15009A] font-bold"><Link href = "/organizers">Organizer 1</Link></td>
                         </tr>
                         <tr>
                             <td className = "text-gray-700 pr-5 align-top">Time</td>
-                            <td>3/17 6-7pm</td>
+                            <td className = "pb-2">3/17 6-7pm</td>
                         </tr>
                         <tr>
                             <td className = "text-gray-700 pr-5 align-top">Tag(s)</td>
-                            <td>Sports</td>
+                            <td className = "pb-2">Sports</td>
                         </tr>
                         <tr>
                             <td className = "text-gray-700 pr-5 align-top">Location</td>
-                            <td>Annenberg Center</td>
+                            <td className = "pb-2">Annenberg Center</td>
                         </tr>
                         <tr>
                             <td className = "text-gray-700 pr-5 align-top">Address</td>
-                            <td>1234 Market Street</td>
+                            <td className = "pb-2">1234 Market Street</td>
                         </tr>
                         <tr>
                             <td className = "text-gray-700 pr-5 align-top">Registration</td>
-                            <td>tinyurl</td>
+                            <td className = "pb-2 text-[#15009A]"><Link href = "youtube.com">youtube.com</Link></td>
                         </tr>
                         <tr>
                             <td className = "text-gray-700 pr-5 align-top">Description</td>
-                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis, enim quis scelerisque placerat, justo leo fringilla lacus, et lobortis urna purus a nunc. Quisque facilisis ipsum ornare metus accumsan congue. Proin cursus justo ut condimentum pellentesque. Morbi sollicitudin elit eget metus eleifend suscipit. Cras ipsum tortor, bibendum eget mollis id, bibendum non justo. In vel bibendum mauris. Suspendisse lacinia non nibh sed consequat.</td>
+                            <td className = "pb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis, enim quis scelerisque placerat, justo leo fringilla lacus, et lobortis urna purus a nunc. Quisque facilisis ipsum ornare metus accumsan congue. Proin cursus justo ut condimentum pellentesque. Morbi sollicitudin elit eget metus eleifend suscipit. Cras ipsum tortor, bibendum eget mollis id, bibendum non justo. In vel bibendum mauris. Suspendisse lacinia non nibh sed consequat.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -50,13 +51,14 @@ export default function Event({ params }: { params: { slug: string } }) {
                     width = {520}
                     height = {520}
                     style = {{borderRadius: "8px", objectFit: "contain"}}
+                    className = "pt-5 lg:pt-0 mx-auto"
                 />
             </div>
             <Image 
                 src = "/images/person2.png"
                 alt = "person image"
-                width = {200}
-                height = {200}
+                width = {220}
+                height = {220}
                 className = "absolute left-[50%] -translate-x-1/2 hidden lg:block"
             />
         </div>
@@ -72,7 +74,7 @@ export default function Event({ params }: { params: { slug: string } }) {
                             alt = "dog"
                             height = {400}
                             width = {400} 
-                            style = {{objectFit: "contain"}}  
+                            style = {{objectFit: "cover", borderRadius: "12px"}}  
                         />
                     </>
                 ))}
@@ -90,6 +92,7 @@ export default function Event({ params }: { params: { slug: string } }) {
                             alt = "bird"
                             height = {400}
                             width = {400}   
+                            style = {{objectFit: "cover", borderRadius: "12px"}}
                         />
                     </>
                 ))}
