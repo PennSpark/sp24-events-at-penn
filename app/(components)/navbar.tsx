@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import Head from "next/head";
+import { usePathname } from 'next/navigation'
 
 interface Styles {
     [key: string]: React.CSSProperties;
@@ -122,7 +123,8 @@ const Navbar: React.FC<{ isAuthenticated: boolean  }> = ({ isAuthenticated }) =>
         console.log("handle login");
     };
 
-    const isActive = (path: string) => location.pathname === path;
+    const pathname = usePathname();
+    const isActive = (path: string) => path === pathname;
 
     return (
         <div className="App">

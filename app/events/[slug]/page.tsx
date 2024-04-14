@@ -2,12 +2,12 @@ import Image from "next/image";
 
 const images = Array(6).fill(0);
 
-export default function Event({ params }: { params: { event: string } }) {
+export default function Event({ params }: { params: { slug: string } }) {
     return (
         <div className = "min-h-screen h-fit px-24 bg-paper-bg bg-no-repeat bg-center bg-cover">
             
             <p className = "text-5xl font-extrabold pt-20">
-                {params.event}
+                {params.slug}
             </p>
             <div className = "grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-4 place-content-center gap-x-20">
             
