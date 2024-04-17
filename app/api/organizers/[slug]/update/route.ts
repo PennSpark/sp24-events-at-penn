@@ -14,12 +14,9 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
         let docObj = {
             slug: req.get("slug"),
             name: req.get("name"),
-            channels: JSON.parse(req.get("channels") || ""),
             desc: req.get("desc"),
             email: req.get("email"),
-            // events: req.get("events")?.split(","),
             img: req.get("img"),
-            // tags: req.get("tags")?.split(","), // make array
         }
 
         await updateDoc(docRef, docObj)

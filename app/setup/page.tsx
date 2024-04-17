@@ -9,6 +9,7 @@ interface Profile {
   bio: string;
   email: string;
   instagram: string;
+  website: string;
 }
 
 export default function Onboard() {
@@ -17,9 +18,10 @@ export default function Onboard() {
     type: '',
     bio: '',
     email: '',
-    instagram: ''
+    instagram: '',
+    website: '',
   });
-  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setProfile({
@@ -33,16 +35,39 @@ export default function Onboard() {
     console.log('Profile submitted:', profile);
   };
 
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>("/images/pfp-placeholder.png");
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setSelectedFile(event.target.files[0]);
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      setSelectedFile(file);
+
+      // Create a preview URL for the uploaded file
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
   const handleUploadClick = () => {
-    const fileInput = document.getElementById('fileUpload');
-    fileInput?.click();
+    const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
+    fileInput.click();
   };
+
+  // const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  // const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (event.target.files) {
+  //     setSelectedFile(event.target.files[0]);
+  //   }
+  // };
+
+  // const handleUploadClick = () => {
+  //   const fileInput = document.getElementById('fileUpload');
+  //   fileInput?.click();
+  // };
 
 
   return (
@@ -57,11 +82,11 @@ export default function Onboard() {
             </div>
             <div>
               <select id="type" name="type" value={profile.type} onChange={handleChange} style={{ color: profile.type === '' ? '#999' : 'black' }} >
-                <option value="" disabled selected style={{ color: 'gray' }} >Organizer Type</option>
-                <option value="freshman">Restaurant</option>
-                <option value="sophomore">Boba</option>
-                <option value="junior">Coffee</option>
-                <option value="senior">Bakery</option>
+                <option value="" disabled style={{ color: 'gray' }}>Organizer Type</option>
+                <option value="restaurant">Restaurant</option>
+                <option value="boba">Boba</option>
+                <option value="coffee">Coffee</option>
+                <option value="bakery">Bakery</option>
               </select>
             </div>
             <div>
@@ -75,18 +100,22 @@ export default function Onboard() {
               <input id="instagram" name="instagram" onChange={handleChange} placeholder="Instagram Account" />
             </div>
 
+            <div>
+              <input id="website" name="website" onChange={handleChange} placeholder="Website Link" />
+            </div>
+
           </form>
         </div>
         <div className="form-buttons">
-          <button type="submit" className="save-continue-button" form="myForm">Save & Continue</button>
+          <button type="submit" className="save-continue-button" form="myForm">Save</button>
         </div>
       </div>
       <div className="rightPanel">
         <div className="profile-preview">
           <h2 className='preview'>Preview of your profile:</h2>
           <div className="image-placeholder">
-            <Image
-              src="/images/pfp-placeholder.png"
+            <img
+              src={imagePreviewUrl}
               alt="Profile picture"
               width={300}
               height={300}
@@ -94,8 +123,8 @@ export default function Onboard() {
             />
           </div>
           <div className="profile-info">
-            <h3>{profile.name}</h3>
-            <p>{profile.bio}</p>
+            <h3>{profile.name || "Profile Name"}</h3>
+            <p>{profile.bio || "Bio"}</p>
           </div>
           <input
             type="file"
