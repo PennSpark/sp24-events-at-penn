@@ -1,11 +1,37 @@
 
 
+
+
 .backdrop {
     background: url("../../public/images/paper_background.png");
     font-family: "Montserrat", sans-serif;
     font-weight: 700;
     color: black;
 }
+
+.first-option {
+    color: #8E8E8E;
+}
+
+.single-input {
+    height: 6vh;
+    margin-bottom: 5%;
+    border-radius: 7vh;
+    padding-left: 10px;
+}
+
+.double-input {
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    color: #8E8E8E;
+}
+
+.single-input::placeholder {
+    color: #8E8E8E;
+}
+
+
 
 
 
@@ -32,9 +58,31 @@
     flex-direction: column;
     align-self: center;
     margin: auto;
-    margin-top: 6vh; 
+    margin-top: 4vh; 
 }
 
+.descriptor-box {
+    height: 30vh;
+    padding: 1vw;
+}
+
+.image-preview {
+    width: 50%;
+    height: 50%;
+}
+
+.uploader-border {
+    width: 70%;
+    height: 30%;
+    border-color: black;
+    border-width: 1px;
+    border-style: dashed;
+}
+
+.preview-container {
+    margin-right: 8%;
+    margin-left: 8%;
+}
 
 
 
