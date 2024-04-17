@@ -9,6 +9,7 @@ interface Profile {
   bio: string;
   email: string;
   instagram: string;
+  website: string;
 }
 
 export default function Onboard() {
@@ -17,9 +18,10 @@ export default function Onboard() {
     type: '',
     bio: '',
     email: '',
-    instagram: ''
+    instagram: '',
+    website: '',
   });
-  
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setProfile({
@@ -96,6 +98,10 @@ export default function Onboard() {
 
             <div>
               <input id="instagram" name="instagram" onChange={handleChange} placeholder="Instagram Account" />
+            </div>
+
+            <div>
+              <input id="website" name="website" onChange={handleChange} placeholder="Website Link" />
             </div>
 
           </form>
