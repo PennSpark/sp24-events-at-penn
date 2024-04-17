@@ -29,3 +29,8 @@ export type Organizer = {
     img: string;
     tags: DocumentReference[];
 }
+
+export type Category = {
+    name: string;
+    emoji: string;
+}

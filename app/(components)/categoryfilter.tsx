@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-
-interface Category {
-    name: string;
-    emoji: string;
-}
+import { Category } from '../lib/types';
+import CategoryButton from "./categorybutton";
 
 const CategoryFilter: React.FC = () => {
     const [activeCategories, setActiveCategories] = useState<string[]>([]);
@@ -25,23 +22,6 @@ const CategoryFilter: React.FC = () => {
         padding: '25px',
     };
 
-    const buttonStyle = (isActive: boolean): React.CSSProperties => ({
-        padding: '2px 15px',
-        border: '1px solid #ccc',
-        borderRadius: '15px',
-        backgroundColor: isActive ? '#555' : '#fff',
-        color: isActive ? '#fff' : '#000',
-        cursor: 'pointer',
-        display: 'flex',
-        alignItems: 'center',
-        gap: '5px',
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 'bold',
-        fontSize: '0.8rem',
-        outline: 'none',
-        transition: 'background-color 0.3s',
-    });
-
     const toggleCategory = (category: string): void => {
         const isAlreadyActive = activeCategories.includes(category);
 
@@ -57,13 +37,12 @@ const CategoryFilter: React.FC = () => {
             {categories.map(category => {
                 const isActive = activeCategories.includes(category.name);
                 return (
-                    <button
+                    <CategoryButton
                         key={category.name}
-                        style={buttonStyle(isActive)}
+                        category={category}
+                        isActive={isActive}
                         onClick={() => toggleCategory(category.name)}
-                    >
-                        {category.emoji} {category.name}
-                    </button>
+                    />
                 );
             })}
         </div>
