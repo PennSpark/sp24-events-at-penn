@@ -80,4 +80,8 @@ body {
   background-image: url('./images/paper.jpg');
 }
 
-
+.montserrat {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  color: #8e8e8e;
+}
