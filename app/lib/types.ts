@@ -4,7 +4,7 @@ export type Event = {
     slug: string;
     name: string;
     location: GeoPoint;
-    description: string;
+    desc: string;
     url?: string;
     img: string;
     tags: DocumentReference[];

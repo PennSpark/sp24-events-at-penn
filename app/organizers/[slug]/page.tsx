@@ -1,8 +1,7 @@
-import { app } from "@/app/lib/firebase";
 import { Organizer } from "@/app/lib/types";
-import { DocumentData, DocumentReference, getDoc, getDocs, getFirestore } from "firebase/firestore";
 import Image from "next/image";
 import { Event } from "@/app/lib/types";
+import Link from "next/link";
 
 async function getData(slug: string) {
     const res = await fetch(`http://localhost:3000/api/organizers/${slug}`);
@@ -11,28 +10,34 @@ async function getData(slug: string) {
         throw new Error("Failed to get Organizer data");
     }
 
-    return res.json();
+    const organizer: Organizer = (await res.json()).body;
+    const events = await Promise.all(organizer.events.map(async (e) => {
+        const id = e._key.path.segments.pop();
+        const res = await fetch(`http://localhost:3000/api/events/${id}`);
+
+        if(!res.ok) {
+            console.log(`Failed to get event data for ${id}`);
+        } else {
+            const json = await res.json();
+            return json.body;
+        }
+    }));
+
+    return {
+        organizer: organizer,
+        events: events,
+    };
 }
 
-interface EventsProps {
-    events: DocumentReference[];
-}
-
-const Events: React.FC<EventsProps> = ({ events }) => {
-    const arr: Event[] = [];
-
-    events.forEach(async (event) => {
-        const key = event._key.path.segments.pop();
-        const res = await fetch(`http://localhost:3000/api/events/${key}`);
-
-        events.push((await res.json()).body);
-    });
-
-    return(
-        <div className= "events">
-            {arr.map((event) => 
-                <p key={event.name}>{event.name}</p>
-            )}
+const EventComponent: React.FC<{event: Event}> = ({ event }) => {
+    return (
+        <div>
+            <p>MAKE LESS UGLY PLSSS</p>
+            <h2>Event Name: {event.name}</h2>
+            <p>Description: {event.desc}</p>
+            <Link href={`/events/${event.slug}`}>
+                Event Details
+            </Link>
         </div>
     )
 }
@@ -40,8 +45,7 @@ const Events: React.FC<EventsProps> = ({ events }) => {
 const images = Array(10).fill(0);
 
 export default async function Page({ params }: { params: { slug: string } }) {
-    const res = await getData(params.slug);
-    const organizer: Organizer = res.body;
+    const { organizer, events } = await getData(params.slug);
 
     return(
         <div className = "min-h-screen h-fit px-24 bg-paper-bg bg-no-repeat bg-center bg-cover">
@@ -94,7 +98,9 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <p className = "text-2xl font-bold">Upcoming Events</p>
             
             <div className = "flex gap-5 overflow-x-scroll my-8">
-                {/* <Events events={organizer.events} /> */}
+                {events.map((event, index) => 
+                    <EventComponent key={index} event={event} />
+                )}
             </div>
         </div>
 
