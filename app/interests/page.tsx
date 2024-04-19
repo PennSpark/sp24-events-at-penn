@@ -9,14 +9,17 @@ type Tag = string;
 type SelectedTags = Tag[];
 const TAGS: Tag[] = ["Bakery 🥐", "Promotion 💵", "Boba 🧋", "Coffee Shop ☕️", "Restaurant 🥘", "Party 💃"];
 
+
 export default function Interest() {
     const [selectedTags, setSelectedTags] = React.useState<SelectedTags>([]);
 
 
     useEffect(() => {
-      const savedTags = Cookies.get('selectedTags');
-      if (savedTags) {
-        setSelectedTags(JSON.parse(savedTags));
+      const interestsCookieValue = Cookies.get('interestsCookie');
+      if (interestsCookieValue) {
+        console.log('Found interestsCookie:', interestsCookieValue);
+        // Additional logic to use the interestsCookieValue can be placed here
+        setSelectedTags(JSON.parse(interestsCookieValue));
         window.location.href = '/explore';
       }
     }, []);
@@ -34,7 +37,7 @@ export default function Interest() {
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       const tagsString = JSON.stringify(selectedTags);
-      Cookies.set('selectedTags', tagsString, { expires: 7 }); // Expires in 7 days
+      Cookies.set('interestsCookie', tagsString, { expires: 7 }); // Expires in 7 days
       console.log('Selected tags saved:', selectedTags);
 
       window.location.href = '/explore'; 
@@ -66,14 +69,25 @@ export default function Interest() {
           <button type="submit" className="save-continue-button" form="myForm" onClick={handleSubmit}>Save</button>
         </div>
         </div>
-        <div>
-        <Image
-          src="/images/Line4.png"
-          alt="sign1"
-          width={3}
-          height={10}
-          className="rotate180"
-        />
+        <div className="middle">
+          <div>
+          <Image
+            src="/images/Line4.png"
+            alt="sign1"
+            width={3}
+            height={10}
+            className="rotate180"
+          />
+          </div>
+          
+          <div className="imageContainer movedImage">
+                      <Image
+                        src="/images/sign1.png"
+                        alt="sign1"
+                        width={177}
+                        height={177}
+                      />
+            </div>
         </div>
         <div className="rightPanel">
         <div className="relativeContainer">
@@ -90,14 +104,7 @@ export default function Interest() {
                   </div>
               </div>
             <h2 className = 'montserratSubheading' >Your setup is complete – your club is now ready to connect with the Penn community!</h2>
-            <div className="imageContainer movedImage">
-                      <Image
-                        src="/images/sign1.png"
-                        alt="sign1"
-                        width={177}
-                        height={177}
-                      />
-            </div>
+            
         </div>
         </div>  
     </div>

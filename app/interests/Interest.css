@@ -133,19 +133,31 @@
 
 .rotate180 {
   transform: rotate(180deg); /* Rotates only the image */
+  
 }
 .relativeContainer {
   position: relative;
 }
+.middle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 3rem; /* Example fixed width */
+  height: -4rem;
+}
+.middle div {
+  margin-right: 20px; /* Adds some space between the two divs, adjust as needed */
+}
 
-.movedImage {
+.imageContainer.movedImage {
   position: absolute;
-  top: 110%; /* Adjust the position from the top to 50% */
-  right: 85%; /* Align to the right of the right panel */
-  transform: translateY(-50%); /*Shift the image up by half its height */
+  left: 6rem;
+  top: 33rem;
   /* Set a specific size for the image, if required */
   width: 177px;
   height: 177px;
+
 }
 
 p {
