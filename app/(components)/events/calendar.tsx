@@ -11,6 +11,7 @@ const calendarStyles = {
         minHeight: '1200000000px',
         fontFamily: 'Inter, sans-serif',
         fontWeight: 'bold',
+        height: 'auto',
     },
     header: {
         display: 'flex',

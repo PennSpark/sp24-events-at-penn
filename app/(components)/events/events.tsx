@@ -1,10 +1,11 @@
 "use client"
-import React, {useMemo, useState} from 'react';
+import React, { useMemo, useState } from 'react';
 import { Event } from '@/app/lib/types';
 import Calendar from './calendar';
 import ImageGrid from './imagegrid';
 import SearchEvents from './filter/searchevents';
 import CategoryFilter from './filter/categoryfilter';
+import { isToday, isThisWeek, isThisMonth, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
 
 const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
     const [viewMode, setViewMode] = useState<string>("grid");
@@ -14,9 +15,47 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
     const [location, setLocation] = useState('');
 
     const filteredEvents = useMemo(() => {
-        return initialEvents?.filter(event => {
-            return event.name.toLowerCase().includes(searchQuery.toLowerCase())
-        }) || [];
+        let filtered = initialEvents?.filter(event => {
+            let includeEvent = event.name.toLowerCase().includes(searchQuery.toLowerCase());
+
+            const eventStartDate = new Date(event.start_time.seconds * 1000);
+
+            switch (time) {
+                case "Today":
+                    includeEvent = includeEvent && isToday(eventStartDate);
+                    break;
+                case "This week":
+                    includeEvent = includeEvent && isThisWeek(eventStartDate, { weekStartsOn: 0 });
+                    break;
+                case "This month":
+                    includeEvent = includeEvent && isThisMonth(eventStartDate);
+                    break;
+                default:
+                    break;
+            }
+
+            return includeEvent;
+        });
+
+        switch (ordering) {
+            case "Alphabetical":
+                filtered.sort((a, b) => a.name.localeCompare(b.name));
+                break;
+            case "Trending":
+                filtered.sort((a, b) => b.views - a.views);
+                break;
+            case "Random":
+                for (let i = filtered.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
+                }
+                break;
+            default:
+                // Possibly sort by date or keep as is
+                break;
+        }
+
+        return filtered;
     }, [initialEvents, searchQuery, location, time, ordering]);
 
     return (
