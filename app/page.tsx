@@ -11,7 +11,11 @@ export default function Home() {
                 <div className = "center-container">
                     
                 <div className = "title">
+<<<<<<< HEAD
                     <span className="text-style montserrat"> SocialCalendar </span> 
+=======
+                    <span className="text-style montserrat"> SocialCalendar </span>
+>>>>>>> f30ff2fbbe5ad2900c4ac41eed732e3d727ccb48
                     <span className="text-style dr-sugiyama-regular"> @ </span> 
                     <span className="text-style montserratStroke">Penn</span>
                 </div>

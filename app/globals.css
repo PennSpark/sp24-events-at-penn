@@ -22,7 +22,6 @@ body {
 .App {
   text-align: center;
   padding: 0px 30px 0px 30px;
-  background-image: url('./images/paper.jpg');
   background-size: cover;
   background-position: center top;
   background-attachment: fixed;

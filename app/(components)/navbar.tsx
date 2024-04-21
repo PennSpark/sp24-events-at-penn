@@ -24,9 +24,9 @@ const styles: Styles = {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundImage: 'transparent',
         padding: '20px',
         position: 'relative',
+        backgroundColor:'transparent'
     },
     logoContainer: {
         fontFamily: "'Montserrat', sans-serif",
