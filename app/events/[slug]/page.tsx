@@ -5,7 +5,6 @@ import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
     subsets: ['latin'],
-    variable: '--font-montserrat',
 })
 
 const imageGallery: string[] = [];
@@ -59,13 +58,13 @@ export default async function Event({ params }: { params: { slug: string } }) {
             <p className = "text-5xl font-extrabold pt-20">
                 {params.slug}
             </p>
-            <div className = "inline-block lg:flex justify-between place-content-center gap-x-20">
+            <div className = "mt-5 inline-block lg:flex justify-between place-content-center gap-x-20">
             
-                <table className="table-auto text-lg mt-5 max-w-[650px]">
+                <table className="table-fixed text-lg mt-5 max-w-[650px] h-fit">
                     <tbody>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Organizer</td>
-                            <td className = "pb-5 text-[#15009A] font-bold flex relative">
+                            <td className = "pb-6 text-[#15009A] font-bold flex relative">
                                 <Link href = "/organizers/organizer">
                                     <Image
                                         src = "https://th-thumbnailer.cdn-si-edu.com/IxLk-Pyqergx4Zks2k7m2rqIEvA=/1072x720/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e8/e0/e8e0c712-dddc-42ae-ad7a-0452d5bd4be4/bat.jpg"
@@ -77,35 +76,37 @@ export default async function Event({ params }: { params: { slug: string } }) {
                                         style={{objectFit: "cover"}}
                                     />
                                 </Link>
-                                <Link href = "/organizers">
-                                    {organizerData && organizerData.map((organizer, index) => (
-                                        <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{organizer.name}</p>
-                                    ))}</Link>
+                                
+                                {organizerData && organizerData.map((organizer, index) => (
+                                    <Link href = {`/organizers/${organizer.name}`} key = {index}>
+                                        <p className = "mr-3">{organizer.name}</p>
+                                    </Link>
+                                ))}
                                 </td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Time</td>
-                            <td className = "pb-5">{eventData.start_time.seconds}</td>
+                            <td className = "pb-6 align-top">{new Date(eventData.start_time.seconds * 1000).toLocaleString("en-US")}</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Tag(s)</td>
-                            <td className = "pb-5">
+                            <td className = "pb-6">
                                 {tagData && tagData.map((tag, index) => (
-                                    <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{tag.name}</p>
+                                    <p className = {`bg-[#BEDBE3] w-fit rounded-full px-4 align-top ${montserrat.className} font-bold`} key = {index}>{tag.name}</p>
                                 ))}
                             </td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Address</td>
-                            <td className = "pb-5">[{eventData.location.latitude}, {eventData.location.longitude}]</td>
+                            <td className = "pb-6 align-top">[{eventData.location.latitude}, {eventData.location.longitude}]</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Registration</td>
-                            <td className = "pb-5 text-[#15009A]"><Link href = {eventData.url}>{eventData.url}</Link></td>
+                            <td className = "pb-6 text-[#15009A] align-top"><Link href = {eventData.url}>{eventData.url}</Link></td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Description</td>
-                            <td className = "pb-5">{eventData ? eventData.desc : ""}</td>
+                            <td className = "pb-6 align-top">{eventData ? eventData.desc : ""}</td>
                         </tr>
                     </tbody>
                 </table>
