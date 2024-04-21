@@ -19,6 +19,9 @@ async function getData(slug: string) {
     }
 
     const toReturn = json.body;
+    if (toReturn.organizers === undefined || toReturn.tags === undefined) {
+        return { eventData: json.body, organizerData: undefined, tagData: undefined };
+    }
 
     const organizers = await Promise.all(toReturn.organizers.map(async (e) => {
         const id = e._key.path.segments.pop();
@@ -51,6 +54,12 @@ async function getData(slug: string) {
 export default async function Event({ params }: { params: { slug: string } }) {
 
     const { eventData, organizerData, tagData } = await getData(params.slug);
+
+    if (organizerData === undefined) {
+        return (<div className = "grid place-content-center h-[80vh]">
+                <h1>404 - Page Not Found</h1>
+            </div>)
+    }
 
     return (
         <div className = "min-h-screen h-fit px-[5%] bg-paper-bg bg-no-repeat bg-center bg-cover">
