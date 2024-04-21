@@ -5,14 +5,14 @@ import { Montserrat } from "next/font/google";
 
 const montserrat = Montserrat({
     subsets: ['latin'],
-    variable: '--font-montserrat',
 })
 
 const imageGallery: string[] = [];
 const relevantEvents = Array(6).fill(0);
+export const revalidate = 14400;
 
 async function getData(slug: string) {
-    const res = await fetch(`http://localhost:3000/api/events/${slug}`);
+    const res = await fetch(`http://localhost:3000/api/events/${slug}`, { next: { revalidate: 10 } });
     const json = await res.json();
     if(!res.ok) {
         console.log(`Failed to get event data for ${slug}`);
@@ -20,13 +20,16 @@ async function getData(slug: string) {
     }
 
     const toReturn = json.body;
+    if (toReturn.organizers === undefined || toReturn.tags === undefined) {
+        return { eventData: json.body, organizerData: undefined, tagData: undefined };
+    }
 
     const organizers = await Promise.all(toReturn.organizers.map(async (e) => {
         const id = e._key.path.segments.pop();
-        const res = await fetch(`http://localhost:3000/api/organizers/${id}`);
+        const res = await fetch(`http://localhost:3000/api/organizers/${id}`, { next: { revalidate: 10 } });
 
         if(!res.ok) {
-            console.log(`Failed to get event data for ${id}`);
+            console.log(`Failed to get organizer data for ${id}`);
         } else {
             const json = await res.json();
             return json.body;
@@ -35,10 +38,10 @@ async function getData(slug: string) {
 
     const tags = await Promise.all(toReturn.tags.map(async (e) => {
         const id = e._key.path.segments.pop();
-        const res = await fetch(`http://localhost:3000/api/tags/${id}`);
+        const res = await fetch(`http://localhost:3000/api/tags/${id}`, { next: { revalidate: 10 } });
 
         if(!res.ok) {
-            console.log(`Failed to get event data for ${id}`);
+            console.log(`Failed to get tag data for ${id}`);
         } else {
             const json = await res.json();
             return json.body;
@@ -53,17 +56,21 @@ export default async function Event({ params }: { params: { slug: string } }) {
 
     const { eventData, organizerData, tagData } = await getData(params.slug);
 
-    console.log(organizerData);
+    if (organizerData === undefined || eventData === undefined) {
+        return (<div className = "grid place-content-center h-[80vh]">
+                <h1>404 - Page Not Found</h1>
+            </div>)
+    }
 
     return (
         <div className = "min-h-screen h-fit px-[5%] bg-paper-bg bg-no-repeat bg-center bg-cover">
             
             <p className = "text-5xl font-extrabold pt-20">
-                {params.slug}
+                {eventData.name}
             </p>
-            <div className = "inline-block lg:flex justify-between place-content-center gap-x-20">
+            <div className = "mt-5 inline-block lg:flex justify-between place-content-center gap-x-20">
             
-                <table className="table-auto text-lg mt-5 max-w-[650px]">
+                <table className="table-fixed text-lg mt-5 max-w-[650px] h-fit">
                     <tbody>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Organizer</td>
@@ -87,27 +94,33 @@ export default async function Event({ params }: { params: { slug: string } }) {
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Time</td>
-                            <td className = "pb-5">{new Date(eventData.start_time.seconds * 1000).toLocaleString("en-US")}</td>
+                            <td className = "pb-6 align-top">{eventData.start_time && new Date(eventData.start_time.seconds * 1000).toLocaleString("en-US")}</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Tag(s)</td>
-                            <td className = "pb-5">
+                            <td className = "pb-6">
+                                <div className = "flex">
                                 {tagData && tagData.map((tag, index) => (
-                                    <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{tag.name}</p>
+                                    <p className = {`bg-[#BEDBE3] w-fit rounded-full px-4 mr-3 align-top ${montserrat.className} font-bold`} key = {index}>{tag.name}</p>
                                 ))}
+                                </div>
                             </td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Address</td>
-                            <td className = "pb-5">{eventData.location.name}</td>
+                            <td className = "pb-6 align-top">{eventData.location && eventData.location.name}</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Registration</td>
-                            <td className = "pb-5 text-[#15009A]"><Link href = {eventData.url}>{eventData.url}</Link></td>
+                            <td className = "pb-6 text-[#15009A] align-top">
+                                <Link href = {eventData.url ? eventData.url : ""}>
+                                    <p className = "max-w-[650px] break-words">{eventData.url && eventData.url} </p>
+                                </Link>
+                            </td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Description</td>
-                            <td className = "pb-5">{eventData ? eventData.desc : ""}</td>
+                            <td className = "pb-6 align-top">{eventData ? eventData.desc : ""}</td>
                         </tr>
                     </tbody>
                 </table>

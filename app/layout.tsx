@@ -6,8 +6,8 @@ import Navbar from "./(components)/navbar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Social Calender @ Penn",
-  description: "Your one-stop shop for Penn events",
+  title: "SocialCalendar@Penn",
+  description: "Discover the heartbeat of campus life with our comprehensive listings of social events at the University of Pennsylvania. From student gatherings to cultural showcases, find the pulse of Penn's vibrant community right here. Stay connected and never miss out on the latest happenings!",
 };
 
 export default function RootLayout({
