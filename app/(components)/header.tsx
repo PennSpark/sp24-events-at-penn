@@ -84,7 +84,7 @@ const Header: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => 
                 <div style={headerStyles.headerFlex}>
                     <div>
                         <div style={headerStyles.headerFlex}>
-                            <h1 style={headerStyles.title}>Explore the Promos@Penn</h1>
+                            <h1 style={headerStyles.title}>Explore the SocialCalendar@Penn</h1>
                             <Image src={exclamationImage} alt="exclamation" style={headerStyles.exclamation} />
                         </div>
                         <p style={headerStyles.subtitle}>Take a look at what’s going on today 👀</p>

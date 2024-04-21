@@ -138,7 +138,7 @@ const SearchEvents: React.FC<Props> = ({     viewMode, setViewMode, searchQuery,
                     <option value="This week">This week</option>
                     <option value="This month">This month</option>
                 </select>
-                <select style={dropdownStyle} value={location} onChange={e => setLocation(e.target.value)}>
+                {/*<select style={dropdownStyle} value={location} onChange={e => setLocation(e.target.value)}>
                     <option value="">Location</option>
                     <option value="university">University City</option>
                     <option value="center">Center City</option>
@@ -146,6 +146,7 @@ const SearchEvents: React.FC<Props> = ({     viewMode, setViewMode, searchQuery,
                     <option value="oncampus">On-Campus</option>
                     <option value="other">Other</option>
                 </select>
+                */}
             </div>
             <div style={toggleContainerStyle}>
                 <div style={viewMode === 'grid' ? toggleActiveStyle : toggleInactiveStyle}

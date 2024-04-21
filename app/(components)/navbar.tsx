@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Head from "next/head";
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
-
+import './Components.css'
 interface Styles {
     [key: string]: React.CSSProperties;
 }
