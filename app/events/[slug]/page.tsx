@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Link from "next/link";
 import { Montserrat } from "next/font/google";
@@ -9,32 +10,62 @@ const montserrat = Montserrat({
 
 const imageGallery: string[] = [];
 const relevantEvents = Array(6).fill(0);
-const event = {
-    organizer: "Organizer 1",
-    organizerLink: "/organizers/organizer1",
-    organizerImg: "https://th-thumbnailer.cdn-si-edu.com/IxLk-Pyqergx4Zks2k7m2rqIEvA=/1072x720/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e8/e0/e8e0c712-dddc-42ae-ad7a-0452d5bd4be4/bat.jpg",
-    time: "3/17 6-7pm",
-    tags: ["Sports🏈"],
-    location: "Annenburg Center",
-    address: "1234 Locust Walk",
-    registration: "youtube.com",
-    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur venenatis, enim quis scelerisque placerat, justo leo fringilla lacus, et lobortis urna purus a nunc. Quisque facilisis ipsum ornare metus accumsan congue. Proin cursus justo ut condimentum pellentesque."
+
+async function getData(slug: string) {
+    const res = await fetch(`http://localhost:3000/api/events/${slug}`);
+    const json = await res.json();
+    if(!res.ok) {
+        console.log(`Failed to get event data for ${slug}`);
+        return { eventData: null}
+    }
+
+    const toReturn = json.body;
+
+    const organizers = await Promise.all(toReturn.organizers.map(async (e) => {
+        const id = e._key.path.segments.pop();
+        const res = await fetch(`http://localhost:3000/api/organizers/${id}`);
+
+        if(!res.ok) {
+            console.log(`Failed to get event data for ${id}`);
+        } else {
+            const json = await res.json();
+            return json.body;
+        }
+    }));
+
+    const tags = await Promise.all(toReturn.tags.map(async (e) => {
+        const id = e._key.path.segments.pop();
+        const res = await fetch(`http://localhost:3000/api/tags/${id}`);
+
+        if(!res.ok) {
+            console.log(`Failed to get event data for ${id}`);
+        } else {
+            const json = await res.json();
+            return json.body;
+        }
+    }));
+
+    return { eventData: json.body, organizerData: organizers, tagData: tags };
 }
 
-export default function Event({ params }: { params: { slug: string } }) {
+
+export default async function Event({ params }: { params: { slug: string } }) {
+
+    const { eventData, organizerData, tagData } = await getData(params.slug);
+
     return (
         <div className = "min-h-screen h-fit px-[5%] bg-paper-bg bg-no-repeat bg-center bg-cover">
             
             <p className = "text-5xl font-extrabold pt-20">
                 {params.slug}
             </p>
-            <div className = "inline-block lg:flex justify-between gap-4 place-content-center gap-x-20">
+            <div className = "inline-block lg:flex justify-between place-content-center gap-x-20">
             
                 <table className="table-auto text-lg mt-5 max-w-[650px]">
                     <tbody>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Organizer</td>
-                            <td className = "pb-5 text-[#15009A] font-bold flex items-center relative">
+                            <td className = "pb-5 text-[#15009A] font-bold flex relative">
                                 <Link href = "/organizers/organizer">
                                     <Image
                                         src = "https://th-thumbnailer.cdn-si-edu.com/IxLk-Pyqergx4Zks2k7m2rqIEvA=/1072x720/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e8/e0/e8e0c712-dddc-42ae-ad7a-0452d5bd4be4/bat.jpg"
@@ -46,42 +77,41 @@ export default function Event({ params }: { params: { slug: string } }) {
                                         style={{objectFit: "cover"}}
                                     />
                                 </Link>
-                                <Link href = "/organizers">{event.organizer}</Link>
+                                <Link href = "/organizers">
+                                    {organizerData && organizerData.map((organizer, index) => (
+                                        <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{organizer.name}</p>
+                                    ))}</Link>
                                 </td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Time</td>
-                            <td className = "pb-5">{event.time}</td>
+                            <td className = "pb-5">{eventData.start_time.seconds}</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Tag(s)</td>
                             <td className = "pb-5">
-                                {event.tags.map((tag, index) => (
-                                    <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{tag}</p>
+                                {tagData && tagData.map((tag, index) => (
+                                    <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{tag.name}</p>
                                 ))}
                             </td>
                         </tr>
                         <tr>
-                            <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Location</td>
-                            <td className = "pb-5">{event.location}</td>
-                        </tr>
-                        <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Address</td>
-                            <td className = "pb-5">{event.address}</td>
+                            <td className = "pb-5">[{eventData.location.latitude}, {eventData.location.longitude}]</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Registration</td>
-                            <td className = "pb-5 text-[#15009A]"><Link href = {event.registration}>{event.registration}</Link></td>
+                            <td className = "pb-5 text-[#15009A]"><Link href = {eventData.url}>{eventData.url}</Link></td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Description</td>
-                            <td className = "pb-5">{event.description}</td>
+                            <td className = "pb-5">{eventData ? eventData.desc : ""}</td>
                         </tr>
                     </tbody>
                 </table>
             <div>
                 <Image
-                    src = "https://t4.ftcdn.net/jpg/00/97/58/97/360_F_97589769_t45CqXyzjz0KXwoBZT9PRaWGHRk5hQqQ.jpg"
+                    src = {eventData.img}
                     alt = "cat"
                     width = {520}
                     height = {520}
@@ -139,7 +169,7 @@ export default function Event({ params }: { params: { slug: string } }) {
                         src = "https://cdn.pixabay.com/photo/2016/12/13/22/25/bird-1905255_1280.jpg"
                         alt = "bird"
                         height = {400}
-                        width = {400}   
+                        width = {400}
                         style = {{objectFit: "cover", borderRadius: "12px"}}
                         key = {index}
                     />
