@@ -21,6 +21,7 @@ html,body{
 h1{
     margin-bottom: 2rem; 
     font-size: 40px;
+    width: 1000px;
 }
 
 h2{
@@ -74,24 +75,27 @@ p{
    
 }
 .who-are-we {
-    width: 550px;
-    text-align: left;
-    padding-top: 5rem; 
-    padding-bottom: 5rem; 
-    position:relative;
-    left: 50%;
-    transform: translate(-58%);
- 
-}
+    
 
-.for-whom  {
     width: 435px;
     text-align: right;
-    padding-top: 5rem; 
+    padding-top: -3rem; 
     padding-bottom: 2rem; 
     position:relative;
     left: 50%;
     transform: translate(-25%);
+    z-index: 1000;
+ 
+}
+
+.for-whom  {
+    width: 550px;
+    text-align: left;
+    padding-top: 3rem; 
+    padding-bottom: 5rem; 
+    position:relative;
+    left: 50%;
+    transform: translate(-58%);
 
 
    
@@ -119,13 +123,14 @@ p{
 
  .about-campfire-people{
     position: absolute;
-    width: 1000px;
-    height: 800px;
-    top: 75rem;
-    left: 50%;
+    width:700px;
+    height: 600px;
+    top: 80rem;
+    left: 60%;
     transform: translate(-25%);
     background: url('/images/campfire_people.png');
     background-size: contain;
+    background-repeat: no-repeat;
  }
 
  .about-artist{
@@ -135,7 +140,8 @@ p{
     top: 60rem;
     left: 50%;
     transform: translate(-60%);
-    background: url('/images/artist.png');
+    background: url('/images/artist-1.png');
+    background-repeat: no-repeat;
  }
 
  .about-rocket{
@@ -167,3 +173,7 @@ p{
     background: url('/images/about_decor.png');
  }
  
+ .underline-link {
+    text-decoration: underline;
+  }
+  
