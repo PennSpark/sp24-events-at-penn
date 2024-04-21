@@ -3,6 +3,7 @@ import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 
 const db = getFirestore(app);
 
+
 export async function GET(request: Request, { params }: { params: { slug: string } }) {
     const docRef = doc(db, "events", params.slug);
     const docSnap = await getDoc(docRef);
