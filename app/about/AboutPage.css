@@ -39,6 +39,9 @@ p{
 
 }
 
+.About {
+    overflow: hidden;
+}
 
 
 
@@ -50,10 +53,14 @@ p{
     justify-content: center; 
     min-height: 100vh;
     margin: 0 6rem;
+    overflow: hidden;
+    
 }
 
 .content {
     max-width: 800px;
+    overflow: hidden;
+    
 }
 
 .what-is { 
@@ -107,19 +114,18 @@ p{
     top: 10rem;
     left: 50%;
     transform: translate(-200%);
-    
-    
     background: url('/images/person_thinking.png');
  }
 
  .about-campfire-people{
     position: absolute;
-    width: 1401px;
+    width: 1000px;
     height: 800px;
-    top: 68rem;
+    top: 75rem;
     left: 50%;
     transform: translate(-25%);
     background: url('/images/campfire_people.png');
+    background-size: contain;
  }
 
  .about-artist{
@@ -130,17 +136,16 @@ p{
     left: 50%;
     transform: translate(-60%);
     background: url('/images/artist.png');
+    overflow: hidden;
  }
 
  .about-rocket{
-
     position: absolute;
     width: 198px;
     height: 198px;
     top: 45rem;
     left: 50%;
     transform: translate(-300%);
-
     background: url('/images/about_rocket.png');
  }
 

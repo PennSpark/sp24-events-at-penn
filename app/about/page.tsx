@@ -5,10 +5,10 @@ export default function About() {
         <div className = "About">
             <div className = "center-content">
             <div className = "what-is">
-                <h1 className = 'montserratStroke' >Welcome to Promos@Penn!</h1>
-                <h2 className = 'montserratStroke' >WHAT IS Promos@PENN?</h2>
+                <h1 className = 'montserratStroke' >Welcome to SocialCalendar@Penn!</h1>
+                <h2 className = 'montserratStroke' >WHAT IS SocialCalendar@PENN?</h2>
                 <p>
-                Promos@Penn is a “social calendar” that would serve as a one-stop shop for Penn students to find promotional/exclusive events at our university. We aspire not only to offer Penn students a convenient overview of promotions near them but also to assist on-campus organizations in gaining more visibility.          </p>
+                SocialCalendar@Penn is a “social calendar” that would serve as a one-stop shop for Penn students to find promotional/exclusive events at our university. We aspire not only to offer Penn students a convenient overview of promotions near them but also to assist on-campus organizations in gaining more visibility.          </p>
              </div>
 
              <div className = "who-are-we">
@@ -34,9 +34,6 @@ Your events deserve to be noticed!                </p>
                 <div className="about-artist"></div>
                 <div className="about-campfire-people"></div>
                 <div className="about-person-with-hat"></div>
-
-
-
             </div>
         </div>
     );

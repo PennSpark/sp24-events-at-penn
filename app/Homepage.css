@@ -176,7 +176,8 @@ background: url('/images/rocket.png');
     font-optical-sizing: auto;
     font-weight: 800;
     font-style: normal;
-    color: #ededf1;
+    color: #f3f3f3;
+    opacity: 0.3;
     text-shadow:
         -1px -1px 0 #000,  
          1px -1px 0 #000,
