@@ -6,6 +6,14 @@ import { faTh, faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 interface Props {
     viewMode: string;
     setViewMode: React.Dispatch<React.SetStateAction<string>>;
+    searchQuery: string;
+    setSearchQuery: React.Dispatch<React.SetStateAction<string>>;
+    ordering: string;
+    setOrdering: React.Dispatch<React.SetStateAction<string>>;
+    time: string;
+    setTime: React.Dispatch<React.SetStateAction<string>>;
+    location: string;
+    setLocation: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const toggleButtonStyle: React.CSSProperties = {
@@ -102,11 +110,7 @@ const toggleContainerStyle: React.CSSProperties = {
     color: '#fff',
 };
 
-const SearchEvents: React.FC<Props> = ({ viewMode, setViewMode }) => {
-    const [searchQuery, setSearchQuery] = useState('');
-    const [ordering, setOrdering] = useState('');
-    const [time, setTime] = useState('');
-    const [location, setLocation] = useState('');
+const SearchEvents: React.FC<Props> = ({     viewMode, setViewMode, searchQuery, setSearchQuery, ordering, setOrdering, time, setTime, location, setLocation}) => {
 
     return (
         <div style={containerStyle}>

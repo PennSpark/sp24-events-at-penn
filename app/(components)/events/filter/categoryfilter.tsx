@@ -9,7 +9,7 @@ const CategoryFilter: React.FC = () => {
     const categories: Category[] = [
         { name: 'Bakery', emoji: '🥐' },
         { name: 'Coffee', emoji: '☕' },
-        { name: 'Boba', emoji: '☕' },
+        { name: 'Boba', emoji: '🧋' },
         { name: 'Restaurant', emoji: '🍲' },
         { name: 'Party', emoji: '🎉' },
         { name: 'Promos', emoji: '🎟️' },
