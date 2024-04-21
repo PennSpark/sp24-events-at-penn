@@ -1,10 +1,22 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Category } from '../../../lib/types';
 import CategoryButton from "./categorybutton";
+import Cookies from 'js-cookie';
+
 
 const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => void }> = ({ setActiveCategories }) => {
     const [activeCategories, setActiveCategoriesLocal] = useState<string[]>([]);
+
+    useEffect(() => {
+        const cookie = Cookies.get('interestsCookie');
+        if (cookie) {
+            console.log('Found interestsCookie:', cookie);
+            const categories = JSON.parse(cookie);
+            setActiveCategories(categories);
+            setActiveCategoriesLocal(categories.map((cat: { name: String }) => cat.name));
+        }
+    }, [setActiveCategories]);
 
     const categories: Category[] = [
         { name: 'Bakery', emoji: '🥐' },
@@ -15,6 +27,7 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
         { name: 'Promos', emoji: '🎟️' },
         { name: 'Miscellaneous', emoji: '🔮' },
     ];
+    
 
     const containerStyle: React.CSSProperties = {
         display: 'flex',

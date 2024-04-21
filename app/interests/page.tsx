@@ -3,11 +3,21 @@ import Image from "next/image";
 import React, {useEffect} from 'react';
 import './Interest.css';
 import Cookies from 'js-cookie';
+import { Category } from '../lib/types';
 
 
-type Tag = string;
-type SelectedTags = Tag[];
-const TAGS: Tag[] = ["Bakery 🥐", "Promotion 💵", "Boba 🧋", "Coffee Shop ☕️", "Restaurant 🥘", "Party 💃"];
+// type Tag = string;
+type SelectedTags = Category[];
+const categories: Category[] = [
+  { name: 'Bakery', emoji: '🥐' },
+  { name: 'Coffee', emoji: '☕' },
+  { name: 'Boba', emoji: '🧋' },
+  { name: 'Restaurant', emoji: '🍲' },
+  { name: 'Party', emoji: '🎉' },
+  { name: 'Promos', emoji: '🎟️' },
+  { name: 'Miscellaneous', emoji: '🔮' },
+];
+// const TAGS: Tag[] = ["Bakery 🥐", "Promotion 💵", "Boba 🧋", "Coffee Shop ☕️", "Restaurant 🥘", "Party 💃"];
 
 
 export default function Interest() {
@@ -18,13 +28,12 @@ export default function Interest() {
       const interestsCookieValue = Cookies.get('interestsCookie');
       if (interestsCookieValue) {
         console.log('Found interestsCookie:', interestsCookieValue);
-        // Additional logic to use the interestsCookieValue can be placed here
         setSelectedTags(JSON.parse(interestsCookieValue));
         window.location.href = '/explore';
       }
     }, []);
     
-    const handleTagClick = (tag: Tag) => {
+    const handleTagClick = (tag: Category) => {
         setSelectedTags(prevSelectedTags => {
           if (prevSelectedTags.includes(tag)) {
             return prevSelectedTags.filter(t => t !== tag);
@@ -37,7 +46,7 @@ export default function Interest() {
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
       const tagsString = JSON.stringify(selectedTags);
-      Cookies.set('interestsCookie', tagsString, { expires: 7 }); // Expires in 7 days
+      Cookies.set('interestsCookie', tagsString, { expires: 7, path: '/' }); // Expires in 7 days
       console.log('Selected tags saved:', selectedTags);
 
       window.location.href = '/explore'; 
@@ -54,13 +63,13 @@ export default function Interest() {
         <h1 className = 'montserratStroke' >Pick your tags!</h1>
         <p >Select the event types you are interested in to get more accurate recommendations of events!</p>
         <div className="tag-container">
-            {TAGS.map((tag: Tag) => (
+            {categories.map((tag: Category) => (
               <button
-                key={tag}
+                key={tag.name}
                 className={`tag ${selectedTags.includes(tag) ? 'selected' : ''}`}
                 onClick={() => handleTagClick(tag)}
               >
-                {tag}
+                {tag.name} {tag.emoji}
               </button>
             ))}
           </div>

@@ -140,9 +140,9 @@ const Navbar: React.FC<{ isAuthenticated: boolean  }> = ({ isAuthenticated }) =>
                     </div>
                 </div>
                 <div style={styles.navItems}>
-                    <a href="/explore" style={{ ...styles.navItem, ...(isActive('/explore') ? styles.navItemActive : {}) }}>
+                    <a href="/interests" style={{ ...styles.navItem, ...(isActive('/interests') ? styles.navItemActive : {}) }}>
                         Explore
-                        {isActive('/explore') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
+                        {isActive('/interests') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
 
                     </a>
                     <a href="/about" style={{ ...styles.navItem, ...(isActive('/about') ? styles.navItemActive : {}) }}>

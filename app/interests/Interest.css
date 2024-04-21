@@ -61,7 +61,7 @@
 }
 
 .highlight {
-    color: #646161; /* Replace with the color you want for "three" */
+    color: #646161;
 }
 
 .tag {
@@ -70,7 +70,7 @@
     border: 1px solid #000;
     background-color: #fff;
     cursor: pointer;
-    border-radius: 70px; /* Rounded corners for tags */
+    border-radius: 70px;
     outline: none;
     font-family: "Montserrat", sans-serif;
     font-optical-sizing: auto;
@@ -132,7 +132,7 @@
 }
 
 .rotate180 {
-  transform: rotate(180deg); /* Rotates only the image */
+  transform: rotate(180deg);
   
 }
 .relativeContainer {
@@ -143,28 +143,27 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 3rem; /* Example fixed width */
+  width: 3rem;
   height: -4rem;
 }
 .middle div {
-  margin-right: 20px; /* Adds some space between the two divs, adjust as needed */
+  margin-right: 20px;
 }
 
 .imageContainer.movedImage {
   position: absolute;
   left: 6rem;
   top: 33rem;
-  /* Set a specific size for the image, if required */
   width: 177px;
   height: 177px;
 
 }
 
 p {
-  font-family: 'Inter', sans-serif; /* Specify the font family */
-  font-weight: 400; /* Regular weight is usually 400 */
-  font-size: 16px; /* Set the font size */
-  letter-spacing: normal; /* Default spacing is equivalent to 0% */
+  font-family: 'Inter', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  letter-spacing: normal;
   max-width: 500px;
   padding-bottom: 3rem;
   gap: 75px;
