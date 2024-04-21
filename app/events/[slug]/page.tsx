@@ -53,6 +53,8 @@ export default async function Event({ params }: { params: { slug: string } }) {
 
     const { eventData, organizerData, tagData } = await getData(params.slug);
 
+    console.log(organizerData);
+
     return (
         <div className = "min-h-screen h-fit px-[5%] bg-paper-bg bg-no-repeat bg-center bg-cover">
             
@@ -66,7 +68,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Organizer</td>
                             <td className = "pb-5 text-[#15009A] font-bold flex relative">
-                                <Link href = {`/organizers/${organizerData[0].name}`}>
+                                <Link href = {`/organizers/${organizerData[0].slug}`}>
                                     <Image
                                         src = "https://th-thumbnailer.cdn-si-edu.com/IxLk-Pyqergx4Zks2k7m2rqIEvA=/1072x720/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e8/e0/e8e0c712-dddc-42ae-ad7a-0452d5bd4be4/bat.jpg"
                                         alt = "bat"
@@ -77,7 +79,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
                                         style={{objectFit: "cover"}}
                                     />
                                 </Link>
-                                <Link href = "/organizers">
+                                <Link href = {`/organizers/${organizerData[0].slug}`}>
                                     {organizerData && organizerData.map((organizer, index) => (
                                         <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{organizer.name}</p>
                                     ))}</Link>
