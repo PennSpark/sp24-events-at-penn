@@ -3,11 +3,29 @@ import Image from "next/image";
 import ImageEvent from "@/app/(components)/events/imageevent";
 import { Event } from "@/app/lib/types";
 import { Montserrat } from "next/font/google";
+import { CSSProperties } from "react";
 
 const montserrat = Montserrat({
     subsets: ['latin'],
     variable: '--font-montserrat',
-})
+});
+
+const buttonStyles: CSSProperties = {
+    display: 'inline-flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#555',
+    color: 'white',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 'bold',
+    padding: '10px 20px',
+    fontSize: '1em',
+    textDecoration: 'none',
+    marginLeft: 'auto',
+}
 
 async function getData(slug: string) {
     const res = await fetch(`http://localhost:3000/api/organizers/${slug}`);
@@ -37,7 +55,7 @@ async function getData(slug: string) {
 
 export default async function Page({ params }: { params: { slug: string } }) {
     const { organizer, events } = await getData(params.slug);
-    const upcoming: Event[] = [];
+    const upcoming: Event[] = []; // TODO: sort by date
     const past: Event[] = [];
 
     events.forEach((event: Event) => (event.start_time.seconds*1000) < new Date().getSeconds() ? upcoming.push(event) : past.push(event));
@@ -47,7 +65,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <p className = "text-5xl font-extrabold pt-20">
                 {organizer.name}
             </p>
-            <div className = "inline-block lg:flex justify-between gap-4 place-content-center gap-x-20">
+            <div className = "inline-block lg:flex justify-start gap-x-60 place-content-center">
                 <div>
                     <table className="table-auto text-lg mt-5 max-w-[650px]">
                         <tbody>
@@ -71,14 +89,18 @@ export default async function Page({ params }: { params: { slug: string } }) {
                                 <tr>
                                     <td className = {`${montserrat.className} montserrat pr-5 align-top`}>
                                         {organizer.name}&apos;s next event is
-                                        <h2>{}</h2>
+                                        <h2>{upcoming[0].name}</h2>
+                                        <sub>{new Date(upcoming[0].start_time.seconds * 1000).toLocaleString("en-US")}</sub>
+                                        <button style={buttonStyles}>
+                                            SEE MORE
+                                        </button>
                                     </td>
-                                    <td>{organizer.events[0].id}</td>
+                                    <td>{upcoming[0].desc}</td>
                                 </tr>
                             </tbody>
                         </table>
                     )}
-                </div>
+            </div>
             <div>
                 <Image
                     src = {organizer.img}
@@ -87,27 +109,32 @@ export default async function Page({ params }: { params: { slug: string } }) {
                     height = {300}
                     style = {{borderRadius: "8px", objectFit: "contain"}}
                 />
+                {Object.entries(organizer.channels).map(([key, value]) => (
+                    <p className={`${montserrat.className} montserrat pr-5 align-top my-4`} key={key}>
+                        <a href={value}>{key}</a>
+                    </p>
+                ))}
             </div>
         </div>
         <div className = "my-16">
             <p className = "text-2xl font-bold">Upcoming Events</p>
             <div className = "overflow-x-scroll">
-                {upcoming.map((event, index) => 
+                {upcoming.length > 0 ? upcoming.map((event, index) => 
                     <div className = "max-w-80" key={index}>
                         <ImageEvent event={event} tall={false} />
                     </div>
-                )}
+                ) : <sub className = "text-gray-800">{organizer.name} has no upcoming events</sub>}
             </div>
         </div>
 
         <div className = "my-16">
             <p className = "text-2xl font-bold">Past Events</p>
             <div className = "overflow-x-scroll">
-                {past.map((event, index) =>
+                {past.length > 0 ? past.map((event, index) =>
                     <div className = "max-w-80" key={index}>
                         <ImageEvent event={event} tall={false} />
                     </div>
-                )}
+                ) : <sub className = "my-8">{organizer.name} has no past events</sub>}
             </div>
         </div>
     </div>
