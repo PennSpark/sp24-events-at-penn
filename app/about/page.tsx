@@ -23,7 +23,7 @@ export default function About() {
             <div className = "for-whom">
                 <h2 className = 'montserratStroke' >FOR WHOM?</h2>
                 <p>
-                Promos@Penn is designed for University of Pennsylvania students seeking promotional/exclusive events and for on-campus organizations to publicize their activities. 
+                SocialCalendar@Penn is designed for University of Pennsylvania students seeking promotional/exclusive events and for on-campus organizations to publicize their activities. 
 Your events deserve to be noticed!                </p>
             </div>
 

@@ -136,7 +136,6 @@ p{
     left: 50%;
     transform: translate(-60%);
     background: url('/images/artist.png');
-    overflow: hidden;
  }
 
  .about-rocket{

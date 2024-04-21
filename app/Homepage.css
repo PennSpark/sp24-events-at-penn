@@ -168,11 +168,12 @@ background: url('/images/rocket.png');
   padding-top: 15rem; 
 }
 .text-style {
-  font-size: 128px; 
+  font-size: 110px; 
   margin: 0;
 }
 .montserrat {
     font-family: "Montserrat", sans-serif;
+    font-size: 100px; 
     font-optical-sizing: auto;
     font-weight: 800;
     font-style: normal;
