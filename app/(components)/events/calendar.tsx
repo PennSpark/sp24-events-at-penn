@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import { format, startOfWeek, addDays, startOfMonth, endOfMonth, endOfWeek, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
-
-interface Event {
-    date: Date;
-    title: string;
-    color: string;
-}
+import { Event } from '@/app/lib/types';
+import Link from 'next/link';
 
 const calendarStyles = {
     calendar: {
@@ -83,31 +79,19 @@ const calendarStyles = {
     },
 };
 
-const Calendar: React.FC = () => {
+const colorPalette = [
+    '#bedbe3', '#a8bdc0', '#91a69f', '#778c85', '#6a7974','#c7dcd5','#c7dcd5',
+    '#9faaa4','#8e9689','#808277','#707265','#5f6153',
+    '#d2dfcd','#c1c3b5','#b1b3a5','#a29d8a','#928b78','#897c6c','#897c6c',
+    '#daddc8','#d0cab2','#d0cab2','#b5a58c','#b5a58c','#9e836e','#9e836e',
+    '#e4e1b8','#dccdac','#d3be9f','#cbac90','#c4a286','#bc9279','#bc9279',
+    '#eae2b3','#eae2b3','#e5c39d','#e4ba92','#dbaf88','#d8a27e','#d19573',
+    '#f4dfaa','#f6d8a2','#f8ce9c','#f8c495','#f7b988','#f9b083','#f9a87d'
+];
+
+const Calendar: React.FC<{ events?: Event[] }> = ({ events }) => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
-    const [events, setEvents] = useState<Event[]>(generateEvents());
-
-
-    function generateEvents(): Event[] {
-        const colorPalette = ['#bedbe3', '#a8bdc0', '#91a69f', '#778c85', '#6a7974','#c7dcd5','#c7dcd5',
-                                '#9faaa4','#8e9689','#808277','#707265','#5f6153',
-                                '#d2dfcd','#c1c3b5','#b1b3a5','#a29d8a','#928b78','#897c6c','#897c6c',
-                                '#daddc8','#d0cab2','#d0cab2','#b5a58c','#b5a58c','#9e836e','#9e836e',
-                                '#e4e1b8','#dccdac','#d3be9f','#cbac90','#c4a286','#bc9279','#bc9279',
-                                '#eae2b3','#eae2b3','#e5c39d','#e4ba92','#dbaf88','#d8a27e','#d19573',
-                                '#f4dfaa','#f6d8a2','#f8ce9c','#f8c495','#f7b988','#f9b083','#f9a87d'];
-
-        let generatedEvents: Event[] = [];
-        for (let i = 0; i < 10; i++) {
-            generatedEvents.push({
-                date: addDays(new Date(), i * 3),
-                title: `Event ${i + 1}`,
-                color: colorPalette[Math.floor(Math.random() * colorPalette.length)],
-            });
-        }
-        return generatedEvents;
-    }
 
     const renderHeader = () => {
         const dateFormat = "MMMM yyyy";
@@ -164,7 +148,7 @@ const Calendar: React.FC = () => {
                 const isToday = isSameDay(day, new Date());
                 const isDisabled = !isSameMonth(day, monthStart);
 
-                const dayEvents = events.filter(e => isSameDay(e.date, day));
+                const dayEvents = events ? events.filter(e => isSameDay(new Date(e.start_time.seconds * 1000), day)) : [];
 
                 days.push(
                     <div
@@ -182,10 +166,12 @@ const Calendar: React.FC = () => {
                                 key={index}
                                 style={{
                                     ...calendarStyles.event,
-                                    backgroundColor: event.color,
+                                    backgroundColor: colorPalette[Math.floor(Math.random() * colorPalette.length)],
                                 }}
                             >
-                                {event.title}
+                                <Link href={`/events/${event.slug}`}>
+                                    {event.name}
+                                </Link>
                             </div>
                         ))}
                     </div>

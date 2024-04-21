@@ -8,12 +8,13 @@ import CategoryFilter from './filter/categoryfilter';
 
 const Events: React.FC<{ events?: Event[] }> = ({ events }) => {
     const [viewMode, setViewMode] = useState<string>("grid");
+    
     return (
         <>
             <SearchEvents viewMode={viewMode} setViewMode={setViewMode} />
             <CategoryFilter />
             <div className="content-container">
-                {viewMode === 'grid' ? <Calendar /> : <ImageGrid events={events} />}
+                {viewMode === 'grid' ? <Calendar events={events} /> : <ImageGrid events={events} />}
             </div>
         </>
     );

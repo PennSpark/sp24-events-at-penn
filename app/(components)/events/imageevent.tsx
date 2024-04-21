@@ -1,6 +1,8 @@
+"use client"
 import Image from "next/image";
 import { Event } from "@/app/lib/types";
 import { CSSProperties } from "react";
+import Link from "next/link";
 
 const imageStyle: CSSProperties = {
     borderRadius: '10px',
@@ -23,22 +25,26 @@ const imageTextStyle: CSSProperties = {
 const containerStyle = (tall: boolean): CSSProperties => ({
     marginBottom: '1em',
     position: 'relative',
-    maxWidth: '1200px',
     height: tall ? '300px' : '250px',
 })
 
 const ImageEvent: React.FC<{ event: Event, tall: boolean }> = ({ event, tall }) => {
+    const date = new Date(event.start_time.seconds * 1000).toLocaleString("en-US").split(", ");
+
     return(
         <div style={containerStyle(tall)}
             onMouseEnter={e => (e.currentTarget.lastChild as HTMLElement).style.display = 'block'}
             onMouseLeave={e => (e.currentTarget.lastChild as HTMLElement).style.display = 'none'}
         >
-            <Image src={event.img} alt={event.name + " image"} style={imageStyle} fill />
-            <div style={imageTextStyle}>
-                Date: {event.start_time.seconds}<br />
-                Time: {event.start_time.seconds}<br />
-                Location: {event.location.longitude}
-            </div>
+            
+            <Link href={`/events/${event.slug}`}>
+                <Image src={event.img} alt={event.name + " image"} style={imageStyle} fill />
+            </Link>
+                <div style={imageTextStyle}>
+                    Date: {date[0]}<br />
+                    Time: {date[1]}<br />
+                    Location: {event.location.longitude}
+                </div>
         </div>
     )
 }

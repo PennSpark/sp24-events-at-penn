@@ -1,7 +1,13 @@
 import { Organizer } from "@/app/lib/types";
 import Image from "next/image";
+import ImageEvent from "@/app/(components)/events/imageevent";
 import { Event } from "@/app/lib/types";
-import Link from "next/link";
+import { Montserrat } from "next/font/google";
+
+const montserrat = Montserrat({
+    subsets: ['latin'],
+    variable: '--font-montserrat',
+})
 
 async function getData(slug: string) {
     const res = await fetch(`http://localhost:3000/api/organizers/${slug}`);
@@ -29,52 +35,41 @@ async function getData(slug: string) {
     };
 }
 
-const EventComponent: React.FC<{event: Event}> = ({ event }) => {
-    return (
-        <div>
-            <p>MAKE LESS UGLY PLSSS</p>
-            <h2>Event Name: {event.name}</h2>
-            <p>Description: {event.desc}</p>
-            <Link href={`/events/${event.slug}`}>
-                Event Details
-            </Link>
-        </div>
-    )
-}
-
-const images = Array(10).fill(0);
-
 export default async function Page({ params }: { params: { slug: string } }) {
     const { organizer, events } = await getData(params.slug);
+    const upcoming: Event[] = [];
+    const past: Event[] = [];
+
+    events.forEach((event: Event) => (event.start_time.seconds*1000) < new Date().getSeconds() ? upcoming.push(event) : past.push(event));
 
     return(
-        <div className = "min-h-screen h-fit px-24 bg-paper-bg bg-no-repeat bg-center bg-cover">
+        <div className = "min-h-screen h-fit px-[5%] bg-paper-bg bg-no-repeat bg-center bg-cover">
             <p className = "text-5xl font-extrabold pt-20">
                 {organizer.name}
             </p>
-            <div className = "grid grid-cols-[repeat(auto-fill,minmax(400px,1fr))] gap-4 place-content-center gap-x-20">
+            <div className = "inline-block lg:flex justify-between gap-4 place-content-center gap-x-20">
                 <div>
-                    <table className="table-auto text-lg mt-5 border-separate border-spacing-y-5">
+                    <table className="table-auto text-lg mt-5 max-w-[650px]">
                         <tbody>
                             <tr>
-                                <td className = "text-gray-700 pr-5 align-top">Categories</td>
-                                <td>FOOD</td>
+                                <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Categories</td>
+                                <td className = "pb-5">FOOD</td>
                             </tr>
                             <tr>
-                                <td className = "text-gray-700 pr-5 align-top">Bio</td>
-                                <td>{organizer.desc}</td>
+                                <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Bio</td>
+                                <td className = "pb-5">{organizer.desc}</td>
                             </tr>
                             <tr>
-                                <td className = "text-gray-700 pr-5 align-top">Events hosted</td>
-                                <td>{organizer.events.length}</td>
+                                <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Events hosted</td>
+                                <td className = "pb-5">{organizer.events.length}</td>
                             </tr>
                         </tbody>
                     </table>
-                    {organizer.events.length > 0 && (
+                    {upcoming.length > 0 && (
                         <table className="table-auto text-lg mt-5">
                             <tbody>
                                 <tr>
-                                    <td className = "text-gray-700 pr-5 align-top">
+                                    <td className = {`${montserrat.className} montserrat pr-5 align-top`}>
                                         {organizer.name}&apos;s next event is
                                         <h2>{}</h2>
                                     </td>
@@ -96,29 +91,24 @@ export default async function Page({ params }: { params: { slug: string } }) {
         </div>
         <div className = "my-16">
             <p className = "text-2xl font-bold">Upcoming Events</p>
-            
-            <div className = "flex gap-5 overflow-x-scroll my-8">
-                {events.map((event, index) => 
-                    <EventComponent key={index} event={event} />
+            <div className = "overflow-x-scroll">
+                {upcoming.map((event, index) => 
+                    <div className = "max-w-80" key={index}>
+                        <ImageEvent event={event} tall={false} />
+                    </div>
                 )}
             </div>
         </div>
 
         <div className = "my-16">
             <p className = "text-2xl font-bold">Past Events</p>
-            <div className = "flex gap-5 overflow-x-scroll my-8">
-                {images.map((img, index) => (
-                    <>
-                        <Image
-                            src = "https://cdn.pixabay.com/photo/2016/12/13/22/25/bird-1905255_1280.jpg"
-                            alt = "bird"
-                            height = {400}
-                            width = {400}   
-                        />
-                    </>
-                ))}
+            <div className = "overflow-x-scroll">
+                {past.map((event, index) =>
+                    <div className = "max-w-80" key={index}>
+                        <ImageEvent event={event} tall={false} />
+                    </div>
+                )}
             </div>
-            
         </div>
     </div>
     )

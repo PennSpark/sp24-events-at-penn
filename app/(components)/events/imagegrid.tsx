@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ImageEvent from './imageevent';
 import { Event } from '@/app/lib/types';
 import { GeoPoint, Timestamp } from '@firebase/firestore';
