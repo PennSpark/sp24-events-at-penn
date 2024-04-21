@@ -44,8 +44,8 @@ const ImageEvent: React.FC<{ event: Event }> = ({ event }) => {
              onMouseEnter={e => (e.currentTarget.lastChild as HTMLElement).style.display = 'block'}
              onMouseLeave={e => (e.currentTarget.lastChild as HTMLElement).style.display = 'none'}
         >
-            <Link href={`/events/${event.slug}`}>
-                <Image src={event.img} alt={event.name + " image"} style={imageStyle} layout='responsive' width={300} height={300 * (event.tall ? 1.2 : 1)} />
+            <Link href={`/events/${event.slug}`} prefetch>
+                <Image src={event.img} alt={event.name + " image"} style={imageStyle} layout='responsive' width={300} height={300} />
             </Link>
             <div style={imageTextStyle}>
                 {dateString}<br />

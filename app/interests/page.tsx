@@ -16,6 +16,8 @@ const categories: Category[] = [
   { name: 'Party', emoji: '🎉' },
   { name: 'Promos', emoji: '🎟️' },
   { name: 'Miscellaneous', emoji: '🔮' },
+  { name: 'Food', emoji: '🍔' },
+  { name: 'Sports', emoji: '🏀' },
 ];
 // const TAGS: Tag[] = ["Bakery 🥐", "Promotion 💵", "Boba 🧋", "Coffee Shop ☕️", "Restaurant 🥘", "Party 💃"];
 

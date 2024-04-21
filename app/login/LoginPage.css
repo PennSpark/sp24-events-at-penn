@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Dr+Sugiyama&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,800;1,800&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Dr+Sugiyama&family=Montserrat:ital,wght@0,800;1,800&display=swap');
+
+html,body{
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-image: url('/images/about_background.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: scroll;
+    height: auto;
+}
+
+.login-info { 
+    width: 600px;
+    text-align: left;
+    padding-top: 10rem; 
+    padding-bottom: 5rem; 
+    position:relative;
+    left: 50%;
+    transform: translate(-100%);
+   
+}
+
+h1{
+    margin-bottom: 1rem; 
+    font-size: 40px;
+}
+
+p{
+    font-size: 16px;
+    padding-bottom: 3rem; 
+}
+
+
+.montserratStroke {
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 800;
+    font-style: normal;
+
+}
+
+.login-artist{
+    position: absolute;
+    width: 1401px;
+    height: 1300px;
+    top: 0rem;
+    left: 50%;
+    transform: translate(-10%);
+    background: url('/images/artist.png');
+ }
+
+ .login-exclamation{
+    position: absolute;
+    width: 32px;
+    height: 48px;
+    top: 16rem;
+    left: 50%;
+    transform: translate(-550%);
+    background: url('/images/login_ex.png');
+ }
+
+ .login-loop{
+    position: absolute;
+    width: 42px;
+    height: 68px;
+    top: 20rem;
+    left: 50%;
+    transform: translate(-350%);
+    background: url('/images/login_loop.png');
+ }
+
+
+ /* css for form */
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    min-height: 100vh;
+    margin: 0 6rem;
+}
+
+
+.form-group {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+label {
+    position: absolute;
+    left: 5%;
+    top: 33%;
+    color: #999;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    
+}
+
+input {
+    width: 80%;
+    height: 70px;
+    padding: 5px 5px;
+    border-radius: 50px;
+    transition: border-color 0.3s;
+    
+}
+
+input:focus {
+    border-color: black;
+}
+
+input:focus + label,
+input:not(:placeholder-shown) + label {
+    top: -16px;
+    font-size: 12px;
+    color: black;
+    border-color: black;
+}
+
+ button {
+    color: white;
+    background-color: #4D4D4D;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: background-color 0.3s;
+    font-size: 20px;
+}
+
+button:hover {
+    color: black;
+    background-color: #EAFF01;
+} 

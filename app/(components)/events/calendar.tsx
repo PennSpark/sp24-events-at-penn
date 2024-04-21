@@ -169,7 +169,7 @@ const Calendar: React.FC<{ events?: Event[] }> = ({ events }) => {
                                     backgroundColor: colorPalette[Math.floor(Math.random() * colorPalette.length)],
                                 }}
                             >
-                                <Link href={`/events/${event.slug}`}>
+                                <Link href={`/events/${event.slug}`} prefetch>
                                     {event.name}
                                 </Link>
                             </div>

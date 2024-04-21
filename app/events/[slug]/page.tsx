@@ -16,7 +16,7 @@ async function getData(slug: string) {
     const json = await res.json();
     if(!res.ok) {
         console.log(`Failed to get event data for ${slug}`);
-        return { eventData: null}
+        return { eventData: null }
     }
 
     const toReturn = json.body;
@@ -66,7 +66,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Organizer</td>
                             <td className = "pb-5 text-[#15009A] font-bold flex relative">
-                                <Link href = "/organizers/organizer">
+                                <Link href = {`/organizers/${organizerData[0].name}`}>
                                     <Image
                                         src = "https://th-thumbnailer.cdn-si-edu.com/IxLk-Pyqergx4Zks2k7m2rqIEvA=/1072x720/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e8/e0/e8e0c712-dddc-42ae-ad7a-0452d5bd4be4/bat.jpg"
                                         alt = "bat"
@@ -85,7 +85,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Time</td>
-                            <td className = "pb-5">{eventData.start_time.seconds}</td>
+                            <td className = "pb-5">{new Date(eventData.start_time.seconds * 1000).toLocaleString("en-US")}</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Tag(s)</td>
@@ -97,7 +97,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Address</td>
-                            <td className = "pb-5">[{eventData.location.latitude}, {eventData.location.longitude}]</td>
+                            <td className = "pb-5">{eventData.location.name}</td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Registration</td>
