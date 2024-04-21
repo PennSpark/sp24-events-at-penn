@@ -8,106 +8,105 @@ interface Props {
     setViewMode: React.Dispatch<React.SetStateAction<string>>;
 }
 
+const toggleButtonStyle: React.CSSProperties = {
+    border: 'none',
+    borderRadius: '20px',
+    display: 'flex',
+    alignItems: 'center',
+    padding: '6px 12px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s',
+    fontSize: '0.9em',
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 'bold',
+};
+
+const containerStyle: React.CSSProperties = {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    padding: '0px 35px 20px 25px',
+    borderRadius: '4px',
+    backgroundColor: 'transparent',
+};
+
+const leftGroupStyle: React.CSSProperties = {
+    display: 'flex',
+    flex: '1',
+    alignItems: 'center',
+};
+
+const inputGroupStyle: React.CSSProperties = {
+    display: 'flex',
+    alignItems: 'center',
+    marginRight: '30px'
+};
+
+const inputStyle: React.CSSProperties = {
+    border: '0px solid #ccc',
+    padding: '10px 30px 10px 10px',
+    borderRadius: '4px',
+    width: '100%',
+    maxWidth: '200px',
+    background: 'white',
+    color: '#555',
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 'bold',
+    outline: 'none',
+    flex: '1'
+};
+
+const iconStyle: React.CSSProperties = {
+    marginLeft: '-25px',
+    width:'20px',
+    height:'20px',
+    cursor: 'pointer'
+};
+
+const dropdownStyle: React.CSSProperties = {
+    border: '0px solid #ccc',
+    padding: '10px 15px',
+    borderRadius: '4px',
+    background: 'white',
+    color: '#555',
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 'bold',
+    outline: 'none',
+    cursor: 'pointer',
+    marginLeft: '30px'
+};
+const toggleActiveStyle: React.CSSProperties = {
+    ...toggleButtonStyle,
+    backgroundColor: 'white',
+    color: 'black',
+    justifyContent: 'flex-start',
+};
+
+const toggleInactiveStyle: React.CSSProperties = {
+    ...toggleButtonStyle,
+    backgroundColor: 'lightgray',
+    color: 'black',
+    justifyContent: 'flex-end',
+};
+
+
+const toggleContainerStyle: React.CSSProperties = {
+    display: 'flex',
+    background: 'lightgray',
+    borderRadius: '20px',
+    padding: '2px',
+    height: '28px',
+    fontFamily: "'Montserrat', sans-serif",
+    fontWeight: 'bold',
+    cursor: 'pointer',
+    color: '#fff',
+};
+
 const SearchEvents: React.FC<Props> = ({ viewMode, setViewMode }) => {
     const [searchQuery, setSearchQuery] = useState('');
     const [ordering, setOrdering] = useState('');
     const [time, setTime] = useState('');
     const [location, setLocation] = useState('');
-    const toggleButtonStyle: React.CSSProperties = {
-        border: 'none',
-        borderRadius: '20px',
-        display: 'flex',
-        alignItems: 'center',
-        padding: '6px 12px',
-        cursor: 'pointer',
-        transition: 'background-color 0.3s',
-        fontSize: '0.9em',
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 'bold',
-    };
-
-    const containerStyle: React.CSSProperties = {
-        display: 'flex',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        padding: '0px 35px 20px 25px',
-        borderRadius: '4px',
-        backgroundColor: 'transparent',
-    };
-
-    const leftGroupStyle: React.CSSProperties = {
-        display: 'flex',
-        flex: '1',
-        alignItems: 'center',
-    };
-
-    const inputGroupStyle: React.CSSProperties = {
-        display: 'flex',
-        alignItems: 'center',
-        marginRight: '30px'
-    };
-
-    const inputStyle: React.CSSProperties = {
-        border: '0px solid #ccc',
-        padding: '10px 30px 10px 10px',
-        borderRadius: '4px',
-        width: '100%',
-        maxWidth: '200px',
-        background: 'white',
-        color: '#555',
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 'bold',
-        outline: 'none',
-        flex: '1'
-    };
-
-    const iconStyle: React.CSSProperties = {
-        marginLeft: '-25px',
-        width:'20px',
-        height:'20px',
-        cursor: 'pointer'
-    };
-
-    const dropdownStyle: React.CSSProperties = {
-        border: '0px solid #ccc',
-        padding: '10px 15px',
-        borderRadius: '4px',
-        background: 'white',
-        color: '#555',
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 'bold',
-        outline: 'none',
-        cursor: 'pointer',
-        marginLeft: '30px'
-    };
-    const toggleActiveStyle: React.CSSProperties = {
-        ...toggleButtonStyle,
-        backgroundColor: 'white',
-        color: 'black',
-        justifyContent: 'flex-start',
-    };
-
-    const toggleInactiveStyle: React.CSSProperties = {
-        ...toggleButtonStyle,
-        backgroundColor: 'lightgray',
-        color: 'black',
-        justifyContent: 'flex-end',
-    };
-
-
-    const toggleContainerStyle: React.CSSProperties = {
-        display: 'flex',
-        background: 'lightgray',
-        borderRadius: '20px',
-        padding: '2px',
-        height: '28px',
-        fontFamily: "'Montserrat', sans-serif",
-        fontWeight: 'bold',
-        cursor: 'pointer',
-        color: '#fff',
-    };
-
-
 
     return (
         <div style={containerStyle}>
