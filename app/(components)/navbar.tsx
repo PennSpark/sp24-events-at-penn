@@ -7,6 +7,7 @@ import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
 import Head from "next/head";
 import { usePathname } from 'next/navigation'
+import Link from 'next/link';
 
 interface Styles {
     [key: string]: React.CSSProperties;
@@ -118,11 +119,6 @@ const styles: Styles = {
 };
 
 const Navbar: React.FC<{ isAuthenticated: boolean  }> = ({ isAuthenticated }) => {
-    const handleLogin = () => {
-        // setIsAuthenticated(true);
-        console.log("handle login");
-    };
-
     const pathname = usePathname();
     const isActive = (path: string) => path === pathname;
 
@@ -162,7 +158,7 @@ const Navbar: React.FC<{ isAuthenticated: boolean  }> = ({ isAuthenticated }) =>
                             </div>
                         </a>
                     ) : (
-                        <button onClick={handleLogin} style={styles.button}>Club Login</button>
+                        <button style={styles.button}><Link href="/login">Club Login</Link></button>
                     )}
                 </div>
             </nav>
