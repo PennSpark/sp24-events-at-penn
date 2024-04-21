@@ -6,18 +6,17 @@ import ImageGrid from './imagegrid';
 import SearchEvents from './filter/searchevents';
 import CategoryFilter from './filter/categoryfilter';
 import { isToday, isThisWeek, isThisMonth, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
-
 const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
     const [viewMode, setViewMode] = useState<string>("grid");
     const [searchQuery, setSearchQuery] = useState('');
     const [ordering, setOrdering] = useState('');
     const [time, setTime] = useState('');
     const [location, setLocation] = useState('');
+    const [activeCategories, setActiveCategories] = useState<string[]>([]);
 
     const filteredEvents = useMemo(() => {
         let filtered = initialEvents?.filter(event => {
             let includeEvent = event.name.toLowerCase().includes(searchQuery.toLowerCase());
-
             const eventStartDate = new Date(event.start_time.seconds * 1000);
 
             switch (time) {
@@ -32,6 +31,10 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
                     break;
                 default:
                     break;
+            }
+
+            if (activeCategories.length > 0 && event.tags) {
+                includeEvent = includeEvent && event.tags && event.tags.length > 0 && activeCategories.some(category => event.tags.includes(category));
             }
 
             return includeEvent;
@@ -51,24 +54,27 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
                 }
                 break;
             default:
-                // Possibly sort by date or keep as is
                 break;
         }
 
         return filtered;
-    }, [initialEvents, searchQuery, location, time, ordering]);
+    }, [initialEvents, searchQuery, location, time, ordering, activeCategories]);
 
     return (
         <>
             <SearchEvents
                 viewMode={viewMode}
                 setViewMode={setViewMode}
+                searchQuery={searchQuery}
                 setSearchQuery={setSearchQuery}
+                ordering={ordering}
                 setOrdering={setOrdering}
+                time={time}
                 setTime={setTime}
+                location={location}
                 setLocation={setLocation}
             />
-            <CategoryFilter />
+            <CategoryFilter setActiveCategories={setActiveCategories} />
             <div className="content-container">
                 {viewMode === 'grid' ? <ImageGrid events={filteredEvents} /> : <Calendar events={filteredEvents} />}
             </div>

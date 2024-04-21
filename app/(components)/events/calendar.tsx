@@ -8,10 +8,9 @@ const calendarStyles = {
         margin: '50px auto',
         padding: '0 20px',
         background: 'transparent',
-        minHeight: '1200000000px',
+        minHeight: 'auto',
         fontFamily: 'Inter, sans-serif',
         fontWeight: 'bold',
-        height: 'auto',
     },
     header: {
         display: 'flex',

@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { Category } from '../../../lib/types';
 import CategoryButton from "./categorybutton";
 
-const CategoryFilter: React.FC = () => {
-    const [activeCategories, setActiveCategories] = useState<string[]>([]);
+const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => void }> = ({ setActiveCategories }) => {
+    const [activeCategories, setActiveCategoriesLocal] = useState<string[]>([]);
 
     const categories: Category[] = [
         { name: 'Bakery', emoji: '🥐' },
@@ -24,14 +24,14 @@ const CategoryFilter: React.FC = () => {
     };
 
     const toggleCategory = (category: string): void => {
-        const isAlreadyActive = activeCategories.includes(category);
+        const updatedCategories = activeCategories.includes(category)
+            ? activeCategories.filter(c => c !== category)
+            : [...activeCategories, category];
 
-        if (isAlreadyActive) {
-            setActiveCategories(activeCategories.filter(c => c !== category));
-        } else {
-            setActiveCategories([...activeCategories, category]);
-        }
+        setActiveCategoriesLocal(updatedCategories);
+        setActiveCategories(updatedCategories.map(cat => cat.split(' ')[0]));
     };
+
 
     return (
         <div style={containerStyle}>

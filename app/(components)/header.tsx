@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from "next/head";
+import Link from "next/link";
 
 
 interface HeaderStyles {
@@ -90,9 +91,12 @@ const Header: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => 
                     </div>
                     <Image src={benImage} alt="ben" style={headerStyles.ben} />
                     {isAuthenticated && (
-                        <button style={headerStyles.button}>
-                            <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} /> ADD EVENT
-                        </button>
+                        <Link href="/create-event" style={headerStyles.button}>
+                            <button>
+                                <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} /> ADD EVENT
+                            </button>
+
+                        </Link>
                     )}
                 </div>
             </div>
