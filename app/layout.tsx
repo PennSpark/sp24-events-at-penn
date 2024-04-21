@@ -17,7 +17,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-    const isAuthenticated = true; // TODO: 
+    const isAuthenticated = false; // TODO: 
     
     return (
     <html lang="en">
