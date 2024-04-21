@@ -79,8 +79,6 @@ const Header: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => 
                 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
             </Head>
             <div style={headerStyles.container}>
-
-
                 <div style={headerStyles.headerFlex}>
                     <div>
                         <div style={headerStyles.headerFlex}>
@@ -91,7 +89,7 @@ const Header: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => 
                     </div>
                     <Image src={benImage} alt="ben" style={headerStyles.ben} />
                     {isAuthenticated && (
-                        <Link href="/create-event" style={headerStyles.button}>
+                        <Link href="/login" style={headerStyles.button}>
                             <button>
                                 <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} /> ADD EVENT
                             </button>

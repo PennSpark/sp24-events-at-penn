@@ -13,7 +13,12 @@ async function getData() {
 }
 
 export default async function Explore() {
-    const events = await (await getData()).body;
+    const events = (await (await getData()).body).map(event => {
+        return {
+            ...event,
+            tags: event.tags.map(tag => tag._key.path.segments.pop()),
+        }
+    });
 
     return (
         <div className="explore">

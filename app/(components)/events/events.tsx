@@ -6,6 +6,7 @@ import ImageGrid from './imagegrid';
 import SearchEvents from './filter/searchevents';
 import CategoryFilter from './filter/categoryfilter';
 import { isToday, isThisWeek, isThisMonth, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
+
 const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
     const [viewMode, setViewMode] = useState<string>("grid");
     const [searchQuery, setSearchQuery] = useState('');

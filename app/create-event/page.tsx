@@ -6,6 +6,9 @@ import rightArrow from '../../public/images/right_arrow.png';
 import "../create-event/CreateEvent.css";
 import "../globals.css";
 import ImageUploader from '../(components)/imageuploader';
+import { useRouter } from 'next/router';
+import { useAuthContext } from '../(components)/auth/authcontext';
+import { Category } from '../lib/types';
 
 const selected = { backgroundColor: "yellow" };
 const pages = ['details-1', 'details-2', 'visuals-1', 'visuals-2', 'preview'];
@@ -24,6 +27,17 @@ interface EventProfile {
   poster: any;
 }
 
+const categories: Category[] = [
+  { name: 'Bakery', emoji: '🥐' },
+  { name: 'Coffee', emoji: '☕' },
+  { name: 'Boba', emoji: '🧋' },
+  { name: 'Restaurant', emoji: '🍲' },
+  { name: 'Party', emoji: '🎉' },
+  { name: 'Promos', emoji: '🎟️' },
+  { name: 'Miscellaneous', emoji: '🔮' },
+  { name: 'Food', emoji: '🍔' },
+  { name: 'Sports', emoji: '🏀' },
+];
 
 //TODO
 function Preview({ eventPacket }: { eventPacket: EventProfile }) {
@@ -60,9 +74,9 @@ function InformationForm({ eventPacket, setEventPacket }: { eventPacket: EventPr
       <input className='single-input' type='text' value={eventPacket.eventName} onChange={(e) => setEventPacket({ ...eventPacket, eventName: e.target.value })} placeholder='Event Name'></input>
       <select className={`single-input ${eventPacket.eventType == "" ? "text-[#838383]" : ""}`} value={eventPacket.eventType} onChange={(e) => setEventPacket({ ...eventPacket, eventType: e.target.value })}>
         <option disabled className='first-option' value="" >Event Type</option>
-        <option value="Lorem">Lorem</option>
-        <option value="Lorem">lorem</option>
-        <option value="Lorem">lorem</option>
+        {categories.map(category => 
+          <option key={category.name} value={category.name}>{category.name} {category.emoji}</option>
+        )}
       </select>
       <select className={`single-input ${eventPacket.eventLocation == "" ? "text-[#838383]" : ""}`} value={eventPacket.eventLocation} onChange={(e) => setEventPacket({ ...eventPacket, eventLocation: e.target.value })}>
         <option disabled className='first-option' value="">Location</option>
@@ -153,6 +167,8 @@ export default function CreateEvent() {
   useEffect(() => {
     setPage(pages[pageNumber]);
   }, [pageNumber]);
+
+
 
   return (
     <div className='w-screen h-screen backdrop'>
