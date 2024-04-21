@@ -11,7 +11,7 @@ export default function Home() {
                 <div className = "center-container">
                     
                 <div className = "title">
-                    <span className="text-style montserrat"> Promos </span> 
+                    <span className="text-style montserrat"> SocialCalendar </span>
                     <span className="text-style dr-sugiyama-regular"> @ </span> 
                     <span className="text-style montserratStroke">Penn</span>
                 </div>

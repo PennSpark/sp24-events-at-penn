@@ -28,6 +28,9 @@ const placeholder: Event = {
 }
 
 const ImageGrid: React.FC<{ events?: Event[] }> = ({ events }) => {
+    if (!events || events.length === 0) {
+        return <div style={{ textAlign: 'center', marginTop: '20px' }}>No event found.</div>;
+    }
 
     return (
         <div style={imageGrid}>

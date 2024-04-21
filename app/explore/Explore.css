@@ -1,0 +1,10 @@
+html,body{
+    max-width: 100%;
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-image: url('/images/about_background.png');
+    background-size: cover;
+    background-position: center top;
+    background-attachment: scroll;
+    height: auto;
+}
