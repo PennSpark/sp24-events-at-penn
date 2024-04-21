@@ -1,27 +1,28 @@
-"use client";
-import React, { useState } from 'react';
-import { BrowserRouter as Router } from "react-router-dom";
-import SearchEvents from "./../(components)/searchevents";
-import CategoryFilter from "./../(components)/categoryfilter";
-import ImageGrid from "./../(components)/imagegrid";
-import Calendar from "./../calendar/calendar";
+import React, { Suspense } from 'react';
 import Header from '../(components)/header';
+import Events from '../(components)/events/events';
 
-function App() {
-    const [viewMode, setViewMode] = useState<string>("grid");
+async function getData() {
+    const res = await fetch(`http://localhost:3000/api/events`);
+
+    if(!res.ok) {
+        return { events: [] };
+    }
+
+    return res.json();
+}
+
+export default async function Explore() {
+    const events = await (await getData()).body;
 
     return (
         <div className="App">
             <Header isAuthenticated={true} />
             <div>
-                <SearchEvents viewMode={viewMode} setViewMode={setViewMode} />
-                <CategoryFilter />
-                <div className="content-container">
-                    {viewMode === 'grid' ? <Calendar /> : <ImageGrid />}
-                </div>
+                <Suspense fallback={<Events />}>
+                    <Events events={events} />
+                </Suspense>
             </div>
         </div>
     );
 }
-
-export default App;

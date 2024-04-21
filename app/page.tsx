@@ -1,11 +1,9 @@
 import './Homepage.css';
 
-
 export default function Home() {
 
 
   return (
- 
     <>
         <div className="Home" >
             <div>
@@ -31,9 +29,6 @@ export default function Home() {
                 <div className="explore-exclamation"></div>
                 <div className="explore-scribble"></div>
                 <div className="explore-underline"></div>
-
-        
-
                 </div>
             </div>
     </div>

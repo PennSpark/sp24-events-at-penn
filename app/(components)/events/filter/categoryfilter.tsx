@@ -1,5 +1,6 @@
+"use client"
 import React, { useState } from 'react';
-import { Category } from '../lib/types';
+import { Category } from '../../../lib/types';
 import CategoryButton from "./categorybutton";
 
 const CategoryFilter: React.FC = () => {
