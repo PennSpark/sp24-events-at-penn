@@ -45,7 +45,6 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
         setActiveCategories(updatedCategories.map(cat => cat.split(' ')[0]));
     };
 
-
     return (
         <div style={containerStyle}>
             {categories.map(category => {
