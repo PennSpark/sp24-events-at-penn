@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { format, startOfWeek, addDays, startOfMonth, endOfMonth, endOfWeek, isSameMonth, isSameDay, addMonths, subMonths } from 'date-fns';
 import { Event } from '@/app/lib/types';
 import Link from 'next/link';
-
+import circleImage from '../../images/circle.png'
+import Image from 'next/image'
 const calendarStyles = {
     calendar: {
         margin: '50px auto',
@@ -47,6 +48,14 @@ const calendarStyles = {
         justifyContent: 'flex-start',
         backgroundColor: 'white',
         borderRadius: '10px',
+    },
+    imageStyle: {
+        position: 'absolute',
+        top: '-7px',
+        left: '-8px',
+        width: '30%',
+        height: 'auto',
+        zIndex: 10,
     },
     number: {
         alignSelf: 'flex-start',
@@ -154,12 +163,14 @@ const Calendar: React.FC<{ events?: Event[] }> = ({ events }) => {
                     <div
                         style={{
                             ...calendarStyles.cell,
+                            position: 'relative',
                             ...(isDisabled ? calendarStyles.disabled : {}),
                             ...(isToday ? calendarStyles.today : {}),
                         }}
                         key={day.toString()}
                         onClick={() => onDateClick(cloneDay)}
                     >
+                        {isToday && <Image src={circleImage} style={calendarStyles.imageStyle} alt="circle" />}
                         <span style={calendarStyles.number}>{formattedDate}</span>
                         {dayEvents.map((event, index) => (
                             <div
@@ -169,7 +180,7 @@ const Calendar: React.FC<{ events?: Event[] }> = ({ events }) => {
                                     backgroundColor: colorPalette[Math.floor(Math.random() * colorPalette.length)],
                                 }}
                             >
-                                <Link href={`/events/${event.slug}`} prefetch>
+                                <Link href={`/events/${event.slug}`} prefetch={false}>
                                     {event.name}
                                 </Link>
                             </div>
@@ -188,6 +199,7 @@ const Calendar: React.FC<{ events?: Event[] }> = ({ events }) => {
 
     return (
         <div>
+
             <div style={calendarStyles.calendar}>
                 {renderHeader()}
                 {renderDays()}
