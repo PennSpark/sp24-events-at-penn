@@ -1,13 +1,10 @@
-"use client"
 import React, { useState, useEffect } from 'react';
 import { Category } from '../../../lib/types';
 import CategoryButton from "./categorybutton";
 import Cookies from 'js-cookie';
 
-
 const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => void }> = ({ setActiveCategories }) => {
     const [activeCategories, setActiveCategoriesLocal] = useState<string[]>([]);
-
     // useEffect(() => {
     //     const cookie = Cookies.get('interestsCookie');
     //     if (cookie) {
@@ -19,6 +16,8 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
     // }, [setActiveCategories]);
 
     const categories: Category[] = [
+        { name: 'Food', emoji: '🍔' },
+        { name: 'Sports', emoji: '🏀' },
         { name: 'Bakery', emoji: '🥐' },
         { name: 'Coffee', emoji: '☕' },
         { name: 'Boba', emoji: '🧋' },
@@ -26,8 +25,6 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
         { name: 'Party', emoji: '🎉' },
         { name: 'Promos', emoji: '🎟️' },
         { name: 'Miscellaneous', emoji: '🔮' },
-        { name: 'food', emoji: '🍔' },
-        { name: 'sports', emoji: '🏀' },
 
     ];
 
@@ -38,23 +35,26 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
         padding: '25px',
     };
 
+    const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+
     const toggleCategory = (category: string): void => {
-        const updatedCategories = activeCategories.includes(category)
-            ? activeCategories.filter(c => c !== category)
-            : [...activeCategories, category];
+        const categoryLowerCase = category.toLowerCase();
+        const updatedCategories = activeCategories.includes(categoryLowerCase)
+            ? activeCategories.filter(c => c !== categoryLowerCase)
+            : [...activeCategories, categoryLowerCase];
 
         setActiveCategoriesLocal(updatedCategories);
-        setActiveCategories(updatedCategories.map(cat => cat.split(' ')[0]));
+        setActiveCategories(updatedCategories);
     };
 
     return (
         <div style={containerStyle}>
             {categories.map(category => {
-                const isActive = activeCategories.includes(category.name);
+                const isActive = activeCategories.includes(category.name.toLowerCase());
                 return (
                     <CategoryButton
                         key={category.name}
-                        category={category}
+                        category={{ ...category, name: capitalizeFirstLetter(category.name) }}
                         isActive={isActive}
                         onClick={() => toggleCategory(category.name)}
                     />
