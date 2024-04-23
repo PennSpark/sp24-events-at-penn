@@ -168,20 +168,22 @@ background: url('/images/rocket.png');
   padding-top: 15rem; 
 }
 .text-style {
-  font-size: 128px; 
+  font-size: 110px; 
   margin: 0;
 }
 .montserrat {
     font-family: "Montserrat", sans-serif;
+    font-size: 100px; 
     font-optical-sizing: auto;
     font-weight: 800;
     font-style: normal;
-    color: #ededf1;
+    color: #f3f3f3;
+    opacity: 0.3;
     text-shadow:
-        -1px -1px 0 #000,  
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
+        -2px -2px 0 #000,  
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000;
   
 }
 
@@ -241,6 +243,8 @@ background: url('/images/rocket.png');
   justify-content: center;
   height : 100vh;
   margin: 0 auto;
+  margin-top: -7rem;
+  overflow: hidden;
 }
 
 

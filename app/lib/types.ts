@@ -3,7 +3,10 @@ import { DocumentReference, GeoPoint, Timestamp } from "firebase/firestore";
 export type Event = {
     slug: string;
     name: string;
-    location: GeoPoint;
+    location: {
+        geopoint: GeoPoint;
+        name: string;
+    };
     desc: string;
     url?: string;
     img: string;
