@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Navbar isAuthenticated={isAuthenticated} />
-        {children}
+        <main>{children}</main>
       </body>
     </html>
   );

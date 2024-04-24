@@ -1,10 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Category } from '../../../lib/types';
 import CategoryButton from "./categorybutton";
-import Cookies from 'js-cookie';
+import TagList from './tags'
+
+interface Category {
+    name: string;
+    emoji: string;
+}
 
 const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => void }> = ({ setActiveCategories }) => {
     const [activeCategories, setActiveCategoriesLocal] = useState<string[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const onTagsFetched = (fetchedTags: Category[]) => {
+        setCategories(fetchedTags);
+    };
     // useEffect(() => {
     //     const cookie = Cookies.get('interestsCookie');
     //     if (cookie) {
@@ -14,7 +22,7 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
     //         setActiveCategoriesLocal(categories.map((cat: { name: String }) => cat.name));
     //     }
     // }, [setActiveCategories]);
-
+/*
     const categories: Category[] = [
         { name: 'Food', emoji: '🍔' },
         { name: 'Sports', emoji: '🏀' },
@@ -27,6 +35,7 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
         { name: 'Miscellaneous', emoji: '🔮' },
 
     ];
+*/
 
     const containerStyle: React.CSSProperties = {
         display: 'flex',
@@ -34,6 +43,8 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
         gap: '10px',
         padding: '25px',
     };
+
+
 
     const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
 
@@ -49,6 +60,8 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
 
     return (
         <div style={containerStyle}>
+            <TagList onTagsFetched={onTagsFetched} />
+
             {categories.map(category => {
                 const isActive = activeCategories.includes(category.name.toLowerCase());
                 return (

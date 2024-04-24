@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from "next/head";
 import Link from "next/link";
 
-
 interface HeaderStyles {
     container: React.CSSProperties;
     headerFlex: React.CSSProperties;
@@ -72,12 +71,6 @@ const headerStyles: HeaderStyles = {
 const Header: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => {
     return (
         <div>
-
-            <Head>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-            </Head>
             <div style={headerStyles.container}>
                 <div style={headerStyles.headerFlex}>
                     <div>

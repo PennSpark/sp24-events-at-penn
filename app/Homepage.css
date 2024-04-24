@@ -4,10 +4,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Dr+Sugiyama&family=Montserrat:ital,wght@0,800;1,800&display=swap');
 
-
-
-
-
  .explore-exclamation{
 position: absolute;
 width: 28px;
@@ -257,9 +253,13 @@ html,body{
   background-position: center top;
   background-attachment: scroll;
   height: auto;
+    overflow-y: auto;
 }
 
 
+.Home {
+    padding-top: 100px;
+}
 
 .Home-logo {
   height: 40vmin;

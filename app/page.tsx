@@ -1,13 +1,10 @@
 import './Homepage.css';
 
 export default function Home() {
-
-
   return (
     <>
         <div className="Home" >
             <div>
-                {/* <NavBar/> */}
                 <div className = "center-container">
                     
                 <div className = "title">

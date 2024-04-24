@@ -26,7 +26,11 @@ const styles: Styles = {
         alignItems: 'center',
         padding: '20px',
         position: 'relative',
-        backgroundColor:'transparent'
+        top: 0,
+        left: 0,
+        right: 0,
+        backgroundColor:'transparent',
+        zIndex: 1000
     },
     logoContainer: {
         fontFamily: "'Montserrat', sans-serif",
