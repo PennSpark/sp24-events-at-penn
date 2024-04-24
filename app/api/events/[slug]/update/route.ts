@@ -5,11 +5,19 @@ import { NextRequest } from "next/server";
 const db = getFirestore(app);
 
 export async function POST(request: NextRequest, { params }: { params: { slug: string } }) {
-
+    const req = request.nextUrl.searchParams;
     try {
         const docRef = doc(db, "events", params.slug);
-        
-        const req = request.nextUrl.searchParams;
+
+        const tagsRef: any[] = [];
+        req.get("tags")?.split(",").map((tag, index) => {
+            tagsRef.push(doc(db, "tags", tag));
+        })
+
+        const organizersRef: any[] = [];
+        req.get("organizers")?.split(",").map((organizer, index) => {
+            organizersRef.push(doc(db, "organizers", organizer));
+        })
 
         let docObj = {
             slug: req.get("slug"),
@@ -21,8 +29,8 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
             desc: req.get("desc"),
             url: req.get("url"),
             img: req.get("img"),
-            // tags: req.get("tags")?.split(","), // make array
-            // organizers: req.get("organizers")?.split(","),
+            tags: tagsRef.length ? tagsRef : [], // make array
+            organizers: organizersRef.length ? organizersRef : [],
             views: Number(req.get("views")),
             price: Number(req.get("price")),
             max_occupancy: Number(req.get("max_occupancy")),
@@ -43,7 +51,7 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
     } catch (error) {
         return Response.json({
             status: 400,
-            body: `Error updating event '${params.slug}'`,
+            body: `Error updating event ${params.slug}`,
             e: error
         });
     }

@@ -9,7 +9,7 @@ const montserrat = Montserrat({
 
 const imageGallery: string[] = [];
 const relevantEvents = Array(6).fill(0);
-export const revalidate = 14400;
+export const revalidate = 7200;
 
 async function getData(slug: string) {
     const res = await fetch(`http://localhost:3000/api/events/${slug}`, { next: { revalidate: 10 } });
