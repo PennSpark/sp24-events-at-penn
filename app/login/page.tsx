@@ -1,25 +1,19 @@
 'use client'
 import { useState } from 'react';
 import './LoginPage.css';
-
+import { auth } from '../lib/firebase';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Page() {
-
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSubmit = async (username: string, password: string) => {
-        await fetch("/api/authentication/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                email: username,
-                password: password,
-            })
-        });
-        
+    const onSubmit = async (email: string, password: string) => {
+        try {
+            await signInWithEmailAndPassword(auth, email, password);
+        } catch(error) {
+            console.error('Error logging in:', error);
+        }
     }
 
     return(
@@ -32,7 +26,6 @@ export default function Page() {
                     Start advertising your events on SocialCalendar@Penn!                
                 </p>
 
-               
                 <form>
                     <div className="form-group">
                         <input

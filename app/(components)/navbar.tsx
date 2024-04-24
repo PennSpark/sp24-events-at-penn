@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ovalImage from '../images/oval.png';
 import sparkImage from '../images/spark.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +9,8 @@ import Head from "next/head";
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 import './Components.css'
+import { User, onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../lib/firebase';
 interface Styles {
     [key: string]: React.CSSProperties;
 }
@@ -122,9 +124,21 @@ const styles: Styles = {
     },
 };
 
-const Navbar: React.FC<{ isAuthenticated: boolean  }> = ({ isAuthenticated }) => {
+const Navbar: React.FC = () => {
     const pathname = usePathname();
     const isActive = (path: string) => path === pathname;
+
+    const [ user, setUser ] = useState<User | null>(null);
+
+    onAuthStateChanged(auth, (authUser) => {
+        if (authUser) {
+            setUser(authUser);
+        } else {
+            setUser(null);
+        }
+    });
+
+    const isAuthenticated = user !== null;
 
     return (
         <div className="App">
@@ -158,7 +172,7 @@ const Navbar: React.FC<{ isAuthenticated: boolean  }> = ({ isAuthenticated }) =>
                         <a href="/profile" style={{ ...styles.navItem, ...(isActive('/profile') ? styles.navItemActive : {}) }}>
                             <div style={styles.iconSpacing}>
                                 <FontAwesomeIcon icon={faUser} />
-                                <span style={{ marginLeft: '5px' }}>Organizer</span>
+                                <span style={{ marginLeft: '5px' }}>{user.email}</span>
                             </div>
                         </a>
                     ) : (

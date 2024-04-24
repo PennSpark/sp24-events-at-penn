@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
   authDomain: "events-at-penn-e90f3.firebaseapp.com",
   projectId: "events-at-penn-e90f3",
   storageBucket: "events-at-penn-e90f3.appspot.com",
