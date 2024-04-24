@@ -131,6 +131,7 @@ const Navbar: React.FC = () => {
     const [ user, setUser ] = useState<User | null>(null);
 
     onAuthStateChanged(auth, (authUser) => {
+        console.log(authUser);
         if (authUser) {
             setUser(authUser);
         } else {

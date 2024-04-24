@@ -5,14 +5,23 @@ import { auth } from '../lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 
 export default function Page() {
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const onSubmit = async (email: string, password: string) => {
+    const handleSignIn = async (email: string, password: string) => {
         try {
-            await signInWithEmailAndPassword(auth, email, password);
+            const userCred = await signInWithEmailAndPassword(auth, email, password);
+            console.log('User logged in:', userCred.user);
         } catch(error) {
             console.error('Error logging in:', error);
+        }
+    }
+
+    const handleSignOut = async () => {
+        try {
+            await auth.signOut();
+        } catch(error) {
+            await console.error('Error logging in:', error);
         }
     }
 
@@ -31,9 +40,9 @@ export default function Page() {
                         <input
                             className="px-4"
                             type="text"
-                            placeholder="Username"
-                            value={username}
-                            onChange={e => setUsername(e.target.value)}
+                            placeholder="Email"
+                            value={email}
+                            onChange={e => setEmail(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
@@ -45,9 +54,12 @@ export default function Page() {
                             onChange={e => setPassword(e.target.value)}
                         />
                     </div>
-                    <button className = "montserratStroke" onClick={() => onSubmit(username, password)}>
-                            Login
-                        </button>
+                    <button className = "montserratStroke" onClick={() => handleSignIn(email, password)}>
+                        Login
+                    </button>
+                    <button className = "montserratStroke" onClick={() => handleSignOut()}>
+                        Logout
+                    </button>
                 </form>
 
                  </div>
