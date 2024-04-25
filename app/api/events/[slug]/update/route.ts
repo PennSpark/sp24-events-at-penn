@@ -22,10 +22,13 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
         let docObj = {
             slug: req.get("slug"),
             name: req.get("name"),
-            location: new GeoPoint(
-                Number(req.get("lat")), 
-                Number(req.get("lng")),
-            ),
+            location: {
+                geopoint : new GeoPoint(
+                    Number(req.get("lat")), 
+                    Number(req.get("lng")),
+                ),
+                name: req.get("location_name")
+            },
             desc: req.get("desc"),
             url: req.get("url"),
             img: req.get("img"),
