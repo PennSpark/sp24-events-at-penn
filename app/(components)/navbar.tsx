@@ -140,6 +140,7 @@ const Navbar: React.FC = () => {
     });
 
     const isAuthenticated = user !== null;
+    const isHomePage = pathname === '/';
 
     return (
         <div className="App">
@@ -181,10 +182,12 @@ const Navbar: React.FC = () => {
                     )}
                 </div>
             </nav>
-            <div style={styles.lineContainer}>
-                <div style={styles.line1}></div>
-                <div style={styles.line2}></div>
-            </div>
+            {!isHomePage && (
+                <div style={styles.lineContainer}>
+                    <div style={styles.line1}></div>
+                    <div style={styles.line2}></div>
+                </div>
+            )}
         </div>
     );
 };
