@@ -9,6 +9,7 @@ export default function Page() {
     const [password, setPassword] = useState('');
 
     const handleSignIn = async (email: string, password: string) => {
+        console.log('handleing signin');
         try {
             const userCred = await signInWithEmailAndPassword(auth, email, password);
             console.log('User logged in:', userCred.user);
@@ -54,20 +55,17 @@ export default function Page() {
                             onChange={e => setPassword(e.target.value)}
                         />
                     </div>
-                    <button className = "montserratStroke" onClick={() => handleSignIn(email, password)}>
+                    <button className = "montserratStroke" onClick={(e) => {e.preventDefault(); handleSignIn(email, password) }}>
                         Login
                     </button>
-                    <button className = "montserratStroke" onClick={() => handleSignOut()}>
+                    <button className = "montserratStroke" onClick={(e) => { e.preventDefault(); handleSignOut()}}>
                         Logout
                     </button>
                 </form>
-
                  </div>
-
                  <div className="login-artist"></div>
                  <div className="login-exclamation"></div>
                  <div className="login-loop"></div>
-
             </div>
     </div>
     </>
