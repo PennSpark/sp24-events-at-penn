@@ -159,9 +159,9 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
                 <div style={styles.navItems}>
-                    <a href="/interests" style={{ ...styles.navItem, ...(isActive('/interests') ? styles.navItemActive : {}) }}>
+                    <a href="/explore" style={{ ...styles.navItem, ...(isActive('/explore') ? styles.navItemActive : {}) }}>
                         Explore
-                        {isActive('/interests') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
+                        {isActive('/explore') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
 
                     </a>
                     <a href="/about" style={{ ...styles.navItem, ...(isActive('/about') ? styles.navItemActive : {}) }}>

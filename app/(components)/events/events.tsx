@@ -16,8 +16,8 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
     const [activeCategories, setActiveCategories] = useState<string[]>([]);
 
     const filteredEvents = useMemo(() => {
-        let filtered = initialEvents?.filter(event => {
-            let includeEvent = event.name.toLowerCase().includes(searchQuery.toLowerCase());
+        let filtered = initialEvents ? initialEvents.filter(event => {
+            let includeEvent = event.name ? event.name.toLowerCase().includes(searchQuery.toLowerCase()) : false;
             const eventStartDate = new Date(event.start_time.seconds * 1000);
 
             switch (time) {
@@ -30,16 +30,17 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
                 case "This month":
                     includeEvent = includeEvent && isThisMonth(eventStartDate);
                     break;
-                default:
-                    break;
             }
 
-            if (activeCategories.length > 0 && event.tags) {
-                includeEvent = includeEvent && event.tags && event.tags.length > 0 && activeCategories.some(category => event.tags.includes(category));
+            if (includeEvent && location && event.location && event.location.name) {
+                includeEvent = event.location.name.toLowerCase() === location.toLowerCase();
             }
 
+            if (includeEvent && activeCategories.length > 0 && event.tags) {
+                includeEvent = event.tags.some(category => activeCategories.includes(category));
+            }
             return includeEvent;
-        });
+        }) : [];
 
         switch (ordering) {
             case "Alphabetical":
@@ -54,13 +55,10 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
                     [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
                 }
                 break;
-            default:
-                break;
         }
 
         return filtered;
     }, [initialEvents, searchQuery, location, time, ordering, activeCategories]);
-
     return (
         <>
             <SearchEvents
