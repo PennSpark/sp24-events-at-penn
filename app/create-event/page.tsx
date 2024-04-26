@@ -6,8 +6,6 @@ import rightArrow from '../../public/images/right_arrow.png';
 import "../create-event/CreateEvent.css";
 import "../globals.css";
 import ImageUploader from '../(components)/imageuploader';
-import { useRouter } from 'next/router';
-import { useAuthContext } from '../(components)/auth/authcontext';
 import { Category } from '../lib/types';
 
 const selected = { backgroundColor: "yellow" };

@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import "../globals.css"
+import { uploadImage } from '../lib/utils';
 
 export default function ImageUploader({ eventPacket, setEventPacket }: { eventPacket: any, setEventPacket: (newValue: any) => void }) {
 
-    const handleImageChange = (e : any) => {
+    const handleImageChange = async (e : any) => {
         const file = e.target.files[0];
         setEventPacket({...eventPacket, poster: file})
     };
