@@ -127,17 +127,21 @@ const styles: Styles = {
 const Navbar: React.FC = () => {
     const pathname = usePathname();
     const isActive = (path: string) => path === pathname;
+    
 
     const [ user, setUser ] = useState<User | null>(null);
 
-    onAuthStateChanged(auth, (authUser) => {
-        console.log(authUser);
-        if (authUser) {
-            setUser(authUser);
-        } else {
-            setUser(null);
-        }
-    });
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
+            console.log(authUser);
+            if (authUser) {
+                setUser(authUser);
+            } else {
+                setUser(null);
+            }
+        });
+        return () => unsubscribe();
+    }, []); 
 
     const isAuthenticated = user !== null;
     const isHomePage = pathname === '/';
