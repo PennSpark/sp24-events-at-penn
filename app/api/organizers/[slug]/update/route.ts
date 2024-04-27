@@ -24,8 +24,8 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
             desc: req.get("desc"),
             email: req.get("email"),
             tags: tagRefs,
-            tagName: tagId
-            // img: req.get("img"),
+            tagName: tagId,
+            img: req.get("img"),
         });
 
         await updateDoc(docRef, docObj)

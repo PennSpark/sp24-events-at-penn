@@ -25,6 +25,8 @@ export default function Onboard() {
     instagram: '',
     website: '',
   });
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>("/images/pfp-placeholder.png");
 
   useEffect(() => {
     const getProfile = async () => {
@@ -43,6 +45,7 @@ export default function Onboard() {
       // console.log(profile);
   
       setProfile(profile);
+      setImagePreviewUrl(content.img);
     };
 
     getProfile();
@@ -66,6 +69,7 @@ export default function Onboard() {
         params.append("desc", profile.bio);
         params.append("email", profile.email);
         params.append("tags", profile.type);
+        params.append("img", imagePreviewUrl);
       const url = new URL(`/api/organizers/${slug}/update`, window.location.origin);
       url.search = params.toString();
 
@@ -91,8 +95,7 @@ export default function Onboard() {
       
   };
 
-  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>("/images/pfp-placeholder.png");
+
 
   const uploadImageToFirebase = async (file) => {
     if (!file) return;
