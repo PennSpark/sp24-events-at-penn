@@ -6,7 +6,7 @@ import rightArrow from '../../public/images/right_arrow.png';
 import "../create-event/CreateEvent.css";
 import "../globals.css";
 import ImageUploader from '../(components)/imageuploader';
-import { Category } from '../lib/types';
+import { Tag } from '../lib/types';
 
 const selected = { backgroundColor: "yellow" };
 const pages = ['details-1', 'details-2', 'visuals-1', 'visuals-2', 'preview'];
@@ -25,7 +25,7 @@ interface EventProfile {
   poster: any;
 }
 
-const categories: Category[] = [
+const categories: Tag[] = [
   { name: 'Bakery', emoji: '🥐' },
   { name: 'Coffee', emoji: '☕' },
   { name: 'Boba', emoji: '🧋' },
@@ -52,7 +52,7 @@ function Preview({ eventPacket }: { eventPacket: EventProfile }) {
             <Image
               src={URL.createObjectURL(eventPacket.poster)}
               alt="Selected"
-              layout="fill"
+              fill
               objectFit="fill"
               className='rounded'
             />

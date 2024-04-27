@@ -133,7 +133,7 @@ const Navbar: React.FC = () => {
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-            console.log(authUser);
+            console.log("authUser", authUser);
             if (authUser) {
                 setUser(authUser);
             } else {

@@ -30,8 +30,8 @@ const containerStyle: CSSProperties = {
 };
 
 const ImageEvent: React.FC<{ event: Event }> = ({ event }) => {
-    const dateOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
-    const timeOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
+    const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'numeric', day: 'numeric' };
+    const timeOptions: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: true };
 
     const eventDate = new Date(event.start_time.seconds * 1000);
     const dateString = eventDate.toLocaleDateString("en-US", dateOptions);

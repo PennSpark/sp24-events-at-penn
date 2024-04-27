@@ -1,7 +1,7 @@
-import { Category } from "../../../lib/types";
+import { Tag } from "../../../lib/types";
 
 interface CategoryButtonProps {
-    category: Category;
+    category: Tag;
     isActive: boolean;
     onClick?: () => void;
 }
@@ -26,7 +26,7 @@ const CategoryButton: React.FC<CategoryButtonProps> = ({ category, isActive, onC
 
     return (
         <button style={buttonStyle} onClick={onClick}>
-            {category.emoji} {category.name}
+            {category.emoji} {category.name.charAt(0).toUpperCase() + category.name.slice(1).toLowerCase()}
         </button>
     );
 }

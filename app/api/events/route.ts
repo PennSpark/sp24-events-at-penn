@@ -4,6 +4,7 @@ import { getFirestore, collection, doc, getDocs, query, orderBy, limit } from "f
 const db = getFirestore(app);
 
 export async function GET(request: Request) {
+    console.log("GET /api/events");
     const q = query(collection(db, "events"), orderBy("start_time"), limit(20));
     const docSnaps = await getDocs(q);
 

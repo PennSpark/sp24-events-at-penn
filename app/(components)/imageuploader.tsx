@@ -19,7 +19,7 @@ export default function ImageUploader({ eventPacket, setEventPacket }: { eventPa
                             <Image
                                 src={URL.createObjectURL(eventPacket.poster)}
                                 alt="Selected"
-                                layout="fill"
+                                fill
                                 objectFit="fill"
                                 className='rounded'
                             />

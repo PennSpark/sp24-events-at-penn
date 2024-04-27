@@ -36,7 +36,7 @@ async function getData(slug: string) {
 
     const organizer: Organizer = (await res.json()).body;
     const events = await Promise.all(organizer.events.map(async (e) => {
-        const id = e._key.path.segments.pop();
+        const id = e._key.path.segments.slice(-1)[0];
         const res = await fetch(`http://localhost:3000/api/events/${id}`);
 
         if(!res.ok) {
@@ -121,7 +121,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div className = "overflow-x-scroll">
                 {upcoming.length > 0 ? upcoming.map((event, index) => 
                     <div className = "max-w-80" key={index}>
-                        <ImageEvent event={event} tall={false} />
+                        <ImageEvent event={event} />
                     </div>
                 ) : <sub className = "text-gray-800">{organizer.name} has no upcoming events</sub>}
             </div>
@@ -132,7 +132,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <div className = "overflow-x-scroll">
                 {past.length > 0 ? past.map((event, index) =>
                     <div className = "max-w-80" key={index}>
-                        <ImageEvent event={event} tall={false} />
+                        <ImageEvent event={event} />
                     </div>
                 ) : <sub className = "my-8">{organizer.name} has no past events</sub>}
             </div>

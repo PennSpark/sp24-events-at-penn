@@ -33,7 +33,8 @@ export type Organizer = {
     tags: DocumentReference[];
 }
 
-export type Category = {
+export type Tag = {
+    id: string;
     name: string;
     emoji: string;
 }

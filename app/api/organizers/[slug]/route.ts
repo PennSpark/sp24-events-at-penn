@@ -4,6 +4,7 @@ import { getFirestore, collection, doc, getDoc } from "firebase/firestore";
 const db = getFirestore(app);
 
 export async function GET(request: Request, { params }: { params: { slug: string } }) {
+    console.log("GET /api/organizers/[slug]", params.slug)
     const docRef = doc(db, "organizers", params.slug);
     const docSnap = await getDoc(docRef);
 

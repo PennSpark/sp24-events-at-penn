@@ -1,27 +1,9 @@
+"use client"
 import React, { useState, useEffect } from 'react';
 import CategoryButton from "./categorybutton";
-import TagList from './tags'
+import { Tag } from '@/app/lib/types';
 
-interface Category {
-    name: string;
-    emoji: string;
-}
-
-const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => void }> = ({ setActiveCategories }) => {
-    const [activeCategories, setActiveCategoriesLocal] = useState<string[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
-    const onTagsFetched = (fetchedTags: Category[]) => {
-        setCategories(fetchedTags);
-    };
-    // useEffect(() => {
-    //     const cookie = Cookies.get('interestsCookie');
-    //     if (cookie) {
-    //         console.log('Found interestsCookie:', cookie);
-    //         const categories = JSON.parse(cookie);
-    //         setActiveCategories(categories);
-    //         setActiveCategoriesLocal(categories.map((cat: { name: String }) => cat.name));
-    //     }
-    // }, [setActiveCategories]);
+const CategoryFilter: React.FC<{ tags: Tag[], activeTags: Tag[], toggleTag: (t: Tag) => void }> = ({ tags, activeTags, toggleTag }) => {
 /*
     const categories: Category[] = [
         { name: 'Food', emoji: '🍔' },
@@ -44,32 +26,16 @@ const CategoryFilter: React.FC<{ setActiveCategories: (categories: string[]) => 
         padding: '25px',
     };
 
-
-
-    const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-
-    const toggleCategory = (category: string): void => {
-        const categoryLowerCase = category.toLowerCase();
-        const updatedCategories = activeCategories.includes(categoryLowerCase)
-            ? activeCategories.filter(c => c !== categoryLowerCase)
-            : [...activeCategories, categoryLowerCase];
-
-        setActiveCategoriesLocal(updatedCategories);
-        setActiveCategories(updatedCategories);
-    };
-
     return (
         <div style={containerStyle}>
-            <TagList onTagsFetched={onTagsFetched} />
-
-            {categories.map(category => {
-                const isActive = activeCategories.includes(category.name.toLowerCase());
+            {tags.map(tag => {
+                const isActive = activeTags.some(t => t.name.toLowerCase() === tag.name.toLowerCase());
                 return (
                     <CategoryButton
-                        key={category.name}
-                        category={{ ...category, name: capitalizeFirstLetter(category.name) }}
+                        key={tag.name}
+                        category={tag}
                         isActive={isActive}
-                        onClick={() => toggleCategory(category.name)}
+                        onClick={() => toggleTag(tag)}
                     />
                 );
             })}

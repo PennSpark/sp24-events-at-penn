@@ -1,19 +1,28 @@
 "use client"
 import React, { useMemo, useState } from 'react';
-import { Event } from '@/app/lib/types';
+import { Event, Tag } from '@/app/lib/types';
 import Calendar from './calendar';
 import ImageGrid from './imagegrid';
 import SearchEvents from './filter/searchevents';
 import CategoryFilter from './filter/categoryfilter';
 import { isToday, isThisWeek, isThisMonth, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from 'date-fns';
 
-const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
+const Events: React.FC<{ events?: Event[], tags?: Tag[] }> = ({ events: initialEvents, tags }) => {
     const [viewMode, setViewMode] = useState<string>("grid");
     const [searchQuery, setSearchQuery] = useState('');
     const [ordering, setOrdering] = useState('');
     const [time, setTime] = useState('');
     const [location, setLocation] = useState('');
-    const [activeCategories, setActiveCategories] = useState<string[]>([]);
+    const [activeTags, setActiveTags] = useState<Tag[]>([]);
+
+    const toggleTag = (tag: Tag): void => {
+        const categoryLowerCase = tag.name.toLowerCase();
+        if (activeTags.some(t => t.name.toLowerCase() === categoryLowerCase)) {
+            setActiveTags(activeTags.filter(t => t.name.toLowerCase() !== categoryLowerCase));
+        } else {
+            setActiveTags([...activeTags, tag]);
+        }
+    };
 
     const filteredEvents = useMemo(() => {
         let filtered = initialEvents ? initialEvents.filter(event => {
@@ -36,9 +45,15 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
                 includeEvent = event.location.name.toLowerCase() === location.toLowerCase();
             }
 
-            if (includeEvent && activeCategories.length > 0 && event.tags) {
-                includeEvent = event.tags.some(category => activeCategories.includes(category));
+            if(tags) {
+                const temp = event.tags.map(tag => tag._key.path.segments.slice(-1)[0]);
+                const tagNames = activeTags.map(tag => tag.name);
+
+                if (includeEvent && temp.length > 0 && tagNames.length > 0) {
+                    includeEvent = temp.some(t => tagNames.includes(t));
+                }
             }
+
             return includeEvent;
         }) : [];
 
@@ -58,7 +73,8 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
         }
 
         return filtered;
-    }, [initialEvents, searchQuery, location, time, ordering, activeCategories]);
+    }, [initialEvents, searchQuery, location, time, ordering, activeTags, tags]);
+    
     return (
         <>
             <SearchEvents
@@ -73,7 +89,7 @@ const Events: React.FC<{ events?: Event[] }> = ({ events: initialEvents }) => {
                 location={location}
                 setLocation={setLocation}
             />
-            <CategoryFilter setActiveCategories={setActiveCategories} />
+            {tags && <CategoryFilter tags={tags} activeTags={activeTags} toggleTag={toggleTag} />}
             <div className="content-container">
                 {viewMode === 'grid' ? <ImageGrid events={filteredEvents} /> : <Calendar events={filteredEvents} />}
             </div>

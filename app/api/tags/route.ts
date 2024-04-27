@@ -3,7 +3,8 @@ import { getFirestore, collection, doc, getDoc, getDocs } from "firebase/firesto
 
 const db = getFirestore(app);
 
-export async function GET(request: Request, { params }: { params: { slug: string } }) {
+export async function GET(request: Request) {
+    console.log("GET /api/tags")
     const querySnapshot = await getDocs(collection(db, "tags"));
     const data = querySnapshot.docs.map((doc) => { 
         const id = doc.id;

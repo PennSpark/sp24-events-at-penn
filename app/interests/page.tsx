@@ -3,12 +3,12 @@ import Image from "next/image";
 import React, {useEffect} from 'react';
 import './Interest.css';
 import Cookies from 'js-cookie';
-import { Category } from '../lib/types';
+import { Tag } from '../lib/types';
 
 
 // type Tag = string;
-type SelectedTags = Category[];
-const categories: Category[] = [
+type SelectedTags = Tag[];
+const categories: Tag[] = [
   { name: 'Bakery', emoji: '🥐' },
   { name: 'Coffee', emoji: '☕' },
   { name: 'Boba', emoji: '🧋' },
@@ -35,7 +35,7 @@ export default function Interest() {
       }
     }, []);
     
-    const handleTagClick = (tag: Category) => {
+    const handleTagClick = (tag: Tag) => {
         setSelectedTags(prevSelectedTags => {
           if (prevSelectedTags.includes(tag)) {
             return prevSelectedTags.filter(t => t !== tag);
@@ -65,7 +65,7 @@ export default function Interest() {
         <h1 className = 'montserratStroke' >Pick your tags!</h1>
         <p >Select the event types you are interested in to get more accurate recommendations of events!</p>
         <div className="tag-container">
-            {categories.map((tag: Category) => (
+            {categories.map((tag: Tag) => (
               <button
                 key={tag.name}
                 className={`tag ${selectedTags.includes(tag) ? 'selected' : ''}`}
