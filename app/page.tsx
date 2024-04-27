@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import './Homepage.css';
+import { cleanObject } from './lib/utils';
 
 export default function Home() {
   return (

@@ -34,7 +34,7 @@ export async function deleteFile(downloadUrl : string) {
   const fileRef = ref(storage, downloadUrl);
   await deleteObject(fileRef);
 }
-export const cleanObject = (obj: any) => {
-    Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key]);
-    return obj;
+export const cleanObject = (data: any) => {
+    Object.keys(data).forEach((k) => !(data as any)[k] && delete (data as any)[k]);
+    return data;
 }
