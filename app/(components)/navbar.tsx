@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ovalImage from '../images/oval.png';
 import sparkImage from '../images/spark.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,8 +9,7 @@ import Head from "next/head";
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 import './Components.css'
-import { User, onAuthStateChanged } from 'firebase/auth';
-import { auth } from '../lib/firebase';
+import { AuthContext } from './auth/authprovider';
 interface Styles {
     [key: string]: React.CSSProperties;
 }
@@ -127,21 +126,8 @@ const styles: Styles = {
 const Navbar: React.FC = () => {
     const pathname = usePathname();
     const isActive = (path: string) => path === pathname;
-    
 
-    const [ user, setUser ] = useState<User | null>(null);
-
-    useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-            console.log("authUser", authUser);
-            if (authUser) {
-                setUser(authUser);
-            } else {
-                setUser(null);
-            }
-        });
-        return () => unsubscribe();
-    }, []); 
+    const user = useContext(AuthContext);
 
     const isAuthenticated = user !== null;
     const isHomePage = pathname === '/';

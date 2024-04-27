@@ -9,15 +9,12 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
     const [ user, setUser ] = useState<User | null>(null);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (authUser) => {
-            console.log(authUser);
-            if (authUser) {
-                setUser(authUser);
-            } else {
-                setUser(null);
-            }
+        onAuthStateChanged(auth, (authUser) => {
+            console.log("FETCHING AUTH CONTEXT");
+            setUser(authUser);
         });
-        return () => unsubscribe();
+        // return () => unsubscribe();
     }, []); 
+
     return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
 }

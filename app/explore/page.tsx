@@ -1,7 +1,8 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useContext } from 'react';
 import Header from '../(components)/header';
 import Events from '../(components)/events/events';
 import './Explore.css'
+import { AuthContext } from '../(components)/auth/authprovider';
 async function getData() {
     const eventsRes = await fetch(`http://localhost:3000/api/events`);
     const tagsRes = await fetch('http://localhost:3000/api/tags');
@@ -18,7 +19,7 @@ export default async function Explore() {
 
     return (
         <div className="explore">
-            <Header isAuthenticated={true} />
+            <Header />
             <div>
                 <Events events={events} tags={tags} />
             </div>

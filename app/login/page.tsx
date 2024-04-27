@@ -3,16 +3,22 @@ import { useState } from 'react';
 import './LoginPage.css';
 import { auth } from '../lib/firebase';
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
+import { navigate } from '../lib/actions';
 
 export default function Page() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const router = useRouter();
 
     const handleSignIn = async (email: string, password: string) => {
         console.log('handleing signin');
         try {
             const userCred = await signInWithEmailAndPassword(auth, email, password);
             console.log('User logged in:', userCred.user);
+            router.replace("/explore")
+            // navigate("/explore");
         } catch(error) {
             console.error('Error logging in:', error);
         }
@@ -21,6 +27,7 @@ export default function Page() {
     const handleSignOut = async () => {
         try {
             await auth.signOut();
+            // navigate("/explore");
         } catch(error) {
             await console.error('Error logging in:', error);
         }
@@ -63,9 +70,9 @@ export default function Page() {
                     </button>
                 </form>
                  </div>
-                 <div className="login-artist"></div>
+                 {/* <div className="login-artist"></div>
                  <div className="login-exclamation"></div>
-                 <div className="login-loop"></div>
+                 <div className="login-loop"></div> */}
             </div>
     </div>
     </>

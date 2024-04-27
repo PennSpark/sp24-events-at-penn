@@ -1,4 +1,5 @@
-import React from 'react';
+"use client"
+import React, { useContext } from 'react';
 import benImage from '../images/ben.png';
 import exclamationImage from '../images/exclamation.png';
 import Image from 'next/image';
@@ -6,6 +7,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from "next/head";
 import Link from "next/link";
+import { AuthContext } from './auth/authprovider';
 
 interface HeaderStyles {
     container: React.CSSProperties;
@@ -68,7 +70,9 @@ const headerStyles: HeaderStyles = {
     }
 };
 
-const Header: React.FC<{ isAuthenticated: boolean }> = ({ isAuthenticated }) => {
+const Header: React.FC = () => {
+    const user = useContext(AuthContext);
+    const isAuthenticated = user !== null;
     return (
         <div>
             <div style={headerStyles.container}>
