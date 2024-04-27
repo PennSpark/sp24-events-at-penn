@@ -1,7 +1,8 @@
 'use client'
 import Image from "next/image";
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Onboard.css';
+import { GetServerSideProps } from 'next';
 
 interface Profile {
   name: string;
@@ -11,6 +12,7 @@ interface Profile {
   instagram: string;
   website: string;
 }
+
 
 export default function Onboard() {
   const [profile, setProfile] = React.useState<Profile>({
@@ -22,6 +24,28 @@ export default function Onboard() {
     website: '',
   });
 
+  useEffect(() => {
+    const getProfile = async () => {
+      const res = await fetch("/api/organizers/penn-spark");
+      const profileData = await res.json();
+      const content = profileData.body;
+      // console.log(content.tags.json().body);
+      const profile = {
+        name: content.name,
+        type: content.tagName,
+        bio: content.desc,
+        email: content.email,
+        instagram: content.channels.Instagram,
+        website: content.channels.Website
+      };
+      // console.log(profile);
+  
+      setProfile(profile);
+    };
+
+    getProfile();
+  }, []);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setProfile({
@@ -30,9 +54,39 @@ export default function Onboard() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Profile submitted:', profile);
+    try {
+      const slug = "penn-spark";
+      const params = new URLSearchParams();
+        params.append("slug", slug);
+        params.append("name", profile.name);
+        params.append("desc", profile.bio);
+        params.append("email", profile.email);
+        params.append("tags", profile.type);
+      const url = new URL(`/api/organizers/${slug}/update`, window.location.origin);
+      url.search = params.toString();
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+  
+      const data = await response.json();
+      // console.log(data);
+
+      if (response.ok) {
+        console.log('Profile updated successfully:', data);
+      } else {
+        throw new Error(data.body || "Failed to update profile");
+      }
+    // console.log('Profile submitted:', profile);
+    } catch (error) {
+      console.error('Error submitting profile:', error);
+    }
+      
   };
 
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
@@ -76,17 +130,18 @@ export default function Onboard() {
         <div className="center-content">
           <h1 className='montserratStroke' >Edit your profile</h1>
           <p >Create your profile and start showcasing your events to the community.</p>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={ handleSubmit}>
             <div>
               <input id="name" name="name" value={profile.name} onChange={handleChange} placeholder="Organizer Name" />
             </div>
             <div>
               <select id="type" name="type" value={profile.type} onChange={handleChange} style={{ color: profile.type === '' ? '#999' : 'black' }} >
                 <option value="" disabled style={{ color: 'gray' }}>Organizer Type</option>
-                <option value="restaurant">Restaurant</option>
-                <option value="boba">Boba</option>
-                <option value="coffee">Coffee</option>
                 <option value="bakery">Bakery</option>
+                <option value="food">Food</option>
+                <option value="promos">Promos</option>
+                <option value="bakery">Bakery</option>
+                <option value="sports">Sports</option>
               </select>
             </div>
             <div>
@@ -97,24 +152,24 @@ export default function Onboard() {
             </div>
 
             <div>
-              <input id="instagram" name="instagram" onChange={handleChange} placeholder="Instagram Account" />
+              <input id="instagram" name="instagram" value={profile.instagram} onChange={handleChange} placeholder="Instagram Account" />
             </div>
 
             <div>
-              <input id="website" name="website" onChange={handleChange} placeholder="Website Link" />
+              <input id="website" name="website" value={profile.website} onChange={handleChange} placeholder="Website Link" />
             </div>
 
           </form>
         </div>
         <div className="form-buttons">
-          <button type="submit" className="save-continue-button" form="myForm">Save</button>
+          <button type="submit" className="save-continue-button" form="myForm" onClick={handleSubmit}>Save</button>
         </div>
       </div>
       <div className="rightPanel">
         <div className="profile-preview">
           <h2 className='preview'>Preview of your profile:</h2>
           <div className="image-placeholder">
-            <img
+            <Image
               src={imagePreviewUrl}
               alt="Profile picture"
               width={300}
