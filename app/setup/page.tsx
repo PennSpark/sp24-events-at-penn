@@ -3,6 +3,8 @@ import Image from "next/image";
 import React, { useEffect, useState } from 'react';
 import './Onboard.css';
 import { GetServerSideProps } from 'next';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from '../lib/firebase';
 
 interface Profile {
   name: string;
@@ -92,6 +94,24 @@ export default function Onboard() {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>("/images/pfp-placeholder.png");
 
+  const uploadImageToFirebase = async (file) => {
+    if (!file) return;
+  
+    try {
+      const storageRef = ref(storage, `profileImages/${file.name}`);
+  
+      const snapshot = await uploadBytes(storageRef, file);
+  
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      console.log('File available at', downloadURL);
+  
+      return downloadURL;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      throw new Error('Error uploading file');
+    }
+  };
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0];
@@ -106,9 +126,18 @@ export default function Onboard() {
     }
   };
 
-  const handleUploadClick = () => {
+  const handleUploadClick = async () => {
     const fileInput = document.getElementById('fileUpload') as HTMLInputElement;
     fileInput.click();
+    if (fileInput.files && fileInput.files[0]) {
+      const file = fileInput.files[0];
+  
+      // Upload the file to Firebase Storage and get the download URL
+      const downloadURL = await uploadImageToFirebase(file);
+  
+      // Optionally, update the state or perform other actions with the download URL
+      setImagePreviewUrl(downloadURL);
+    }
   };
 
   // const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
