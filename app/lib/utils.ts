@@ -3,11 +3,6 @@ import { type ClassValue, clsx } from "clsx"
 import { storage } from "./firebase";
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 
-// export function cn(...inputs: ClassValue[]) {
-//   return twMerge(clsx(inputs))
-// }
-
-
 //upload and get URL to add to event field
 export function uploadImage(file : any) {
   return new Promise((resolve, reject) => {
@@ -39,5 +34,7 @@ export async function deleteFile(downloadUrl : string) {
   const fileRef = ref(storage, downloadUrl);
   await deleteObject(fileRef);
 }
-
-
+export const cleanObject = (obj: any) => {
+    Object.keys(obj).forEach(key => obj[key] === undefined && delete obj[key]);
+    return obj;
+}

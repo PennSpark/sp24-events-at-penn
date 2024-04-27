@@ -1,20 +1,33 @@
 "use client";
 import { auth } from "@/app/lib/firebase";
+import { Organizer } from "@/app/lib/types";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { createContext, ReactNode, useEffect, useState } from "react";
 
-export const AuthContext = createContext<User | null>(null);
+interface AuthState {
+    user: User | null;
+    organizer: Organizer | null;
+}
+
+export const AuthContext = createContext<AuthState>({ user: null, organizer: null});
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
-    const [ user, setUser ] = useState<User | null>(null);
+    const [ authState, setAuthState ] = useState<AuthState>({ user: null, organizer: null });
 
     useEffect(() => {
-        onAuthStateChanged(auth, (authUser) => {
+        onAuthStateChanged(auth, async (authUser) => {
             console.log("FETCHING AUTH CONTEXT");
-            setUser(authUser);
+            if(authUser) {
+                const res = await fetch(`http://localhost:3000/api/users/${authUser.uid}`);
+                setAuthState({
+                    user: authUser,
+                    organizer: (await res.json()).body,
+                });
+            } else {
+                setAuthState({ user: null, organizer: null })
+            }
         });
-        // return () => unsubscribe();
     }, []); 
 
-    return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>;
 }

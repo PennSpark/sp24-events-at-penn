@@ -4,6 +4,7 @@ import ImageEvent from "@/app/(components)/events/imageevent";
 import { Event } from "@/app/lib/types";
 import { Montserrat } from "next/font/google";
 import { CSSProperties } from "react";
+import Link from "next/link";
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -111,7 +112,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 />
                 {Object.entries(organizer.channels).map(([key, value]) => (
                     <p className={`${montserrat.className} montserrat pr-5 align-top my-4`} key={key}>
-                        <a href={value}>{key}</a>
+                        <Link href={value}>{key}</Link>
                     </p>
                 ))}
             </div>

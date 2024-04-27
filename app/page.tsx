@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import './Homepage.css';
 
 export default function Home() {
@@ -14,7 +15,7 @@ export default function Home() {
                 </div>
 
                 <div className="explore-link-container">
-                    <a href="/interests" className="text-style montserratStroke explore-link">Explore</a>
+                    <Link href="/interests" className="text-style montserratStroke explore-link">Explore</Link>
                 </div>
                
                 <div className="explore-bulb"></div>

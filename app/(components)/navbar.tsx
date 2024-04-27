@@ -127,9 +127,9 @@ const Navbar: React.FC = () => {
     const pathname = usePathname();
     const isActive = (path: string) => path === pathname;
 
-    const user = useContext(AuthContext);
+    const { organizer } = useContext(AuthContext);
 
-    const isAuthenticated = user !== null;
+    const isAuthenticated = organizer !== null;
     const isHomePage = pathname === '/';
 
     return (
@@ -150,23 +150,23 @@ const Navbar: React.FC = () => {
                     </div>
                 </div>
                 <div style={styles.navItems}>
-                    <a href="/explore" style={{ ...styles.navItem, ...(isActive('/explore') ? styles.navItemActive : {}) }}>
+                    <Link href="/explore" style={{ ...styles.navItem, ...(isActive('/explore') ? styles.navItemActive : {}) }}>
                         Explore
                         {isActive('/explore') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
 
-                    </a>
-                    <a href="/about" style={{ ...styles.navItem, ...(isActive('/about') ? styles.navItemActive : {}) }}>
+                    </Link>
+                    <Link href="/about" style={{ ...styles.navItem, ...(isActive('/about') ? styles.navItemActive : {}) }}>
                         About
                         {isActive('/about') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
 
-                    </a>
+                    </Link>
                     {isAuthenticated ? (
-                        <a href="/profile" style={{ ...styles.navItem, ...(isActive('/profile') ? styles.navItemActive : {}) }}>
+                        <Link href={`/organizers/${organizer.slug}`} style={{ ...styles.navItem, ...(isActive('/profile') ? styles.navItemActive : {}) }}>
                             <div style={styles.iconSpacing}>
                                 <FontAwesomeIcon icon={faUser} />
-                                <span style={{ marginLeft: '5px' }}>{user.email}</span>
+                                <span style={{ marginLeft: '5px' }}>{organizer.name}</span>
                             </div>
-                        </a>
+                        </Link>
                     ) : (
                         <button style={styles.button}><Link href="/login">Club Login</Link></button>
                     )}

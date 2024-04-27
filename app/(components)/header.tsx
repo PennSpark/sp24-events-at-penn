@@ -71,7 +71,7 @@ const headerStyles: HeaderStyles = {
 };
 
 const Header: React.FC = () => {
-    const user = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     const isAuthenticated = user !== null;
     return (
         <div>

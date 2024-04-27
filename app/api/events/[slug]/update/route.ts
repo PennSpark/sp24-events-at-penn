@@ -1,3 +1,4 @@
+import { cleanObject } from "@/app/lib/utils";
 import { app } from "../../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc, updateDoc, GeoPoint, Timestamp } from "firebase/firestore";
 import { NextRequest } from "next/server";
@@ -19,7 +20,7 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
             organizersRef.push(doc(db, "organizers", organizer));
         })
 
-        let docObj = {
+        let docObj = cleanObject({
             slug: req.get("slug"),
             name: req.get("name"),
             location: {
@@ -42,7 +43,7 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
             start_time: new Timestamp(Number(req.get("start_time")), 0),
             end_time: new Timestamp(Number(req.get("end_time")), 0),
             date_published: new Timestamp(Number(req.get("date_published")), 0),
-        }
+        });
 
         await updateDoc(docRef, docObj)
 

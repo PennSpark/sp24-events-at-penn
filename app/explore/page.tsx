@@ -1,4 +1,4 @@
-import React, { Suspense, useContext } from 'react';
+import React from 'react';
 import Header from '../(components)/header';
 import Events from '../(components)/events/events';
 import './Explore.css'
