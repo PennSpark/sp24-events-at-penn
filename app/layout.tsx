@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./(components)/navbar";
 import AuthProvider from "./(components)/auth/authprovider";
+import Head from "next/head";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,6 +20,11 @@ export default function RootLayout({
     return (
     <html lang="en">
       <body className={inter.className}>
+        <Head>
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+            <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+            <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+        </Head>
         <AuthProvider>
           <Navbar/>
           <main>
