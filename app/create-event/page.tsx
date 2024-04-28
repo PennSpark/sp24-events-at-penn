@@ -1,12 +1,14 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import rightArrow from '../../public/images/right_arrow.png';
 import "../create-event/CreateEvent.css";
 import "../globals.css";
 import ImageUploader from '../(components)/imageuploader';
 import { Tag } from '../lib/types';
+import { AuthContext } from '../(components)/auth/authprovider';
+import { navigate } from '../lib/actions';
 
 const selected = { backgroundColor: "yellow" };
 const pages = ['details-1', 'details-2', 'visuals-1', 'visuals-2', 'preview'];
@@ -64,7 +66,6 @@ function Preview({ eventPacket }: { eventPacket: EventProfile }) {
 }
 
 function InformationForm({ eventPacket, setEventPacket }: { eventPacket: EventProfile, setEventPacket: (newValue: EventProfile) => void }) {
-  const [startDate, setStartDate] = useState(new Date());
 
   return (
     <div className='form'>
@@ -138,6 +139,12 @@ function AdditionalImageForm({ eventPacket, setEventPacket }: { eventPacket: Eve
 }
 
 export default function CreateEvent() {
+  const { organizer } = useContext(AuthContext);
+
+  if(!organizer) {
+    navigate("/login");
+  }
+  
   const [page, setPage] = useState("details-1");
   const [pageNumber, setPageNumber] = useState(0);
   const [eventPacket, setEventPacket] = useState<EventProfile>({
@@ -167,6 +174,40 @@ export default function CreateEvent() {
   }, [pageNumber]);
 
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   if(!organizer) return;
+  //   try {
+  //     const slug = organizer.slug;
+  //     const params = new URLSearchParams();
+  //       params.append("organizers", slug);
+  //       params.append("name", eventPacket.eventName);
+  //       params.append("tags", eventPacket.eventType);
+  //       params.append("location", eventPacket.eventAddress);
+  //     const url = new URL(`/api/events/${slug}/update`, window.location.origin);
+  //     url.search = params.toString();
+
+  //     const response = await fetch(url, {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
+  
+  //     const data = await response.json();
+  //     // console.log(data);
+
+  //     if (response.ok) {
+  //       console.log('Event updated successfully:', data);
+  //     } else {
+  //       throw new Error(data.body || "Failed to update event");
+  //     }
+  //   // console.log('Profile submitted:', profile);
+  //   } catch (error) {
+  //     console.error('Error submitting event:', error);
+  //   }
+      
+  // };
 
   return (
     <div className='w-screen h-screen backdrop'>

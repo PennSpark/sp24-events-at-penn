@@ -86,7 +86,7 @@ const Header: React.FC = () => {
                     </div>
                     <Image src={benImage} alt="ben" style={headerStyles.ben} />
                     {isAuthenticated && (
-                        <Link href="/login" style={headerStyles.button}>
+                        <Link href="/create-event" style={headerStyles.button}>
                             <button>
                                 <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} /> ADD EVENT
                             </button>

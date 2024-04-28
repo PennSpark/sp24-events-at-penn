@@ -3,6 +3,7 @@ import { app } from "../../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc, updateDoc, GeoPoint, Timestamp } from "firebase/firestore";
 import { NextRequest } from "next/server";
 import type{ NextApiRequest } from "next";
+import { revalidatePath } from "next/cache";
 
 const db = getFirestore(app);
 
@@ -29,6 +30,9 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
         });
 
         await updateDoc(docRef, docObj)
+
+        revalidatePath(`/organizers/${params.slug}`);
+        console.log(`revalidating /organizers/${params.slug}`)
 
         return Response.json({
             status: 201,

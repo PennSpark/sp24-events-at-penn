@@ -2,6 +2,7 @@ import { cleanObject } from "@/app/lib/utils";
 import { app } from "../../../../lib/firebase";
 import { getFirestore, collection, doc, getDoc, updateDoc, GeoPoint, Timestamp } from "firebase/firestore";
 import { NextRequest } from "next/server";
+import { revalidatePath } from "next/cache";
 
 const db = getFirestore(app);
 
@@ -10,15 +11,9 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
     try {
         const docRef = doc(db, "events", params.slug);
 
-        const tagsRef: any[] = [];
-        req.get("tags")?.split(",").map((tag, index) => {
-            tagsRef.push(doc(db, "tags", tag));
-        })
+        const tagsRef = doc(db, "tags", req.get("tags"));
 
-        const organizersRef: any[] = [];
-        req.get("organizers")?.split(",").map((organizer, index) => {
-            organizersRef.push(doc(db, "organizers", organizer));
-        })
+        const organizersRef = doc(db, "organizers", req.get("organizers"));
 
         let docObj = cleanObject({
             slug: req.get("slug"),
@@ -33,8 +28,8 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
             desc: req.get("desc"),
             url: req.get("url"),
             img: req.get("img"),
-            tags: tagsRef.length ? tagsRef : [], // make array
-            organizers: organizersRef.length ? organizersRef : [],
+            tags: tagsRef, // make array
+            organizers: organizersRef,
             views: Number(req.get("views")),
             price: Number(req.get("price")),
             max_occupancy: Number(req.get("max_occupancy")),
@@ -47,11 +42,12 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
 
         await updateDoc(docRef, docObj)
 
+        revalidatePath(`/events/${params.slug}`);
+
         return Response.json({
             status: 201,
             body: docObj,
         });
-      
     } catch (error) {
         return Response.json({
             status: 400,

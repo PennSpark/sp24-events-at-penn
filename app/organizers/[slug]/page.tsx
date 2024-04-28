@@ -5,6 +5,7 @@ import { Event } from "@/app/lib/types";
 import { Montserrat } from "next/font/google";
 import { CSSProperties } from "react";
 import Link from "next/link";
+import Edit from "@/app/(components)/auth/edit";
 
 const montserrat = Montserrat({
     subsets: ['latin'],
@@ -66,6 +67,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
             <p className = "text-5xl font-extrabold pt-20">
                 {organizer.name}
             </p>
+            <Edit url={"/setup"} />
             <div className = "inline-block lg:flex justify-start gap-x-60 place-content-center">
                 <div>
                     <table className="table-auto text-lg mt-5 max-w-[650px]">

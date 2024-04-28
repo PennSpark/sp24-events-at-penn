@@ -1,55 +1,30 @@
 'use client'
 import Image from "next/image";
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Onboard.css';
-import { GetServerSideProps } from 'next';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from '../lib/firebase';
-
-interface Profile {
-  name: string;
-  type: string;
-  bio: string;
-  email: string;
-  instagram: string;
-  website: string;
-}
-
+import { AuthContext } from "../(components)/auth/authprovider";
+import { navigate } from "../lib/actions";
+import { revalidatePath } from "next/cache";
 
 export default function Onboard() {
-  const [profile, setProfile] = React.useState<Profile>({
-    name: '',
-    type: '',
-    bio: '',
-    email: '',
-    instagram: '',
-    website: '',
+  const { organizer } = useContext(AuthContext);
+  if(!organizer) {
+    navigate("/login");
+    return <></>
+  }
+
+  const [profile, setProfile] = React.useState({
+    name: organizer.name,
+    tag: organizer.tags._key.path.segments.slice(-1)[0],
+    bio: organizer.desc,
+    email: organizer.email,
+    instagram: organizer.channels["Instagram"],
+    website: organizer.channels["Website"],
   });
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>("/images/pfp-placeholder.png");
-
-  useEffect(() => {
-    const getProfile = async () => {
-      const res = await fetch("/api/organizers/penn-spark");
-      const profileData = await res.json();
-      const content = profileData.body;
-      // console.log(content.tags.json().body);
-      const profile = {
-        name: content.name,
-        type: content.tagName,
-        bio: content.desc,
-        email: content.email,
-        instagram: content.channels.Instagram,
-        website: content.channels.Website
-      };
-      // console.log(profile);
-  
-      setProfile(profile);
-      setImagePreviewUrl(content.img);
-    };
-
-    getProfile();
-  }, []);
+  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>(organizer.img);
 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
@@ -62,13 +37,13 @@ export default function Onboard() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const slug = "penn-spark";
+      const slug = organizer.slug;
       const params = new URLSearchParams();
         params.append("slug", slug);
         params.append("name", profile.name);
         params.append("desc", profile.bio);
         params.append("email", profile.email);
-        params.append("tags", profile.type);
+        params.append("tags", profile.tag);
         params.append("img", imagePreviewUrl);
       const url = new URL(`/api/organizers/${slug}/update`, window.location.origin);
       url.search = params.toString();
@@ -94,7 +69,6 @@ export default function Onboard() {
     }
       
   };
-
 
 
   const uploadImageToFirebase = async (file) => {
