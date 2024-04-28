@@ -65,7 +65,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 
     return(
         <div className = "min-h-screen h-fit px-[5%] bg-paper-bg bg-no-repeat bg-center bg-cover">
-            <p className = "text-5xl font-extrabold pt-20">
+            <p className = "text-5xl font-extrabold pt-10 mb-2">
                 {organizer.name}
             </p>
             <Edit url={"/setup"} />
@@ -75,19 +75,19 @@ export default async function Page({ params }: { params: { slug: string } }) {
                         <tbody>
                             <tr>
                                 <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Categories</td>
-                                <td className = "pb-5">FOOD</td>
+                                <td className = "pb-10">FOOD</td>
                             </tr>
                             <tr>
                                 <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Bio</td>
-                                <td className = "pb-5">{organizer.desc}</td>
+                                <td className = "pb-10">{organizer.desc}</td>
                             </tr>
                             <tr>
                                 <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Events hosted</td>
-                                <td className = "pb-5">{organizer.events.length}</td>
+                                <td className = "pb-10">{organizer.events.length}</td>
                             </tr>
                             <tr>
                                 <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Email</td>
-                                <td className = "pb-5">{organizer.email}</td>
+                                <td className = "pb-10">{organizer.email}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -108,7 +108,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
                 ))}
             </div>
         </div>
-        <div className = "my-16">
+        <div>
             <p className = "text-2xl font-bold">Upcoming Events</p>
             <div className = "overflow-x-scroll">
                 {upcoming.length > 0 ? upcoming.map((event, index) => 

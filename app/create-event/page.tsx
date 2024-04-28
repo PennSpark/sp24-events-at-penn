@@ -10,6 +10,7 @@ import { Tag } from '../lib/types';
 import { AuthContext } from '../(components)/auth/authprovider';
 import { navigate } from '../lib/actions';
 import { getSeconds, slugify } from '../lib/utils';
+import { useRouter } from 'next/navigation';
 
 const selected = { backgroundColor: "yellow" };
 const pages = ['details-1', 'details-2', 'visuals-1', 'visuals-2', 'preview'];
@@ -96,10 +97,7 @@ function InformationForm({ eventPacket, setEventPacket }: { eventPacket: EventPr
         <span>-</span>
         <input type='time' className='single-input double-input' onChange={(e) => setEventPacket({ ...eventPacket, eventEndTime: e.target.value })} value={eventPacket.eventEndTime}></input>
       </div>
-      <div className='flex flex-col'>
-        <label htmlFor="register-link" className='text-left text-xs text-[#8E8E8E] ml-3'>Fill out only if you have a separate ticketing/registration link.</label>
-        <input value={eventPacket.eventLink} onChange={(e) => setEventPacket({ ...eventPacket, eventLink: e.target.value })} className='single-input' placeholder='Register Link (optional)' type='text' id="register-link"></input>
-      </div>
+
     </div>
   );
 }
@@ -107,8 +105,14 @@ function InformationForm({ eventPacket, setEventPacket }: { eventPacket: EventPr
 function LongDescriptionForm({ eventPacket, setEventPacket }: { eventPacket: EventProfile, setEventPacket: (newValue: EventProfile) => void }) {
   return (
     <div className='form'>
-      <h1 className='text-center mb-5 text-4xl'>Describe your event...</h1>
-      <textarea className='descriptor-box rounded' value={eventPacket.eventDescription} onChange={(e) => setEventPacket({ ...eventPacket, eventDescription: e.target.value })} placeholder='Short description'></textarea>
+      <div className='flex flex-col mb-5'>
+        <h1 className='text-center mb-5 text-4xl'>Describe your event...</h1>
+        <textarea className='descriptor-box rounded' value={eventPacket.eventDescription} onChange={(e) => setEventPacket({ ...eventPacket, eventDescription: e.target.value })} placeholder='Short description'></textarea>
+      </div>
+      <div className='flex flex-col'>
+        <label htmlFor="register-link" className='text-left text-xs text-[#8E8E8E] ml-3'>Fill out only if you have a separate ticketing/registration link.</label>
+        <input value={eventPacket.eventLink} onChange={(e) => setEventPacket({ ...eventPacket, eventLink: e.target.value })} className='single-input' placeholder='Register Link (optional)' type='text' id="register-link"></input>
+      </div>
     </div>
   );
 }
@@ -140,9 +144,10 @@ function AdditionalImageForm({ eventPacket, setEventPacket }: { eventPacket: Eve
 
 export default function CreateEvent() {
   const { organizer } = useContext(AuthContext);
+  const router = useRouter();
 
   if(!organizer) {
-    navigate("/login");
+    router.push("/login")
   }
   
   const [page, setPage] = useState("details-1");
@@ -173,12 +178,9 @@ export default function CreateEvent() {
     setPage(pages[pageNumber]);
   }, [pageNumber]);
 
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if(!organizer) return;
-    console.log("event start date:", eventPacket.eventStartDate);
-    console.log("event start time", eventPacket.eventStartTime);
     try {
       const params = new URLSearchParams();
       const slug = slugify(eventPacket.eventName); // TODO: generate a slug for the event
@@ -190,8 +192,8 @@ export default function CreateEvent() {
         // params.append("img", await uploadImage(eventPacket.poster) as string);
         params.append("tags", eventPacket.eventType.toLowerCase());
         params.append("location_name", eventPacket.eventAddress);
-        params.append("start_time", getSeconds(eventPacket.eventStartDate, eventPacket.eventStartTime).toString());
-        params.append("end_time", getSeconds(eventPacket.eventEndDate, eventPacket.eventEndTime).toString());
+        // params.append("start_time", getSeconds(eventPacket.eventStartDate, eventPacket.eventStartTime).toString());
+        // params.append("end_time", getSeconds(eventPacket.eventEndDate, eventPacket.eventEndTime).toString());
 
       const url = new URL(`/api/events/${slug}/create`, window.location.origin);
       url.search = params.toString();
@@ -207,7 +209,8 @@ export default function CreateEvent() {
 
       if (response.ok) {
         console.log('Event updated successfully:', data);
-        // navigate(`/events/${slug}`);
+        router.push(`/events/${slug}`)
+        // navigate(`events/${slug}`);
       } else {
         throw new Error(data.body || "Failed to update event");
       }

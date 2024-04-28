@@ -81,14 +81,13 @@ const Header: React.FC = () => {
         if(!organizer) return;
         try {
           const params = new URLSearchParams();
-          const slug = "hi"; // TODO: generate a slug for the event
+          const slug = "hiasdf"; // TODO: generate a slug for the event
             params.append("organizers", organizer.slug);
             params.append("slug", slug);
             params.append("tags", "food");
+            // params.append("start_time", getSeconds("11-10-2022", "12:00"), 0)
           let url = new URL(`/api/events/${slug}/create`, window.location.origin);
           url.search = params.toString();
-
-          console.log(new Timestamp(getSeconds("11-10-2022", "12:00"), 0));
     
           const response = await fetch(url, {
             method: 'POST',
