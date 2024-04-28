@@ -8,11 +8,8 @@ import "../globals.css";
 import ImageUploader from '../(components)/imageuploader';
 import { Tag } from '../lib/types';
 import { AuthContext } from '../(components)/auth/authprovider';
-import { navigate } from '../lib/actions';
 import { getSeconds, slugify } from '../lib/utils';
 import { useRouter } from 'next/navigation';
-import { getFirestore, doc, setDoc, Timestamp } from 'firebase/firestore';
-import { app } from '../lib/firebase/index';
 const selected = { backgroundColor: "yellow" };
 const pages = ['details-1', 'details-2', 'visuals-1', 'visuals-2', 'preview'];
 
@@ -179,42 +176,80 @@ export default function CreateEvent() {
     setPage(pages[pageNumber]);
   }, [pageNumber]);
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!organizer) return;
+    // const handleSubmit = async (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     if (!organizer) return;
 
-        const db = getFirestore(app);
+    //     try {
+    //       const db = getFirestore(app);
 
-        const startDateTime = new Date(`${eventPacket.eventStartDate}T${eventPacket.eventStartTime}`);
-        const endDateTime = new Date(`${eventPacket.eventEndDate}T${eventPacket.eventEndTime}`);
+    //       const startDateTime = new Date(`${eventPacket.eventStartDate}T${eventPacket.eventStartTime}`);
+    //       const endDateTime = new Date(`${eventPacket.eventEndDate}T${eventPacket.eventEndTime}`);
 
-        const startTimestamp = Timestamp.fromDate(startDateTime);
-        const endTimestamp = Timestamp.fromDate(endDateTime);
+    //       const startTimestamp = Timestamp.fromDate(startDateTime);
+    //       const endTimestamp = Timestamp.fromDate(endDateTime);
 
-        const eventDocRef = doc(db, "events", slugify(eventPacket.eventName));
+    //       const eventDocRef = doc(db, "events", slugify(eventPacket.eventName));
 
-        const tagsRef = doc(db, "tags", eventPacket.eventType.toLowerCase());
-        const organizersRef = doc(db, "organizers", organizer.slug);
+    //       const tagsRef = doc(db, "tags", eventPacket.eventType.toLowerCase());
+    //       const organizersRef = doc(db, "organizers", organizer.slug);
 
-        const eventData = {
-            organizers: [organizersRef],
-            name: eventPacket.eventName,
-            desc: eventPacket.eventDescription,
-            url: eventPacket.eventLink,
-            img: "https://pennspark.org/static/pic17-ca9db388b1bba8469546acd78eb24805.jpg",
-            tags: [tagsRef],
-            location_name: eventPacket.eventAddress,
-            start_time: startTimestamp,
-            end_time: endTimestamp,
-        };
+    //       const eventData = {
+    //           organizers: [organizersRef],
+    //           name: eventPacket.eventName,
+    //           desc: eventPacket.eventDescription,
+    //           url: eventPacket.eventLink,
+    //           img: "https://pennspark.org/static/pic17-ca9db388b1bba8469546acd78eb24805.jpg",
+    //           tags: [tagsRef],
+    //           location_name: eventPacket.eventAddress,
+    //           start_time: startTimestamp,
+    //           end_time: endTimestamp,
+    //       };
+    //       await setDoc(eventDocRef, eventData);
+    //       console.log('Event updated successfully');
+    //     } catch (error) {
+    //         console.error('Error submitting event:', error);
+    //     }
+    // };
 
-        try {
-            await setDoc(eventDocRef, eventData);
-            console.log('Event updated successfully');
-        } catch (error) {
-            console.error('Error submitting event:', error);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const slug = slugify(eventPacket.eventName)
+      const params = new URLSearchParams();
+        params.append("slug", slug);
+        params.append("organizers", organizer?.slug ?? "");
+        params.append("name", eventPacket.eventName);
+        params.append("url", eventPacket.eventLink);
+        params.append("desc", eventPacket.eventDescription);
+        params.append("tags", eventPacket.eventType);
+        params.append("location_name", eventPacket.eventAddress);
+        params.append("start_time", `${eventPacket.eventStartDate}T${eventPacket.eventStartTime}`);
+        params.append("end_time", `${eventPacket.eventEndDate}T${eventPacket.eventEndTime}`);
+      const url = new URL(`/api/events/${slug}/create`, window.location.origin);
+      url.search = params.toString();
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
         }
-    };
+      });
+  
+      const data = await response.json();
+      // console.log(data);
+
+      if (response.ok) {
+        console.log('Profile updated successfully:', data);
+      } else {
+        throw new Error(data.body || "Failed to update profile");
+      }
+    // console.log('Profile submitted:', profile);
+    } catch (error) {
+      console.error('Error submitting profile:', error);
+    }
+
+  };
 
     /*
       const handleSubmit = async (e: React.FormEvent) => {

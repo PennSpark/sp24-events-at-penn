@@ -4,7 +4,23 @@ import { Event } from '@/app/lib/types';
 import Link from 'next/link';
 import circleImage from '../../images/circle.png'
 import Image from 'next/image'
-const calendarStyles = {
+
+interface CalendarStyles {
+    calendar: React.CSSProperties;
+    header: React.CSSProperties;
+    headerTitle: React.CSSProperties;
+    headerButton: React.CSSProperties;
+    row: React.CSSProperties;
+    cell: React.CSSProperties;
+    imageStyle: React.CSSProperties;
+    number: React.CSSProperties;
+    today: React.CSSProperties;
+    disabled: React.CSSProperties;
+    event: React.CSSProperties;
+    headerCell: React.CSSProperties;
+}
+
+const calendarStyles: CalendarStyles = {
     calendar: {
         margin: '50px auto',
         padding: '0 20px',

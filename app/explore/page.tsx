@@ -1,13 +1,16 @@
-import React from 'react';
-import Header from '../(components)/header';
-import Events from '../(components)/events/events';
+import React, { Suspense } from 'react';
+import dynamic from 'next/dynamic'
+const Header = dynamic(() => import('../(components)/header'))
+const Events = dynamic(() => import('../(components)/events/events'));
+// import Header from '../(components)/header';
+// import Events from '../(components)/events/events';
 import './Explore.css'
-import { AuthContext } from '../(components)/auth/authprovider';
+
 async function getData() {
     const eventsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events`);
     const tagsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/tags`);
 
-    if(!eventsRes.ok && !tagsRes.ok) {
+    if(!eventsRes.ok || !tagsRes.ok) {
         return { events: [], tags: [] };
     }
 
@@ -19,10 +22,13 @@ export default async function Explore() {
 
     return (
         <div className="explore">
+            <Suspense>
             <Header />
             <div>
                 <Events events={events} tags={tags} />
             </div>
+            </Suspense>
+
         </div>
     );
 }

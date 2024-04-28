@@ -14,13 +14,13 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
 
         console.log("1");
 
-        const tagsRef = doc(db, "tags", req.get("tags"));
+        const tagsRef = doc(db, "tags", req.get("tags")?.toLowerCase());
         console.log("2");
 
         const organizersRef = doc(db, "organizers", req.get("organizers"));
         console.log("3");
 
-        let docObj = cleanObject({
+        let docObj = {
             slug: req.get("slug"),
             name: req.get("name"),
             location: {
@@ -39,9 +39,9 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
             price: Number(req.get("price")),
             max_occupancy: Number(req.get("max_occupancy")),
             is_active: Boolean(req.get("is_active")),
-            start_time: new Timestamp(1714338000, 0),
-            end_time: new Timestamp(1714345200, 0),
-        });
+            start_time: req.get("start_time") ? Timestamp.fromDate(new Date(req.get("start_time"))) : null,
+            end_time: req.get("end_time") ? Timestamp.fromDate(new Date(req.get("end_time"))) : null
+        };
 
         console.log(docObj);
 

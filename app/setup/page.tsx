@@ -5,8 +5,6 @@ import './Onboard.css';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { storage } from '../lib/firebase';
 import { AuthContext } from "../(components)/auth/authprovider";
-import { navigate } from "../lib/actions";
-import { revalidatePath } from "next/cache";
 
 export default function Onboard() {
   const { organizer } = useContext(AuthContext);
@@ -22,7 +20,7 @@ export default function Onboard() {
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>(organizer?.img ?? "");
   if(!organizer) {
-    navigate("/login");
+    // navigate("/login");
     return <></>
   }
 
@@ -66,7 +64,7 @@ export default function Onboard() {
     } catch (error) {
       console.error('Error submitting profile:', error);
     }
-      
+
   };
 
 
