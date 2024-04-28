@@ -76,39 +76,6 @@ const Header: React.FC = () => {
     const { user, organizer } = useContext(AuthContext);
     const isAuthenticated = user !== null;
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if(!organizer) return;
-        try {
-          const params = new URLSearchParams();
-          const slug = "hiasdf"; // TODO: generate a slug for the event
-            params.append("organizers", organizer.slug);
-            params.append("slug", slug);
-            params.append("tags", "food");
-            // params.append("start_time", getSeconds("11-10-2022", "12:00"), 0)
-          let url = new URL(`/api/events/${slug}/create`, window.location.origin);
-          url.search = params.toString();
-    
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          const data = await response.json();
-          // console.log(data);
-    
-          if (response.ok) {
-            console.log('Event updated successfully:', data);
-            // navigate(`/events/${slug}`);
-          } else {
-            throw new Error(data.body || "Failed to update event");
-          }
-        } catch (error) {
-          console.error('Error submitting event:', error);
-        }
-      };
-
     return (
         <div>
             <div style={headerStyles.container}>
@@ -128,7 +95,6 @@ const Header: React.FC = () => {
                             </button>
                         </Link>
                     )}
-                    <button onClick={handleSubmit} style={headerStyles.button}>HELLO</button>
                 </div>
             </div>
         </div>
