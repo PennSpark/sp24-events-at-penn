@@ -47,7 +47,7 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
 
         await setDoc(docRef, docObj)
 
-        revalidatePath(`/events/${params.slug}`);
+        revalidatePath(`/`, "layout");
 
         return Response.json({
             status: 201,
