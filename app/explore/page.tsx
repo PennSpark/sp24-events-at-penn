@@ -1,9 +1,7 @@
+export const dynamic = 'force-dynamic';
 import React, { Suspense } from 'react';
-import dynamic from 'next/dynamic'
-const Header = dynamic(() => import('../(components)/header'))
-const Events = dynamic(() => import('../(components)/events/events'));
-// import Header from '../(components)/header';
-// import Events from '../(components)/events/events';
+import Header from '../(components)/header';
+import Events from '../(components)/events/events';
 import './Explore.css'
 
 async function getData() {

@@ -1,5 +1,5 @@
 "use client"
-
+export const dynamic = 'force-dynamic';
 import React, { useContext, useEffect, useState } from 'react';
 import Image from 'next/image';
 import rightArrow from '../../public/images/right_arrow.png';
@@ -9,7 +9,6 @@ import ImageUploader from '../(components)/imageuploader';
 import { Tag } from '../lib/types';
 import { AuthContext } from '../(components)/auth/authprovider';
 import { getSeconds, slugify } from '../lib/utils';
-import { useRouter } from 'next/navigation';
 const selected = { backgroundColor: "yellow" };
 const pages = ['details-1', 'details-2', 'visuals-1', 'visuals-2', 'preview'];
 
@@ -142,11 +141,6 @@ function AdditionalImageForm({ eventPacket, setEventPacket }: { eventPacket: Eve
 
 export default function CreateEvent() {
   const { organizer } = useContext(AuthContext);
-  const router = useRouter();
-
-  if(!organizer) {
-    router.push("/login")
-  }
   
   const [page, setPage] = useState("details-1");
   const [pageNumber, setPageNumber] = useState(0);
@@ -171,10 +165,13 @@ export default function CreateEvent() {
   function handleBack() {
     setPageNumber(pageNumber - 1);
   }
+  
+  if(!organizer) {
+    return<></>
+  }
 
-  useEffect(() => {
-    setPage(pages[pageNumber]);
-  }, [pageNumber]);
+
+
 
     // const handleSubmit = async (e: React.FormEvent) => {
     //     e.preventDefault();
