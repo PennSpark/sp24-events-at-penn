@@ -193,12 +193,16 @@ export default function CreateEvent() {
 
         const eventDocRef = doc(db, "events", slugify(eventPacket.eventName));
 
+        const tagsRef = doc(db, "tags", eventPacket.eventType.toLowerCase());
+        const organizersRef = doc(db, "organizers", organizer.slug);
+
         const eventData = {
-            organizers: organizer.slug,
+            organizers: [organizersRef],
             name: eventPacket.eventName,
             desc: eventPacket.eventDescription,
             url: eventPacket.eventLink,
-            tags: eventPacket.eventType.toLowerCase(),
+            img: "https://pennspark.org/static/pic17-ca9db388b1bba8469546acd78eb24805.jpg",
+            tags: [tagsRef],
             location_name: eventPacket.eventAddress,
             start_time: startTimestamp,
             end_time: endTimestamp,
