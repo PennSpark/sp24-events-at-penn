@@ -8,7 +8,7 @@ export default function About() {
                 <h1 className = 'montserratStroke' >Welcome to SocialCalendar@Penn!</h1>
                 <h2 className = 'montserratStroke' >WHAT IS SocialCalendar@PENN?</h2>
                 <p>
-                Looking for something fun to do during the weekend? SocialCalendar@Penn is a one-stop shop for Penn students to find out social events. The platform not only offers Penn students a convenient overview of what is happening around the campus but also to assist organizations in gaining more visibility. With SocialCalendar, you will never miss another social gathering, promotional event, or party again.           </p>
+                Looking for something fun to do during the weekend? SocialCalendar@Penn is a one-stop shop for Penn students to find out social events. The platform not only offers Penn students a convenient overview of what is happening around the campus but also to assist organizations in gaining more visibility. With SocialCalendar, you will never miss another social gathering, restaurant promotion, or party again.           </p>
              </div>
 
              <div className = "for-whom">

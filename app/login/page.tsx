@@ -56,13 +56,13 @@ export default function Page() {
                     <div className="form-group">
                         <input
                             className="px-4"
-                            type="text"
+                            type="password"
                             placeholder="Password"
                             value={password}
                             onChange={e => setPassword(e.target.value)}
                         />
                     </div>
-                    <button className = "montserratStroke" onClick={(e) => {e.preventDefault(); handleSignIn(email, password) }}>
+                    <button className = "montserratStroke mr-10" onClick={(e) => {e.preventDefault(); handleSignIn(email, password) }}>
                         Login
                     </button>
                     <button className = "montserratStroke" onClick={(e) => { e.preventDefault(); handleSignOut()}}>
