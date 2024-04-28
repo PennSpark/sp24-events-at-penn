@@ -8,7 +8,8 @@ const montserrat = Montserrat({
 })
 
 const imageGallery: string[] = [];
-const relevantEvents = Array(6).fill(0);
+const relevantEvents = Array(1).fill(0);
+export const revalidate = 60;
 
 async function getData(slug: string) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events/${slug}`);
@@ -47,6 +48,24 @@ async function getData(slug: string) {
         }
     }));
 
+    /*
+    let relevantEvents = await Promise.all(toReturn.tags.map(async (e) => {
+        const id = e._key.path.segments.slice(-1)[0];
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events/`);
+
+        if(!res.ok) {
+            console.log(`Failed to get relevant data for ${id}`);
+        } else {
+            const json = await res.json();
+            return json.body;
+        }
+    }));
+    
+    relevantEvents = relevantEvents.filter((event) => {
+        const filtered = event[0].tags.filter((value) => tags.includes(value));
+        return filtered.length > 0;
+    })*/
+
     return { eventData: json.body, organizerData: organizers, tagData: tags };
 }
 
@@ -74,22 +93,25 @@ export default async function Event({ params }: { params: { slug: string } }) {
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Organizer</td>
                             <td className = "pb-5 text-[#15009A] font-bold flex relative">
-                                <Link href = {`/organizers/${organizerData[0].slug}`}>
-                                    <Image
-                                        src = "https://th-thumbnailer.cdn-si-edu.com/IxLk-Pyqergx4Zks2k7m2rqIEvA=/1072x720/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e8/e0/e8e0c712-dddc-42ae-ad7a-0452d5bd4be4/bat.jpg"
-                                        alt = "bat"
-                                        width = {50}
-                                        height = {50}
-                                        fill = {false}
-                                        className = "rounded-full mr-3 w-9 h-9"
-                                        style={{objectFit: "cover"}}
-                                    />
-                                </Link>
-                                <Link href = {`/organizers/${organizerData[0].slug}`}>
-                                    {organizerData && organizerData.map((organizer, index) => (
-                                        <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{organizer.name}</p>
-                                    ))}</Link>
-                                </td>
+                                {organizerData && 
+                                    <><Link href = {`/organizers/${organizerData.slug}`}>
+                                        <Image
+                                            src = "https://th-thumbnailer.cdn-si-edu.com/IxLk-Pyqergx4Zks2k7m2rqIEvA=/1072x720/filters:no_upscale()/https://tf-cmsv2-smithsonianmag-media.s3.amazonaws.com/filer/e8/e0/e8e0c712-dddc-42ae-ad7a-0452d5bd4be4/bat.jpg"
+                                            alt = "bat"
+                                            width = {50}
+                                            height = {50}
+                                            fill = {false}
+                                            className = "rounded-full mr-3 w-9 h-9"
+                                            style={{objectFit: "cover"}}
+                                        />
+                                    </Link>
+                                    <Link href = {`/organizers/${organizerData.slug}`}>
+                                        {organizerData && organizerData.map((organizer, index) => (
+                                            <p className = "bg-[#BEDBE3] w-fit rounded-full px-4" key = {index}>{organizer.name}</p>
+                                        ))}
+                                    </Link></>
+                                }
+                            </td>
                         </tr>
                         <tr>
                             <td className = {`${montserrat.className} montserrat pr-5 align-top`}>Time</td>
@@ -123,24 +145,24 @@ export default async function Event({ params }: { params: { slug: string } }) {
                         </tr>
                     </tbody>
                 </table>
-            <div>
-                <Image
-                    src = {eventData.img}
-                    alt = "cat"
-                    width = {520}
-                    height = {520}
-                    style = {{borderRadius: "8px", objectFit: "contain"}}
-                    className = "pt-5 lg:pt-0 mx-auto"
+                <div>
+                    <Image
+                        src = {eventData.img}
+                        alt = "cat"
+                        width = {520}
+                        height = {520}
+                        style = {{borderRadius: "8px", objectFit: "contain"}}
+                        className = "pt-5 lg:pt-0 mx-auto"
+                    />
+                </div>
+                <Image 
+                    src = "/images/person2.png"
+                    alt = "person image"
+                    width = {220}
+                    height = {220}
+                    className = "absolute left-[50%] -translate-x-1/2 hidden lg:block"
                 />
             </div>
-            <Image 
-                src = "/images/person2.png"
-                alt = "person image"
-                width = {220}
-                height = {220}
-                className = "absolute left-[50%] -translate-x-1/2 hidden lg:block"
-            />
-        </div>
                 
         <div className = "my-16">
             <p className = {`${montserrat.className} text-2xl mb-5 font-bold`}>Image Gallery</p>
@@ -162,7 +184,7 @@ export default async function Event({ params }: { params: { slug: string } }) {
                 </div>
             ) : (
                 <div className = "flex">
-                    <p className = {`${montserrat.className} font-bold`}>Ops! No image has been posted yet!</p>
+                    <p className = {`${montserrat.className} font-bold`}>Oops! No image has been posted yet!</p>
                     <Image
                         alt = "bulb"
                         src = "/images/bulb.png"
@@ -177,17 +199,19 @@ export default async function Event({ params }: { params: { slug: string } }) {
         <div className = "my-16">
             <p className = {`${montserrat.className} text-2xl font-bold`}>Relevant Events</p>
             
-            <div className = "flex gap-5 overflow-x-scroll my-8">
-                {relevantEvents.map((event, index) => (
+            <div className = "flex gap-5 overflow-x-scroll py-8">
+                {relevantEvents.length ? relevantEvents.map((event, index) => (
                     <Image
-                        src = "https://cdn.pixabay.com/photo/2016/12/13/22/25/bird-1905255_1280.jpg"
+                        src = "https://www.bizzabo.com/wp-content/uploads/2021/09/philadelphia-event-venues-red-wall.png"
                         alt = "bird"
-                        height = {400}
-                        width = {400}
-                        style = {{objectFit: "cover", borderRadius: "12px"}}
+                        height = {300}
+                        width = {300}
+                        style = {{objectFit: "cover", borderRadius: "12px", height: "300px"}}
                         key = {index}
                     />
-                ))}
+                )) : 
+                <p className = {`${montserrat.className} font-bold`}>Oops! There are no relevant events for this page!</p>
+                }
             </div>
             
         </div>
