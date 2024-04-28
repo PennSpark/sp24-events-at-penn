@@ -5,7 +5,6 @@ import sparkImage from '../images/spark.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Image from 'next/image';
-import Head from "next/head";
 import { usePathname } from 'next/navigation'
 import Link from 'next/link';
 import './Components.css'
@@ -134,11 +133,6 @@ const Navbar: React.FC = () => {
 
     return (
         <div className="App">
-            <Head>
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
-                <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-                <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-            </Head>
 
             <nav style={styles.navBar}>
                 <div style={styles.logoContainer}>

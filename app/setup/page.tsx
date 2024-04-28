@@ -10,22 +10,21 @@ import { revalidatePath } from "next/cache";
 
 export default function Onboard() {
   const { organizer } = useContext(AuthContext);
+
+  const [profile, setProfile] = React.useState({
+    name: organizer?.name,
+    tag: organizer?.tags._key.path.segments.slice(-1)[0],
+    bio: organizer?.desc,
+    email: organizer?.email,
+    instagram: organizer?.channels["Instagram"],
+    website: organizer?.channels["Website"],
+  });
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>(organizer?.img ?? "");
   if(!organizer) {
     navigate("/login");
     return <></>
   }
-
-  const [profile, setProfile] = React.useState({
-    name: organizer.name,
-    tag: organizer.tags._key.path.segments.slice(-1)[0],
-    bio: organizer.desc,
-    email: organizer.email,
-    instagram: organizer.channels["Instagram"],
-    website: organizer.channels["Website"],
-  });
-  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = React.useState<string>(organizer.img);
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setProfile({
