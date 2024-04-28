@@ -11,7 +11,8 @@ import { AuthContext } from '../(components)/auth/authprovider';
 import { navigate } from '../lib/actions';
 import { getSeconds, slugify } from '../lib/utils';
 import { useRouter } from 'next/navigation';
-
+import { getFirestore, doc, setDoc, Timestamp } from 'firebase/firestore';
+import { app } from '../lib/firebase/index';
 const selected = { backgroundColor: "yellow" };
 const pages = ['details-1', 'details-2', 'visuals-1', 'visuals-2', 'preview'];
 
@@ -178,46 +179,86 @@ export default function CreateEvent() {
     setPage(pages[pageNumber]);
   }, [pageNumber]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if(!organizer) return;
-    try {
-      const params = new URLSearchParams();
-      const slug = slugify(eventPacket.eventName); // TODO: generate a slug for the event
-        params.append("organizers", organizer.slug);
-        params.append("slug", slug);
-        params.append("name", eventPacket.eventName);
-        params.append("desc", eventPacket.eventDescription);
-        params.append("url", eventPacket.eventLink);
-        // params.append("img", await uploadImage(eventPacket.poster) as string);
-        params.append("tags", eventPacket.eventType.toLowerCase());
-        params.append("location_name", eventPacket.eventAddress);
-        // params.append("start_time", getSeconds(eventPacket.eventStartDate, eventPacket.eventStartTime).toString());
-        // params.append("end_time", getSeconds(eventPacket.eventEndDate, eventPacket.eventEndTime).toString());
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!organizer) return;
 
-      const url = new URL(`/api/events/${slug}/create`, window.location.origin);
-      url.search = params.toString();
+        const db = getFirestore(app);
 
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
+        const startDateTime = new Date(`${eventPacket.eventStartDate}T${eventPacket.eventStartTime}`);
+        const endDateTime = new Date(`${eventPacket.eventEndDate}T${eventPacket.eventEndTime}`);
+
+        const startTimestamp = Timestamp.fromDate(startDateTime);
+        const endTimestamp = Timestamp.fromDate(endDateTime);
+
+        const eventDocRef = doc(db, "events", slugify(eventPacket.eventName));
+
+        const tagsRef = doc(db, "tags", eventPacket.eventType.toLowerCase());
+        const organizersRef = doc(db, "organizers", organizer.slug);
+
+        const eventData = {
+            organizers: [organizersRef],
+            name: eventPacket.eventName,
+            desc: eventPacket.eventDescription,
+            url: eventPacket.eventLink,
+            img: "https://pennspark.org/static/pic17-ca9db388b1bba8469546acd78eb24805.jpg",
+            tags: [tagsRef],
+            location_name: eventPacket.eventAddress,
+            start_time: startTimestamp,
+            end_time: endTimestamp,
+        };
+
+        try {
+            await setDoc(eventDocRef, eventData);
+            console.log('Event updated successfully');
+        } catch (error) {
+            console.error('Error submitting event:', error);
         }
-      });
-      const data = await response.json();
-      // console.log(data);
+    };
 
-      if (response.ok) {
-        console.log('Event updated successfully:', data);
-        router.push(`/events/${slug}`)
-        // navigate(`events/${slug}`);
-      } else {
-        throw new Error(data.body || "Failed to update event");
-      }
-    } catch (error) {
-      console.error('Error submitting event:', error);
-    }
-  };
+    /*
+      const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!organizer) return;
+        console.log("event start date:", eventPacket.eventStartDate);
+        console.log("event start time", eventPacket.eventStartTime);
+
+        try {
+          const params = new URLSearchParams();
+          const slug = slugify(eventPacket.eventName); // TODO: generate a slug for the event
+            params.append("organizers", organizer.slug);
+            params.append("slug", slug);
+            params.append("name", eventPacket.eventName);
+            params.append("desc", eventPacket.eventDescription);
+            params.append("url", eventPacket.eventLink);
+            // params.append("img", await uploadImage(eventPacket.poster) as string);
+            params.append("tags", eventPacket.eventType.toLowerCase());
+            params.append("location_name", eventPacket.eventAddress);
+            //params.append("start_time", startTimestamp.toString());
+            //params.append("end_time", endTimestamp.toString());
+
+          const url = new URL(`/api/events/${slug}/create`, window.location.origin);
+          url.search = params.toString();
+
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await response.json();
+          // console.log(data);
+
+          if (response.ok) {
+            console.log('Event updated successfully:', data);
+            // navigate(`/events/${slug}`);
+          } else {
+            throw new Error(data.body || "Failed to update event");
+          }
+        } catch (error) {
+          console.error('Error submitting event:', error);
+        }
+      };*/
 
   return (
     <div className='w-screen h-screen backdrop'>
