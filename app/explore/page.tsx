@@ -4,8 +4,8 @@ import Events from '../(components)/events/events';
 import './Explore.css'
 import { AuthContext } from '../(components)/auth/authprovider';
 async function getData() {
-    const eventsRes = await fetch(`http://localhost:3000/api/events`);
-    const tagsRes = await fetch('http://localhost:3000/api/tags');
+    const eventsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events`);
+    const tagsRes = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/tags`);
 
     if(!eventsRes.ok && !tagsRes.ok) {
         return { events: [], tags: [] };

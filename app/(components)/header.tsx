@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Head from "next/head";
 import Link from "next/link";
 import { AuthContext } from './auth/authprovider';
+import { Timestamp } from 'firebase/firestore';
+import { getSeconds } from '../lib/utils';
 
 interface HeaderStyles {
     container: React.CSSProperties;
@@ -71,8 +73,43 @@ const headerStyles: HeaderStyles = {
 };
 
 const Header: React.FC = () => {
-    const { user } = useContext(AuthContext);
+    const { user, organizer } = useContext(AuthContext);
     const isAuthenticated = user !== null;
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if(!organizer) return;
+        try {
+          const params = new URLSearchParams();
+          const slug = "hi"; // TODO: generate a slug for the event
+            params.append("organizers", organizer.slug);
+            params.append("slug", slug);
+            params.append("tags", "food");
+          let url = new URL(`/api/events/${slug}/create`, window.location.origin);
+          url.search = params.toString();
+
+          console.log(new Timestamp(getSeconds("11-10-2022", "12:00"), 0));
+    
+          const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          const data = await response.json();
+          // console.log(data);
+    
+          if (response.ok) {
+            console.log('Event updated successfully:', data);
+            // navigate(`/events/${slug}`);
+          } else {
+            throw new Error(data.body || "Failed to update event");
+          }
+        } catch (error) {
+          console.error('Error submitting event:', error);
+        }
+      };
+
     return (
         <div>
             <div style={headerStyles.container}>
@@ -90,9 +127,9 @@ const Header: React.FC = () => {
                             <button>
                                 <FontAwesomeIcon icon={faPlus} style={{ marginRight: '5px' }} /> ADD EVENT
                             </button>
-
                         </Link>
                     )}
+                    <button onClick={handleSubmit} style={headerStyles.button}>HELLO</button>
                 </div>
             </div>
         </div>

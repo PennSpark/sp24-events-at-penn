@@ -153,18 +153,16 @@ const Navbar: React.FC = () => {
                     <Link href="/explore" style={{ ...styles.navItem, ...(isActive('/explore') ? styles.navItemActive : {}) }}>
                         Explore
                         {isActive('/explore') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
-
                     </Link>
                     <Link href="/about" style={{ ...styles.navItem, ...(isActive('/about') ? styles.navItemActive : {}) }}>
                         About
                         {isActive('/about') && <Image src={ovalImage} alt="Active" style={styles.activeImage} />}
-
                     </Link>
                     {isAuthenticated ? (
-                        <Link href={`/organizers/${organizer.slug}`} style={{ ...styles.navItem, ...(isActive('/profile') ? styles.navItemActive : {}) }}>
+                        <Link href={`/organizers/${organizer.slug}`} style={{ ...styles.navItem, ...(isActive('/profile') ? styles.navItemActive : {}), width: "max-content" }}>
                             <div style={styles.iconSpacing}>
                                 <FontAwesomeIcon icon={faUser} />
-                                <span style={{ marginLeft: '5px' }}>{organizer.name}</span>
+                                <span style={{marginLeft: "5px"}}>{organizer.name}</span>
                             </div>
                         </Link>
                     ) : (

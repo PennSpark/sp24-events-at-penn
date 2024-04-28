@@ -11,7 +11,7 @@ const imageGallery: string[] = [];
 const relevantEvents = Array(6).fill(0);
 
 async function getData(slug: string) {
-    const res = await fetch(`http://localhost:3000/api/events/${slug}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events/${slug}`);
     const json = await res.json();
     if(!res.ok) {
         console.log(`Failed to get event data for ${slug}`);
@@ -25,7 +25,7 @@ async function getData(slug: string) {
 
     const organizers = await Promise.all(toReturn.organizers.map(async (e) => {
         const id = e._key.path.segments.slice(-1)[0];
-        const res = await fetch(`http://localhost:3000/api/organizers/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/organizers/${id}`);
 
         if(!res.ok) {
             console.log(`Failed to get organizer data for ${id}`);
@@ -37,7 +37,7 @@ async function getData(slug: string) {
 
     const tags = await Promise.all(toReturn.tags.map(async (e) => {
         const id = e._key.path.segments.slice(-1)[0];
-        const res = await fetch(`http://localhost:3000/api/tags/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/tags/${id}`);
 
         if(!res.ok) {
             console.log(`Failed to get tag data for ${id}`);

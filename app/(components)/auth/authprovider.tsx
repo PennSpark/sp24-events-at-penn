@@ -18,7 +18,7 @@ export default function AuthProvider({ children }: { children: ReactNode }) {
         onAuthStateChanged(auth, async (authUser) => {
             console.log("FETCHING AUTH CONTEXT");
             if(authUser) {
-                const res = await fetch(`http://localhost:3000/api/users/${authUser.uid}`);
+                const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/users/${authUser.uid}`);
                 setAuthState({
                     user: authUser,
                     organizer: (await res.json()).body,

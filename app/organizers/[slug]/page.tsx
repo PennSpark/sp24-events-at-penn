@@ -30,7 +30,7 @@ const buttonStyles: CSSProperties = {
 }
 
 async function getData(slug: string) {
-    const res = await fetch(`http://localhost:3000/api/organizers/${slug}`);
+    const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/organizers/${slug}`);
 
     if(!res.ok) {
         throw new Error("Failed to get Organizer data");
@@ -39,7 +39,7 @@ async function getData(slug: string) {
     const organizer: Organizer = (await res.json()).body;
     const events = await Promise.all(organizer.events.map(async (e) => {
         const id = e._key.path.segments.slice(-1)[0];
-        const res = await fetch(`http://localhost:3000/api/events/${id}`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_HOST}/api/events/${id}`);
 
         if(!res.ok) {
             console.log(`Failed to get event data for ${id}`);
